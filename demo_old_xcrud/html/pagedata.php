@@ -125,5 +125,17 @@ $pagedata = array(
         'title_1' => 'Select2 usage',
         'description' => 'How to connect Xcrud and Select2, reinitialization after ajax request',
         'filename' => 'select2.php'),
+    'operators_mysql' => array(
+        'title_1' => '🔍 MySQL Operators',
+        'description' => 'Test all SQL operators with MySQL database - IN, BETWEEN, LIKE, REGEXP, etc.',
+        'filename' => 'operators_mysql.php'),
+    'operators_sqlite' => array(
+        'title_1' => '🔍 SQLite Operators',
+        'description' => 'Test SQL operators with SQLite database - see emulation and fallback behavior',
+        'filename' => 'operators_sqlite.php'),
+    'operators_postgresql' => array(
+        'title_1' => '🐘 PostgreSQL Operators',
+        'description' => 'Test advanced PostgreSQL operators - ILIKE, regex (~), SIMILAR TO, and more',
+        'filename' => 'operators_postgresql.php'),
     );
 ?>

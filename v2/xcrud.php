@@ -5581,7 +5581,6 @@ class Xcrud
                             break;
                     }
                 }
-                }
                 else
                 {
                     $where_arr[] = '(' . $params['custom'] . ')';
