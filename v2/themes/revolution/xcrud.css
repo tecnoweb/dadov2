@@ -5,25 +5,26 @@
 
 /* CSS Custom Properties for Revolutionary Design */
 :root {
-    /* Revolutionary Color Palette */
-    --xcrud-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --xcrud-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --xcrud-success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-    --xcrud-danger: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-    --xcrud-warning: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-    --xcrud-info: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    /* Revolutionary Color Palette - More Readable */
+    --xcrud-primary: #667eea;
+    --xcrud-primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --xcrud-secondary: #f093fb;
+    --xcrud-success: #4facfe;
+    --xcrud-danger: #fa709a;
+    --xcrud-warning: #ffecd2;
+    --xcrud-info: #a8edea;
     
-    /* Glass Morphism */
-    --xcrud-glass: rgba(255, 255, 255, 0.15);
-    --xcrud-glass-border: rgba(255, 255, 255, 0.2);
-    --xcrud-glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    --xcrud-backdrop-blur: blur(12px);
+    /* Glass Morphism - Improved Contrast */
+    --xcrud-glass: rgba(255, 255, 255, 0.25);
+    --xcrud-glass-border: rgba(255, 255, 255, 0.3);
+    --xcrud-glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+    --xcrud-backdrop-blur: blur(8px);
     
-    /* Dark Theme Support */
-    --xcrud-bg-primary: #0f0f23;
-    --xcrud-bg-secondary: #16213e;
-    --xcrud-text-primary: #ffffff;
-    --xcrud-text-secondary: #a0a0a0;
+    /* Light Theme for Better Readability */
+    --xcrud-bg-primary: #ffffff;
+    --xcrud-bg-secondary: #f8fafc;
+    --xcrud-text-primary: #2d3748;
+    --xcrud-text-secondary: #718096;
     
     /* Spacing & Sizing */
     --xcrud-border-radius: 16px;
@@ -54,16 +55,14 @@
 
 /* Revolutionary Container with Glassmorphism */
 .xcrud-container {
-    background: var(--xcrud-glass);
-    backdrop-filter: var(--xcrud-backdrop-blur);
-    -webkit-backdrop-filter: var(--xcrud-backdrop-blur);
+    background: var(--xcrud-bg-primary);
     border: 1px solid var(--xcrud-glass-border);
     border-radius: var(--xcrud-border-radius);
-    box-shadow: var(--xcrud-glass-shadow);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     padding: 24px;
     margin: 20px 0;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -74,7 +73,7 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: var(--xcrud-primary);
+    background: var(--xcrud-primary-gradient);
     border-radius: var(--xcrud-border-radius) var(--xcrud-border-radius) 0 0;
 }
 
@@ -96,7 +95,7 @@
 }
 
 .xcrud-list thead tr {
-    background: var(--xcrud-primary);
+    background: var(--xcrud-primary-gradient);
     color: white;
     font-weight: var(--xcrud-font-weight-bold);
     text-transform: uppercase;
@@ -130,23 +129,23 @@
 .xcrud-list td {
     padding: 16px 20px;
     border: none;
-    background: rgba(255, 255, 255, 0.05);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--xcrud-bg-primary);
+    border-bottom: 1px solid #e2e8f0;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    color: var(--xcrud-text-primary);
 }
 
 .xcrud-list .xcrud-row-1 td {
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--xcrud-bg-secondary);
 }
 
 .xcrud-list .xcrud-row:hover td {
-    background: var(--xcrud-glass) !important;
-    backdrop-filter: var(--xcrud-backdrop-blur);
-    -webkit-backdrop-filter: var(--xcrud-backdrop-blur);
+    background: #e6f3ff !important;
     transform: scale(1.005);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    border-color: var(--xcrud-glass-border);
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15);
+    border-color: var(--xcrud-primary);
+    color: var(--xcrud-text-primary);
 }
 
 .xcrud-list .xcrud-row:hover td::before {
@@ -222,9 +221,9 @@
 
 /* Revolutionary Success Message */
 .xcrud-message.success {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 50%, #4facfe 100%);
-    border-left: 6px solid #00d4aa;
-    box-shadow: 0 8px 32px rgba(79, 172, 254, 0.3);
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    border-left: 6px solid #25855a;
+    box-shadow: 0 8px 32px rgba(72, 187, 120, 0.3);
 }
 
 .xcrud-message.success::after {
@@ -243,9 +242,9 @@
 
 /* Revolutionary Error Message */
 .xcrud-message.error {
-    background: linear-gradient(135deg, #fa709a 0%, #fee140 50%, #fa709a 100%);
-    border-left: 6px solid #ff4757;
-    box-shadow: 0 8px 32px rgba(250, 112, 154, 0.3);
+    background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+    border-left: 6px solid #c53030;
+    box-shadow: 0 8px 32px rgba(245, 101, 101, 0.3);
 }
 
 .xcrud-message.error::after {
