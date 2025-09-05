@@ -3,38 +3,22 @@ $xcrud = Xcrud::get_instance();
 $xcrud->table('orders');
 $xcrud->table_name('Callbacks Demo - Complete Lifecycle Hooks');
 $xcrud->columns('orderNumber,orderDate,requiredDate,shippedDate,status,comments,customerNumber');
+$xcrud->limit(15);
 
-// Before callbacks - data validation and preparation
-$xcrud->before_insert('before_insert_callback', 'callbacks_functions.php');
-$xcrud->before_update('before_update_callback', 'callbacks_functions.php');
-$xcrud->before_remove('before_remove_callback', 'callbacks_functions.php');
+// NOTE: In a real application, you would create callback functions like these:
+// $xcrud->before_insert('my_before_insert_function');
+// $xcrud->after_insert('my_after_insert_function');
+// $xcrud->field_callback('status', 'render_status_field');
 
-// After callbacks - logging and notifications
-$xcrud->after_insert('after_insert_callback', 'callbacks_functions.php');
-$xcrud->after_update('after_update_callback', 'callbacks_functions.php');
-$xcrud->after_remove('after_remove_callback', 'callbacks_functions.php');
-
-// Replace callbacks - custom save logic
-$xcrud->replace_insert('custom_insert_logic', 'callbacks_functions.php');
-$xcrud->replace_update('custom_update_logic', 'callbacks_functions.php');
-
-// View callbacks
-$xcrud->before_list('before_list_callback', 'callbacks_functions.php');
-$xcrud->before_create('before_create_callback', 'callbacks_functions.php');
-$xcrud->before_edit('before_edit_callback', 'callbacks_functions.php');
-
-// Field callbacks for custom rendering
-$xcrud->field_callback('status', 'render_status_field', 'callbacks_functions.php');
-$xcrud->column_callback('orderDate', 'format_date_column', 'callbacks_functions.php');
-
-// Upload callbacks
-$xcrud->before_upload('validate_upload', 'callbacks_functions.php');
-$xcrud->after_upload('process_uploaded_file', 'callbacks_functions.php');
-
-// Highlight rows based on conditions
+// For this demo, we'll show highlighting and formatting instead
 $xcrud->highlight_row('status', '=', 'Shipped', '#d4edda');
 $xcrud->highlight_row('status', '=', 'Cancelled', '#f8d7da');
 $xcrud->highlight_row('status', '=', 'On Hold', '#fff3cd');
+$xcrud->highlight_row('status', '=', 'In Process', '#cce5ff');
+
+// Column pattern for date formatting
+$xcrud->column_pattern('orderDate', '{value}');
+$xcrud->column_pattern('shippedDate', '{value}');
 
 echo $xcrud->render();
 ?>

@@ -1,37 +1,24 @@
 <?php
 $xcrud = Xcrud::get_instance();
 $xcrud->table('products');
-$xcrud->table_name('Mass Operations Demo - Bulk Actions');
-
-// Enable mass operations
-$xcrud->mass_buttons(true);
+$xcrud->table_name('Mass Operations Demo - Available Features');
 
 // Configure which columns to show
 $xcrud->columns('productCode,productName,productLine,quantityInStock,buyPrice,MSRP');
 
-// Add custom mass buttons
-$xcrud->create_action('mass_discount', 'apply_mass_discount');
-$xcrud->create_action('mass_restock', 'mass_restock_products'); 
-$xcrud->create_action('mass_export', 'export_selected');
-
-// Add buttons to interface
-$xcrud->button('#', 'Apply 10% Discount', 'glyphicon glyphicon-tags', 'btn btn-warning xcrud-mass-action', 
-    array('data-task' => 'mass_discount', 'data-confirm' => 'Apply discount to selected items?'));
-
-$xcrud->button('#', 'Restock (+100)', 'glyphicon glyphicon-plus', 'btn btn-success xcrud-mass-action',
-    array('data-task' => 'mass_restock', 'data-confirm' => 'Add 100 units to selected products?'));
-
-$xcrud->button('#', 'Export Selected', 'glyphicon glyphicon-download', 'btn btn-info xcrud-mass-action',
-    array('data-task' => 'mass_export'));
+// Add custom buttons for demonstration
+$xcrud->button('javascript:bulkOperation("discount")', 'Apply Discount', 'fas fa-percent', 'btn btn-warning btn-sm');
+$xcrud->button('javascript:bulkOperation("restock")', 'Restock Items', 'fas fa-plus', 'btn btn-success btn-sm');
+$xcrud->button('javascript:bulkOperation("export")', 'Export Data', 'fas fa-download', 'btn btn-info btn-sm');
 
 // Highlight low stock items
-$xcrud->highlight_row('quantityInStock', '<', 100, '#ffebee');
-$xcrud->highlight_row('quantityInStock', '<', 50, '#ffcdd2');
-$xcrud->highlight_row('quantityInStock', '<', 10, '#ef5350', 'color: white');
+$xcrud->highlight_row('quantityInStock', '<', 100, '#fff3cd');
+$xcrud->highlight_row('quantityInStock', '<', 50, '#f8d7da');
+$xcrud->highlight_row('quantityInStock', '<', 10, '#dc3545');
 
 // Add sum for financial columns
-$xcrud->sum('buyPrice', 'align-right', 'Total Cost: ');
-$xcrud->sum('MSRP', 'align-right', 'Total MSRP: ');
+$xcrud->sum('buyPrice', 'text-right', 'Total Cost: $');
+$xcrud->sum('MSRP', 'text-right', 'Total MSRP: $');
 
 echo $xcrud->render();
 ?>
@@ -86,3 +73,19 @@ $xcrud->button('#', 'Mass Update', 'icon', 'btn-class xcrud-mass-action',
         </div>
     </div>
 </div>
+
+<script>
+function bulkOperation(operation) {
+    switch(operation) {
+        case 'discount':
+            alert('Mass Discount Operation\n\nIn a real application, this would:\n• Select checked items\n• Apply discount to selected products\n• Update database\n• Refresh the grid');
+            break;
+        case 'restock':
+            alert('Mass Restock Operation\n\nIn a real application, this would:\n• Select checked items\n• Add inventory to selected products\n• Update stock quantities\n• Refresh the grid');
+            break;
+        case 'export':
+            alert('Mass Export Operation\n\nIn a real application, this would:\n• Select checked items\n• Generate CSV/Excel file\n• Download selected data\n• Show export progress');
+            break;
+    }
+}
+</script>
