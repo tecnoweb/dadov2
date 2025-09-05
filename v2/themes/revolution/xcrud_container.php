@@ -1,85 +1,85 @@
-<?php
-/**
- * xCrudRevolution Container Template
- * Simplified revolutionary container for better compatibility
- */
-?>
-<div class="xcrud xcrud-revolution<?php echo $this->is_rtl ? ' xcrud_rtl' : ''?>" data-instance="<?php echo $this->instance_name ?>" data-theme="revolution">
-    
-    <!-- Revolutionary Header -->
-    <div class="xcrud-revolution-header">
-        <?php echo $this->render_table_name(false, 'div', true)?>
-    </div>
-    
-    <!-- Revolutionary Main Container -->
-    <div class="xcrud-container xcrud-revolution-container"<?php echo ($this->start_minimized) ? ' style="display:none;"' : '' ?>>
-        
-        <!-- Revolutionary Content Area -->
-        <div class="xcrud-ajax xcrud-revolution-content" id="xcrud-<?php echo $this->instance_name ?>">
+<div class="xcrud revolution-theme<?php echo $this->is_rtl ? ' xcrud_rtl' : ''?>" data-instance="<?php echo $this->instance_name ?>">
+    <?php echo $this->render_table_name(false, 'div', true)?>
+    <div class="xcrud-container revolution-container"<?php echo ($this->start_minimized) ? ' style="display:none;"' : '' ?>>
+        <div class="xcrud-ajax" id="xcrud-<?php echo $this->instance_name ?>">
             <?php echo $this->render_view() ?>
         </div>
-        
-        <!-- Revolutionary Overlay -->
-        <div class="xcrud-overlay xcrud-revolution-overlay">
-            <div class="xcrud-revolution-loader">
-                <div class="xcrud-revolution-loader-ring"></div>
-                <span class="xcrud-revolution-loader-text">Processing...</span>
-            </div>
+        <div class="xcrud-overlay revolution-overlay"></div>
+    </div>
+    
+    <!-- Revolution Floating Action Button -->
+    <div class="revolution-fab" id="revolution-fab-<?php echo $this->instance_name ?>">
+        <button class="revolution-fab-main" type="button" title="Quick Actions">
+            <i class="fas fa-plus"></i>
+        </button>
+        <div class="revolution-fab-menu">
+            <!-- Dynamic buttons will be inserted here via JavaScript -->
         </div>
     </div>
 </div>
 
-<!-- Revolutionary Additional CSS for Container -->
-<style>
-.xcrud-revolution {
-    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-}
-
-.xcrud-revolution-header {
-    margin-bottom: 16px;
-    padding: 16px 0;
-}
-
-.xcrud-revolution-container {
-    position: relative;
-}
-
-.xcrud-revolution-content {
-    position: relative;
-}
-
-.xcrud-revolution-overlay {
-    background: rgba(255, 255, 255, 0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.xcrud-revolution-loader {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-}
-
-.xcrud-revolution-loader-ring {
-    width: 40px;
-    height: 40px;
-    border: 3px solid rgba(102, 126, 234, 0.2);
-    border-top: 3px solid #667eea;
-    border-radius: 50%;
-    animation: xcrud-revolution-spin 1s linear infinite;
-}
-
-.xcrud-revolution-loader-text {
-    color: #667eea;
-    font-weight: 500;
-    font-size: 14px;
-}
-
-@keyframes xcrud-revolution-spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Revolution FAB Dynamic Button Integration
+    const fabContainer = document.getElementById('revolution-fab-<?php echo $this->instance_name ?>');
+    const fabMenu = fabContainer.querySelector('.revolution-fab-menu');
+    const xcrudContainer = document.querySelector('[data-instance="<?php echo $this->instance_name ?>"]');
+    
+    function initRevolutionFAB() {
+        if (!xcrudContainer || !fabContainer) return;
+        
+        // Find existing action buttons
+        const actionButtons = xcrudContainer.querySelectorAll('.xcrud-top-actions .btn, .xcrud-nav .btn');
+        const fabItems = [];
+        
+        actionButtons.forEach(btn => {
+            const icon = btn.querySelector('i, .glyphicon');
+            const text = btn.textContent || btn.title || btn.getAttribute('title');
+            
+            if (btn.classList.contains('btn-success') || text.toLowerCase().includes('add')) {
+                fabItems.push({
+                    icon: 'fas fa-plus',
+                    title: 'Add New',
+                    action: () => btn.click()
+                });
+            } else if (btn.classList.contains('btn-default') && (text.toLowerCase().includes('csv') || text.toLowerCase().includes('export'))) {
+                fabItems.push({
+                    icon: 'fas fa-file-csv',
+                    title: 'Export CSV',
+                    action: () => btn.click()
+                });
+            } else if (text.toLowerCase().includes('print')) {
+                fabItems.push({
+                    icon: 'fas fa-print',
+                    title: 'Print',
+                    action: () => btn.click()
+                });
+            }
+        });
+        
+        // Create FAB items
+        fabItems.forEach(item => {
+            const fabItem = document.createElement('button');
+            fabItem.className = 'revolution-fab-item';
+            fabItem.innerHTML = `<i class="${item.icon}"></i>`;
+            fabItem.title = item.title;
+            fabItem.addEventListener('click', item.action);
+            fabMenu.appendChild(fabItem);
+        });
+        
+        // Show FAB if there are items
+        if (fabItems.length > 0) {
+            fabContainer.style.display = 'block';
+        }
+    }
+    
+    // Initialize FAB
+    initRevolutionFAB();
+    
+    // Re-initialize after AJAX updates
+    const observer = new MutationObserver(initRevolutionFAB);
+    if (xcrudContainer) {
+        observer.observe(xcrudContainer, { childList: true, subtree: true });
+    }
+});
+</script>
