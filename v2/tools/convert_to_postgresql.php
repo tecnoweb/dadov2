@@ -238,9 +238,9 @@ class MySQLToPostgreSQLConverter
 // Convert database_demo.sql
 try {
     echo "Converting database_demo.sql to PostgreSQL...\n";
-    $converter = new MySQLToPostgreSQLConverter('../demo_database/database_demo.sql');
+    $converter = new MySQLToPostgreSQLConverter(__DIR__ . '/../../demo_database/database_demo.sql');
     $postgresql_sql = $converter->convert();
-    $converter->saveToFile('../demo_database/database_demo_postgresql.sql');
+    $converter->saveToFile(__DIR__ . '/../../demo_database/database_demo_postgresql.sql');
     echo "✅ database_demo_postgresql.sql created successfully\n\n";
 } catch (Exception $e) {
     echo "❌ Error converting database_demo.sql: " . $e->getMessage() . "\n";
@@ -249,9 +249,9 @@ try {
 // Convert million.sql
 try {
     echo "Converting million.sql to PostgreSQL...\n";
-    $converter = new MySQLToPostgreSQLConverter('../demo_database/million.sql');
+    $converter = new MySQLToPostgreSQLConverter(__DIR__ . '/../../demo_database/million.sql');
     $postgresql_sql = $converter->convert();
-    $converter->saveToFile('../demo_database/million_postgresql.sql');
+    $converter->saveToFile(__DIR__ . '/../../demo_database/million_postgresql.sql');
     echo "✅ million_postgresql.sql created successfully\n\n";
 } catch (Exception $e) {
     echo "❌ Error converting million.sql: " . $e->getMessage() . "\n";

@@ -219,9 +219,9 @@ class MySQLToSQLiteConverter
 // Convert database_demo.sql
 try {
     echo "Converting database_demo.sql to SQLite...\n";
-    $converter = new MySQLToSQLiteConverter('../demo_database/database_demo.sql');
+    $converter = new MySQLToSQLiteConverter(__DIR__ . '/../../demo_database/database_demo.sql');
     $sqlite_sql = $converter->convert();
-    $converter->saveToFile('../demo_database/database_demo_sqlite.sql');
+    $converter->saveToFile(__DIR__ . '/../../demo_database/database_demo_sqlite.sql');
     echo "✅ database_demo_sqlite.sql created successfully\n\n";
 } catch (Exception $e) {
     echo "❌ Error converting database_demo.sql: " . $e->getMessage() . "\n";
@@ -230,9 +230,9 @@ try {
 // Convert million.sql
 try {
     echo "Converting million.sql to SQLite...\n";
-    $converter = new MySQLToSQLiteConverter('../demo_database/million.sql');
+    $converter = new MySQLToSQLiteConverter(__DIR__ . '/../../demo_database/million.sql');
     $sqlite_sql = $converter->convert();
-    $converter->saveToFile('../demo_database/million_sqlite.sql');
+    $converter->saveToFile(__DIR__ . '/../../demo_database/million_sqlite.sql');
     echo "✅ million_sqlite.sql created successfully\n\n";
 } catch (Exception $e) {
     echo "❌ Error converting million.sql: " . $e->getMessage() . "\n";
