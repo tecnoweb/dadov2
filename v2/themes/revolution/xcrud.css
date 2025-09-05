@@ -1,551 +1,1036 @@
 /**
- * xCrudRevolution Theme - Professional Bootstrap-based design
- * Following Bootstrap 3/4 guidelines with modern enhancements
+ * Revolution Theme - A Truly Revolutionary Design
+ * Modern, Clean, Professional with Dark Mode Support
  */
 
-/* ============================================
-   REVOLUTION THEME - BASE STYLES
-   ============================================ */
+/* ========================================
+   IMPORTS & FONTS
+   ======================================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('fonts.css');
 
-/* Import FontAwesome if not already loaded */
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
-
-/* CSS Variables for consistent theming */
+/* ========================================
+   CSS VARIABLES - Light & Dark Themes
+   ======================================== */
 :root {
-    --revolution-primary: #667eea;
-    --revolution-secondary: #764ba2;
-    --revolution-success: #28a745;
-    --revolution-danger: #dc3545;
-    --revolution-warning: #ffc107;
-    --revolution-info: #17a2b8;
-    --revolution-light: #f8f9fa;
-    --revolution-dark: #343a40;
-    --revolution-white: #ffffff;
+    /* Typography */
+    --revo-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     
-    --revolution-gradient: linear-gradient(135deg, var(--revolution-primary), var(--revolution-secondary));
-    --revolution-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --revolution-shadow-hover: 0 8px 15px rgba(0, 0, 0, 0.15);
-    --revolution-border-radius: 8px;
-    --revolution-transition: all 0.3s ease;
+    /* Light Theme Colors */
+    --revo-bg: #ffffff;
+    --revo-bg-secondary: #f8fafc;
+    --revo-bg-tertiary: #f1f5f9;
+    --revo-sidebar: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+    --revo-text: #1e293b;
+    --revo-text-secondary: #64748b;
+    --revo-text-light: #94a3b8;
+    --revo-border: #e2e8f0;
+    --revo-border-dark: #cbd5e1;
+    
+    /* Accent Colors */
+    --revo-primary: #6366f1;
+    --revo-primary-dark: #4f46e5;
+    --revo-primary-light: #818cf8;
+    --revo-success: #10b981;
+    --revo-danger: #ef4444;
+    --revo-warning: #f59e0b;
+    --revo-info: #06b6d4;
+    
+    /* Effects */
+    --revo-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --revo-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --revo-shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --revo-shadow-glow: 0 0 30px rgba(99, 102, 241, 0.3);
+    
+    /* Layout */
+    --revo-sidebar-width: 280px;
+    --revo-radius: 12px;
+    --revo-radius-sm: 8px;
+    --revo-radius-lg: 16px;
 }
 
-/* ============================================
-   REVOLUTION CONTAINER
-   ============================================ */
-
-.revolution-theme {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+/* Dark Mode Variables */
+body.revo-dark-mode {
+    --revo-bg: #0f172a;
+    --revo-bg-secondary: #1e293b;
+    --revo-bg-tertiary: #334155;
+    --revo-sidebar: linear-gradient(180deg, #000000 0%, #0f172a 100%);
+    --revo-text: #f1f5f9;
+    --revo-text-secondary: #cbd5e1;
+    --revo-text-light: #94a3b8;
+    --revo-border: #334155;
+    --revo-border-dark: #475569;
+    --revo-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+    --revo-shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.3), 0 8px 10px -6px rgb(0 0 0 / 0.3);
 }
 
-.revolution-container {
-    background: var(--revolution-white);
-    border-radius: var(--revolution-border-radius);
-    box-shadow: var(--revolution-shadow);
-    border: 1px solid #e9ecef;
-    transition: var(--revolution-transition);
+/* ========================================
+   BASE STYLES
+   ======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--revo-font);
+    background: var(--revo-bg);
+    color: var(--revo-text);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.xcrud {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* ========================================
+   LAYOUT STRUCTURE
+   ======================================== */
+.revo-container {
+    display: flex;
+    min-height: 100vh;
     position: relative;
-    overflow: hidden;
 }
 
-.revolution-container::before {
-    content: '';
-    position: absolute;
+/* ========================================
+   SIDEBAR
+   ======================================== */
+.revo-sidebar {
+    width: var(--revo-sidebar-width);
+    background: var(--revo-sidebar);
+    color: white;
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: var(--revolution-gradient);
-    z-index: 1;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
 }
 
-.revolution-container:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--revolution-shadow-hover);
+.revo-sidebar::-webkit-scrollbar {
+    width: 6px;
 }
 
-/* ============================================
-   REVOLUTION BUTTONS
-   ============================================ */
-
-.btn-revolution {
-    border-radius: var(--revolution-border-radius);
-    font-weight: 500;
-    transition: var(--revolution-transition);
-    position: relative;
-    overflow: hidden;
-    border: none;
-    text-transform: none;
+.revo-sidebar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
 }
 
-.btn-revolution:before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    transition: width 0.6s, height 0.6s, top 0.6s, left 0.6s;
-    transform: translate(-50%, -50%);
-    z-index: 1;
+.revo-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
 }
 
-.btn-revolution:active:before {
-    width: 300px;
-    height: 300px;
-    top: 50%;
-    left: 50%;
+.revo-sidebar-header {
+    padding: 24px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.btn-revolution i {
-    margin-right: 5px;
-    position: relative;
-    z-index: 2;
+.revo-brand {
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-/* Button colors following Bootstrap conventions */
-.btn-revolution.btn-primary {
-    background: var(--revolution-gradient);
-    color: white;
+.revo-brand-icon {
+    font-size: 24px;
+    color: var(--revo-primary-light);
 }
 
-.btn-revolution.btn-success {
-    background: linear-gradient(135deg, #28a745, #20c997);
-    color: white;
+.revo-brand-accent {
+    background: linear-gradient(90deg, #6366f1, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.btn-revolution.btn-danger {
-    background: linear-gradient(135deg, #dc3545, #e83e8c);
-    color: white;
+.revo-theme-toggle {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--revo-radius-sm);
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 20px;
 }
 
-.btn-revolution.btn-warning {
-    background: linear-gradient(135deg, #ffc107, #fd7e14);
-    color: #212529;
+.revo-theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(20deg);
 }
 
-.btn-revolution.btn-info {
-    background: linear-gradient(135deg, #17a2b8, #6f42c1);
-    color: white;
+/* Sidebar Sections */
+.revo-actions-section,
+.revo-filter-section {
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.btn-revolution.btn-default {
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    color: #495057;
-    border: 1px solid #dee2e6;
-}
-
-.btn-revolution:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* ============================================
-   REVOLUTION TABLE
-   ============================================ */
-
-.revolution-table {
-    background: var(--revolution-white);
-    border-radius: var(--revolution-border-radius);
-    overflow: hidden;
-    box-shadow: var(--revolution-shadow);
-    border: none;
-}
-
-.revolution-thead {
-    background: var(--revolution-gradient);
-}
-
-.revolution-thead th {
-    color: white;
+.revo-section-title {
+    font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-size: 12px;
-    border: none;
-    padding: 16px 12px;
-    position: relative;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 12px;
 }
 
-.revolution-thead th:hover {
+/* Action Cards */
+.revo-action-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--revo-radius-sm);
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.revo-action-card:hover {
+    transform: translateX(4px);
+}
+
+.revo-action-card .revo-icon {
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+}
+
+/* Create/Add Action - Green */
+.revo-action-primary,
+.revo-action-card:first-child {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border-color: #059669;
+}
+
+.revo-action-primary:hover,
+.revo-action-card:first-child:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+}
+
+/* Export CSV Action - Blue */
+.revo-action-export {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    border-color: #2563eb;
+}
+
+.revo-action-export:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+}
+
+/* Print Action - Purple */
+.revo-action-print {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    border-color: #7c3aed;
+}
+
+.revo-action-print:hover {
+    background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+}
+
+/* Search in Sidebar */
+.revo-filter-section input,
+.revo-filter-section select {
+    width: 100%;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--revo-radius-sm);
+    color: white;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.revo-filter-section input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.revo-filter-section input:focus,
+.revo-filter-section select:focus {
+    outline: none;
+    border-color: var(--revo-primary);
     background: rgba(255, 255, 255, 0.1);
 }
 
-.revolution-tbody td {
-    padding: 12px;
-    border-color: #f1f3f4;
-    vertical-align: middle;
-    transition: var(--revolution-transition);
-}
-
-.revolution-tbody tr:hover td {
-    background-color: #f8f9ff !important;
-    transform: scale(1.005);
-}
-
-.revolution-tfoot td {
-    background: var(--revolution-light);
-    font-weight: 600;
-    border-top: 2px solid #dee2e6;
-}
-
-/* ============================================
-   REVOLUTION FORMS
-   ============================================ */
-
-.revolution-form {
-    background: var(--revolution-white);
+/* View Toggle */
+.revo-view-toggle {
     padding: 20px;
-    border-radius: var(--revolution-border-radius);
+    display: flex;
+    gap: 8px;
 }
 
-.revolution-form-group {
-    margin-bottom: 20px;
-    transition: var(--revolution-transition);
-}
-
-.revolution-form-group:hover {
-    transform: translateX(5px);
-}
-
-.revolution-label {
-    font-weight: 600;
-    color: var(--revolution-dark);
-    margin-bottom: 8px;
-}
-
-.revolution-input,
-.revolution-select,
-.revolution-textarea {
-    border: 2px solid #e9ecef;
-    border-radius: var(--revolution-border-radius);
-    transition: var(--revolution-transition);
-    background: var(--revolution-white);
-}
-
-.revolution-input:focus,
-.revolution-select:focus,
-.revolution-textarea:focus {
-    border-color: var(--revolution-primary);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    background: #fafbff;
-}
-
-/* ============================================
-   REVOLUTION MESSAGES
-   ============================================ */
-
-.xcrud-message {
-    padding: 15px 20px;
-    border-radius: var(--revolution-border-radius);
-    border: none;
-    font-weight: 500;
-    position: relative;
-    margin: 15px 0;
-    animation: revolutionSlideIn 0.5s ease-out;
-}
-
-.xcrud-message.success {
-    background: linear-gradient(135deg, #d4edda, #c3e6cb);
-    color: #155724;
-    border-left: 4px solid var(--revolution-success);
-}
-
-.xcrud-message.error {
-    background: linear-gradient(135deg, #f8d7da, #f1aeb5);
-    color: #721c24;
-    border-left: 4px solid var(--revolution-danger);
-}
-
-.xcrud-message.info {
-    background: linear-gradient(135deg, #cce8ff, #b8daff);
-    color: #004085;
-    border-left: 4px solid var(--revolution-info);
-}
-
-.xcrud-message.note {
-    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
-    color: #856404;
-    border-left: 4px solid var(--revolution-warning);
-}
-
-@keyframes revolutionSlideIn {
-    0% {
-        transform: translateX(-100%);
-        opacity: 0;
-    }
-    100% {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-/* ============================================
-   REVOLUTION PAGINATION
-   ============================================ */
-
-.revolution-pagination {
-    border-radius: var(--revolution-border-radius);
-    overflow: hidden;
-    box-shadow: var(--revolution-shadow);
-}
-
-.revolution-pagination .page-item.active .page-link {
-    background: var(--revolution-gradient);
-    border-color: var(--revolution-primary);
-}
-
-.revolution-pagination .page-link {
-    border: none;
-    margin: 0 2px;
-    border-radius: var(--revolution-border-radius);
-    transition: var(--revolution-transition);
-}
-
-.revolution-pagination .page-link:hover {
-    background: var(--revolution-primary);
-    color: white;
-    transform: translateY(-1px);
-}
-
-/* ============================================
-   REVOLUTION FLOATING ACTION BUTTON
-   ============================================ */
-
-.revolution-fab {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    z-index: 1000;
-}
-
-.revolution-fab-main {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: var(--revolution-gradient);
-    border: none;
-    color: white;
-    font-size: 20px;
+.revo-view-btn {
+    flex: 1;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--revo-radius-sm);
+    color: rgba(255, 255, 255, 0.6);
     cursor: pointer;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-    transition: var(--revolution-transition);
+    transition: all 0.3s ease;
+    font-size: 13px;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 6px;
 }
 
-.revolution-fab-main:hover {
-    transform: scale(1.1) rotate(45deg);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+.revo-view-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
 }
 
-.revolution-fab-menu {
-    position: absolute;
-    bottom: 70px;
-    right: 0;
+.revo-view-btn.active {
+    background: var(--revo-primary);
+    border-color: var(--revo-primary);
+    color: white;
+}
+
+/* Info Section in Sidebar */
+.revo-info-section {
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.revo-info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--revo-radius-sm);
+    transition: all 0.2s ease;
+}
+
+.revo-info-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.revo-info-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.revo-info-value {
+    font-size: 13px;
+    font-weight: 500;
+    color: white;
+}
+
+/* Stats */
+.revo-stats {
+    padding: 20px;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+/* ========================================
+   MAIN CONTENT
+   ======================================== */
+.revo-main {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: var(--revolution-transition);
-    pointer-events: none;
+    min-width: 0;
+    background: var(--revo-bg);
 }
 
-.revolution-fab:hover .revolution-fab-menu {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: all;
-}
-
-.revolution-fab-item {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: white;
-    border: none;
-    color: var(--revolution-primary);
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transition: var(--revolution-transition);
+/* Header */
+.revo-header {
+    padding: 24px 32px;
+    background: var(--revo-bg-secondary);
+    border-bottom: 1px solid var(--revo-border);
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(10px);
+    background: rgba(var(--revo-bg-secondary), 0.9);
+}
+
+.revo-header h1,
+.revo-header h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--revo-text);
+    margin: 0;
+}
+
+.revo-header-controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+/* Content Area */
+.revo-content {
+    flex: 1;
+    padding: 24px 32px;
+}
+
+/* ========================================
+   TABLE STYLES
+   ======================================== */
+.revo-table-wrapper {
+    background: var(--revo-bg-secondary);
+    border-radius: var(--revo-radius);
+    overflow: hidden;
+    box-shadow: var(--revo-shadow);
+}
+
+.revo-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.revo-table thead {
+    background: var(--revo-bg-tertiary);
+}
+
+.revo-table thead th {
+    padding: 16px 20px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--revo-text-secondary);
+    border-bottom: 1px solid var(--revo-border);
+    white-space: nowrap;
+}
+
+.revo-table tbody tr {
+    transition: all 0.2s ease;
+    border-bottom: 1px solid var(--revo-border);
+}
+
+.revo-table tbody tr:hover {
+    background: var(--revo-bg-tertiary);
+    transform: scale(1.01);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.revo-table tbody td {
+    padding: 14px 20px;
+    color: var(--revo-text);
+    vertical-align: middle;
+}
+
+/* Action Buttons in Table */
+.xcrud-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    padding: 4px;
+}
+
+.xcrud-actions .revo-btn {
+    padding: 7px 12px;
+    font-size: 11px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+.xcrud-actions .revo-btn i[class*="icon-"]:before {
+    font-size: 12px;
+}
+
+/* View Button - Blue */
+.revo-view {
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+    color: white;
+}
+
+.revo-view:hover {
+    background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+}
+
+/* Edit Button - Amber */
+.revo-edit {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+}
+
+.revo-edit:hover {
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+/* Delete Button - Red */
+.revo-delete {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+}
+
+.revo-delete:hover {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* Duplicate Button - Purple */
+.revo-duplicate {
+    background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+    color: white;
+}
+
+.revo-duplicate:hover {
+    background: linear-gradient(135deg, #9333ea 0%, #7e22ce 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
+}
+
+/* ========================================
+   FOOTER & PAGINATION
+   ======================================== */
+.revo-footer {
+    padding: 20px 32px;
+    background: var(--revo-bg-secondary);
+    border-top: 1px solid var(--revo-border);
+    display: flex;
+    justify-content: center;
+}
+
+.revo-pagination {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.revo-page-item,
+.revo-pagination a,
+.xcrud-pagination a {
+    min-width: 36px;
+    height: 36px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
-}
-
-.revolution-fab-item:hover {
-    transform: scale(1.1);
-    background: var(--revolution-primary);
-    color: white;
-}
-
-/* ============================================
-   REVOLUTION SEARCH
-   ============================================ */
-
-.revolution-search {
-    background: var(--revolution-light);
-    padding: 15px;
-    border-radius: var(--revolution-border-radius);
-    margin: 15px 0;
-}
-
-.revolution-search-input,
-.revolution-search-select {
-    margin: 5px;
-    border-radius: var(--revolution-border-radius);
-    border: 2px solid #dee2e6;
-}
-
-.revolution-search-go {
-    background: var(--revolution-gradient);
-    border: none;
-    color: white;
-}
-
-/* ============================================
-   REVOLUTION TABS
-   ============================================ */
-
-.revolution-tabs-header {
-    border-bottom: 3px solid var(--revolution-primary);
-    background: var(--revolution-light);
-    border-radius: var(--revolution-border-radius) var(--revolution-border-radius) 0 0;
-}
-
-.revolution-tabs-header .nav-link {
-    border: none;
-    color: var(--revolution-dark);
+    padding: 0 12px;
+    background: var(--revo-bg);
+    color: var(--revo-text-secondary);
+    border: 1px solid var(--revo-border);
+    border-radius: var(--revo-radius-sm);
+    text-decoration: none;
     font-weight: 500;
-    transition: var(--revolution-transition);
+    font-size: 13px;
+    transition: all 0.2s ease;
+    cursor: pointer;
 }
 
-.revolution-tabs-header .nav-link.active {
-    background: var(--revolution-gradient);
+.revo-page-item:hover,
+.revo-pagination a:hover,
+.xcrud-pagination a:hover {
+    background: var(--revo-bg-tertiary);
+    color: var(--revo-primary);
+    border-color: var(--revo-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(99, 102, 241, 0.2);
+}
+
+.revo-page-item.revo-active,
+.revo-pagination a.xcrud-current,
+.xcrud-pagination a.xcrud-current,
+.xcrud-pagination span.xcrud-current {
+    background: var(--revo-primary);
     color: white;
-    border-radius: var(--revolution-border-radius) var(--revolution-border-radius) 0 0;
+    border-color: var(--revo-primary);
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+    min-width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+    border-radius: var(--revo-radius-sm);
+    font-weight: 500;
+    font-size: 13px;
 }
 
-.revolution-tab-content {
-    background: var(--revolution-white);
-    padding: 20px;
-    border-radius: 0 0 var(--revolution-border-radius) var(--revolution-border-radius);
+/* Pagination disabled state */
+.xcrud-pagination .xcrud-disabled,
+.xcrud-pagination span:not(.xcrud-current) {
+    min-width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+    background: var(--revo-bg-secondary);
+    color: var(--revo-text-light);
+    border: 1px solid var(--revo-border);
+    border-radius: var(--revo-radius-sm);
+    cursor: not-allowed;
+    opacity: 0.5;
+    font-size: 13px;
 }
 
-/* ============================================
-   REVOLUTION UTILITIES
-   ============================================ */
-
-.revolution-overlay {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(5px);
+/* First, Previous, Next, Last buttons */
+.xcrud-pagination a[href*="first"],
+.xcrud-pagination a[href*="prev"],
+.xcrud-pagination a[href*="next"],
+.xcrud-pagination a[href*="last"] {
+    font-weight: 600;
+    padding: 0 16px;
 }
 
-.revolution-btn-group {
-    box-shadow: var(--revolution-shadow);
-    border-radius: var(--revolution-border-radius);
+/* Icons for navigation */
+.xcrud-pagination a[href*="first"]:before {
+    content: "«";
+    margin-right: 4px;
+}
+
+.xcrud-pagination a[href*="prev"]:before {
+    content: "‹";
+    margin-right: 4px;
+}
+
+.xcrud-pagination a[href*="next"]:after {
+    content: "›";
+    margin-left: 4px;
+}
+
+.xcrud-pagination a[href*="last"]:after {
+    content: "»";
+    margin-left: 4px;
+}
+
+/* ========================================
+   FORMS & DETAIL VIEW
+   ======================================== */
+.revo-form {
+    background: var(--revo-bg-secondary);
+    border-radius: var(--revo-radius);
+    padding: 32px;
+    box-shadow: var(--revo-shadow);
+}
+
+/* Form Action Buttons in Detail View */
+.revo-action-card.revo-save-return {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border-color: #059669;
+}
+
+.revo-action-card.revo-save-return:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+}
+
+.revo-action-card.revo-save-new {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    border-color: #2563eb;
+}
+
+.revo-action-card.revo-save-new:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+}
+
+.revo-action-card.revo-save-edit {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    border-color: #7c3aed;
+}
+
+.revo-action-card.revo-save-edit:hover {
+    background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+}
+
+.revo-action-card.revo-return {
+    background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+    border-color: #475569;
+}
+
+.revo-action-card.revo-return:hover {
+    background: linear-gradient(135deg, #475569 0%, #334155 100%);
+    box-shadow: 0 0 20px rgba(100, 116, 139, 0.4);
+}
+
+.revo-form-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+    align-items: flex-start;
+}
+
+.revo-label {
+    font-weight: 600;
+    color: var(--revo-text-secondary);
+    padding-top: 10px;
+}
+
+.revo-input,
+.revo-textarea {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--revo-bg);
+    border: 1px solid var(--revo-border);
+    border-radius: var(--revo-radius-sm);
+    color: var(--revo-text);
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.revo-select,
+select.xcrud-input {
+    width: 100%;
+    padding: 10px 36px 10px 14px;
+    background: var(--revo-bg) url('data:image/svg+xml;charset=UTF-8,%3Csvg width="12" height="8" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M1 1l5 5 5-5" stroke="%236B7280" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E') no-repeat right 12px center;
+    background-size: 16px;
+    border: 1px solid var(--revo-border);
+    border-radius: var(--revo-radius-sm);
+    color: var(--revo-text);
+    font-size: 14px;
+    font-family: var(--revo-font);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.revo-select:hover,
+select.xcrud-input:hover {
+    border-color: var(--revo-border-dark);
+    background-color: var(--revo-bg-secondary);
+}
+
+body.revo-dark-mode .revo-select,
+body.revo-dark-mode select.xcrud-input {
+    background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg width="12" height="8" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M1 1l5 5 5-5" stroke="%23CBD5E1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E');
+}
+
+.revo-input:focus,
+.revo-textarea:focus {
+    outline: none;
+    border-color: var(--revo-primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.revo-select:focus,
+select.xcrud-input:focus {
+    outline: none;
+    border-color: var(--revo-primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    background-color: var(--revo-bg);
+}
+
+/* ========================================
+   GRID VIEW (Future)
+   ======================================== */
+.revo-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+    padding: 8px;
+}
+
+.revo-grid-card {
+    background: var(--revo-bg-secondary);
+    border-radius: var(--revo-radius);
     overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid var(--revo-border);
+    box-shadow: var(--revo-shadow-sm);
+    display: flex;
+    flex-direction: column;
 }
 
-.revolution-nav {
-    background: var(--revolution-light);
-    padding: 15px;
-    border-radius: 0 0 var(--revolution-border-radius) var(--revolution-border-radius);
-    margin-top: 0;
+.revo-grid-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--revo-shadow-lg);
+    border-color: var(--revo-primary);
 }
 
-/* ============================================
-   REVOLUTION RESPONSIVE
-   ============================================ */
+.revo-grid-card-header {
+    padding: 16px 20px;
+    background: var(--revo-bg-tertiary);
+    border-bottom: 1px solid var(--revo-border);
+}
+
+.revo-grid-card-title {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--revo-text);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.revo-grid-card-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 500;
+    border-radius: 12px;
+    background: var(--revo-primary);
+    color: white;
+}
+
+.revo-grid-card-body {
+    padding: 20px;
+    flex: 1;
+}
+
+.revo-grid-field {
+    margin-bottom: 12px;
+    display: flex;
+    gap: 8px;
+}
+
+.revo-grid-field-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--revo-text-secondary);
+    min-width: 80px;
+}
+
+.revo-grid-field-value {
+    flex: 1;
+    color: var(--revo-text);
+    font-size: 13px;
+    word-break: break-word;
+}
+
+.revo-grid-card-footer {
+    padding: 12px 20px;
+    background: var(--revo-bg-tertiary);
+    border-top: 1px solid var(--revo-border);
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.revo-grid-card-footer .revo-btn {
+    font-size: 12px;
+    padding: 6px 12px;
+}
+
+.revo-grid-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--revo-text-secondary);
+}
+
+.revo-grid-message .revo-icon {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 16px;
+    opacity: 0.3;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 1024px) {
+    .revo-sidebar {
+        position: fixed;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+    
+    .revo-sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .revo-main {
+        margin-left: 0;
+    }
+}
 
 @media (max-width: 768px) {
-    .revolution-container {
-        margin: 10px 5px;
+    .revo-header,
+    .revo-content,
+    .revo-footer {
+        padding-left: 20px;
+        padding-right: 20px;
     }
     
-    .revolution-fab {
-        bottom: 20px;
-        right: 20px;
+    .revo-form-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
     }
     
-    .revolution-fab-main {
-        width: 48px;
-        height: 48px;
-        font-size: 16px;
+    .revo-table {
+        font-size: 12px;
     }
     
-    .revolution-table {
-        font-size: 14px;
-    }
-    
-    .revolution-thead th {
-        padding: 12px 8px;
-        font-size: 11px;
-    }
-    
-    .revolution-tbody td {
-        padding: 8px;
+    .revo-table thead th,
+    .revo-table tbody td {
+        padding: 10px 12px;
     }
 }
 
-/* ============================================
-   REVOLUTION DARK MODE SUPPORT
-   ============================================ */
-
-@media (prefers-color-scheme: dark) {
-    .revolution-theme {
-        --revolution-white: #1a1a1a;
-        --revolution-light: #2d2d2d;
-        --revolution-dark: #ffffff;
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
-    
-    .revolution-container {
-        background: var(--revolution-white);
-        border-color: #404040;
-    }
-    
-    .revolution-input,
-    .revolution-select,
-    .revolution-textarea {
-        background: #2d2d2d;
-        color: white;
-        border-color: #404040;
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
-/* ============================================
-   REVOLUTION ACCESSIBILITY
-   ============================================ */
-
-.btn-revolution:focus,
-.revolution-input:focus,
-.revolution-select:focus,
-.revolution-textarea:focus {
-    outline: 2px solid var(--revolution-primary);
-    outline-offset: 2px;
+.revo-table tbody tr {
+    animation: slideIn 0.3s ease-out;
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .revolution-container,
-    .btn-revolution,
-    .revolution-fab-main,
-    .xcrud-message {
-        transition: none;
-        animation: none;
-        transform: none;
-    }
+/* ========================================
+   UTILITIES
+   ======================================== */
+.revo-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: var(--revo-primary);
+    color: white;
+    border: none;
+    border-radius: var(--revo-radius-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
 }
 
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    .revolution-container {
-        border: 2px solid;
-    }
-    
-    .btn-revolution {
-        border: 2px solid currentColor;
-    }
+.revo-btn:hover {
+    background: var(--revo-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(99, 102, 241, 0.3);
+}
+
+/* Hide elements */
+.xcrud-toggle-show,
+.xcrud-benchmark {
+    display: none;
+}
+
+/* Override FAB */
+.revo-fab {
+    display: none;
+}
+
+/* Improved Button Icons */
+.revo-btn i.icon-pencil:before,
+.revo-btn .icon-pencil:before {
+    content: "\e005";
+}
+
+.revo-btn i.icon-eye:before,
+.revo-btn .icon-eye:before {
+    content: "\e0c6";
+}
+
+.revo-btn i.icon-remove:before,
+.revo-btn .icon-remove:before {
+    content: "\e0a7";
+}
+
+.revo-btn i.icon-copy:before,
+.revo-btn .icon-copy:before {
+    content: "\e027";
+}
+
+/* Professional Select in Sidebar */
+.revo-filter-section select {
+    width: 100%;
+    padding: 10px 32px 10px 12px;
+    background: rgba(255, 255, 255, 0.05) url('data:image/svg+xml;charset=UTF-8,%3Csvg width="12" height="8" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M1 1l5 5 5-5" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E') no-repeat right 8px center;
+    background-size: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--revo-radius-sm);
+    color: white;
+    margin-bottom: 8px;
+    font-size: 13px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.revo-filter-section select:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.revo-filter-section select option {
+    background: var(--revo-bg-secondary);
+    color: var(--revo-text);
+    padding: 4px;
+}
+
+/* Improve Badges */
+.revo-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 16px;
+}
+
+.revo-badge-info {
+    background: rgba(6, 182, 212, 0.15);
+    color: var(--revo-info);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+}
+
+.revo-badge-success {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--revo-success);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.revo-badge-warning {
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--revo-warning);
+    border: 1px solid rgba(245, 158, 11, 0.3);
 }

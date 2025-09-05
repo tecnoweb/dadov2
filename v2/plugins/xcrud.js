@@ -231,6 +231,16 @@ var Xcrud = {
 			}
 		});
 		
+		// Always include view mode from hidden field or session storage
+		var $viewModeInput = jQuery(container).closest('.xcrud').find('.xcrud-view-mode');
+		if ($viewModeInput.length > 0) {
+			data['view'] = $viewModeInput.val();
+		} else {
+			// Fallback to session storage or URL param
+			var urlParams = new URLSearchParams(window.location.search);
+			data['view'] = urlParams.get('view') || sessionStorage.getItem('revo-view-mode') || 'table';
+		}
+		
         if(validation){
             jQuery(document).trigger("xcrudaftervalidate",[container,data]);
         }

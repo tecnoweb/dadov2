@@ -1,56 +1,79 @@
-<div class="xcrud revolution-theme<?php echo $this->is_rtl ? ' xcrud_rtl' : ''?>" data-instance="<?php echo $this->instance_name ?>">
+<div class="xcrud<?php echo $this->is_rtl ? ' xcrud_rtl' : ''?>" data-instance="<?php echo $this->instance_name ?>">
+    <?php 
+    // Persist view mode from request
+    $current_view = isset($_REQUEST['view']) ? $_REQUEST['view'] : (isset($_POST['view']) ? $_POST['view'] : 'table');
+    ?>
+    <input type="hidden" class="xcrud-view-mode" name="view" value="<?php echo htmlspecialchars($current_view); ?>" />
     <?php echo $this->render_table_name(false, 'div', true)?>
-    <div class="xcrud-container revolution-container"<?php echo ($this->start_minimized) ? ' style="display:none;"' : '' ?>>
+    <div class="xcrud-container"<?php echo ($this->start_minimized) ? ' style="display:none;"' : '' ?>>
         <div class="xcrud-ajax" id="xcrud-<?php echo $this->instance_name ?>">
             <?php echo $this->render_view() ?>
         </div>
-        <div class="xcrud-overlay revolution-overlay"></div>
+        <div class="xcrud-overlay"></div>
     </div>
     
-    <!-- Revolution Floating Action Button -->
-    <div class="revolution-fab" id="revolution-fab-<?php echo $this->instance_name ?>">
-        <button class="revolution-fab-main" type="button" title="Quick Actions">
+    <!-- Revolution FAB (Floating Action Button) -->
+    <div class="revo-fab" id="revo-fab-<?php echo $this->instance_name ?>">
+        <button class="revo-fab-trigger" type="button">
             <i class="fas fa-plus"></i>
         </button>
-        <div class="revolution-fab-menu">
-            <!-- Dynamic buttons will be inserted here via JavaScript -->
+        <div class="revo-fab-menu" id="revo-fab-menu-<?php echo $this->instance_name ?>">
+            <!-- FAB items will be dynamically populated -->
         </div>
     </div>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Revolution FAB Dynamic Button Integration
-    const fabContainer = document.getElementById('revolution-fab-<?php echo $this->instance_name ?>');
-    const fabMenu = fabContainer.querySelector('.revolution-fab-menu');
-    const xcrudContainer = document.querySelector('[data-instance="<?php echo $this->instance_name ?>"]');
+    const instanceName = '<?php echo $this->instance_name ?>';
+    const xcrudContainer = document.querySelector('[data-instance="' + instanceName + '"]');
+    const fabContainer = document.getElementById('revo-fab-' + instanceName);
+    const fabTrigger = fabContainer?.querySelector('.revo-fab-trigger');
+    const fabMenu = document.getElementById('revo-fab-menu-' + instanceName);
     
-    function initRevolutionFAB() {
-        if (!xcrudContainer || !fabContainer) return;
+    if (!xcrudContainer || !fabContainer || !fabTrigger || !fabMenu) return;
+    
+    // Revolution FAB System
+    function populateFAB() {
+        // Clear existing FAB items
+        fabMenu.innerHTML = '';
         
-        // Find existing action buttons
-        const actionButtons = xcrudContainer.querySelectorAll('.xcrud-top-actions .btn, .xcrud-nav .btn');
+        // Find action buttons in the current view
+        const actionButtons = xcrudContainer.querySelectorAll(
+            '.revo-btn-success, .revo-btn[class*="add"], ' +
+            '.revo-btn[class*="csv"], .revo-btn[class*="export"], ' +
+            '.revo-btn[class*="print"], .xcrud-top-actions .revo-btn'
+        );
+        
         const fabItems = [];
         
         actionButtons.forEach(btn => {
-            const icon = btn.querySelector('i, .glyphicon');
-            const text = btn.textContent || btn.title || btn.getAttribute('title');
+            const btnText = btn.textContent?.toLowerCase() || '';
+            const btnClass = btn.className || '';
             
-            if (btn.classList.contains('btn-success') || text.toLowerCase().includes('add')) {
+            // Add button
+            if (btnClass.includes('success') || btnText.includes('add') || btnText.includes('aggiungi')) {
                 fabItems.push({
                     icon: 'fas fa-plus',
-                    title: 'Add New',
+                    color: 'revo-fab-add',
+                    title: 'Add New Record',
                     action: () => btn.click()
                 });
-            } else if (btn.classList.contains('btn-default') && (text.toLowerCase().includes('csv') || text.toLowerCase().includes('export'))) {
+            }
+            // Export/CSV button
+            else if (btnText.includes('csv') || btnText.includes('export') || btnText.includes('esport')) {
                 fabItems.push({
                     icon: 'fas fa-file-csv',
-                    title: 'Export CSV',
+                    color: 'revo-fab-export', 
+                    title: 'Export Data',
                     action: () => btn.click()
                 });
-            } else if (text.toLowerCase().includes('print')) {
+            }
+            // Print button
+            else if (btnText.includes('print') || btnText.includes('stampa')) {
                 fabItems.push({
                     icon: 'fas fa-print',
+                    color: 'revo-fab-print',
                     title: 'Print',
                     action: () => btn.click()
                 });
@@ -60,26 +83,45 @@ document.addEventListener('DOMContentLoaded', function() {
         // Create FAB items
         fabItems.forEach(item => {
             const fabItem = document.createElement('button');
-            fabItem.className = 'revolution-fab-item';
-            fabItem.innerHTML = `<i class="${item.icon}"></i>`;
+            fabItem.className = 'revo-fab-item ' + item.color;
+            fabItem.innerHTML = '<i class="' + item.icon + '"></i>';
             fabItem.title = item.title;
             fabItem.addEventListener('click', item.action);
             fabMenu.appendChild(fabItem);
         });
         
-        // Show FAB if there are items
-        if (fabItems.length > 0) {
-            fabContainer.style.display = 'block';
+        // Show/hide FAB based on available actions
+        fabContainer.style.display = fabItems.length > 0 ? 'block' : 'none';
+    }
+    
+    // FAB trigger toggle
+    fabTrigger.addEventListener('click', function() {
+        fabContainer.classList.toggle('active');
+    });
+    
+    // Close FAB when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!fabContainer.contains(e.target)) {
+            fabContainer.classList.remove('active');
         }
-    }
+    });
     
-    // Initialize FAB
-    initRevolutionFAB();
+    // Initial FAB population
+    populateFAB();
     
-    // Re-initialize after AJAX updates
-    const observer = new MutationObserver(initRevolutionFAB);
-    if (xcrudContainer) {
-        observer.observe(xcrudContainer, { childList: true, subtree: true });
-    }
+    // Re-populate FAB after AJAX updates
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                // Delay to ensure DOM is updated
+                setTimeout(populateFAB, 100);
+            }
+        });
+    });
+    
+    observer.observe(xcrudContainer, {
+        childList: true,
+        subtree: true
+    });
 });
 </script>

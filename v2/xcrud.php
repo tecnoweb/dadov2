@@ -2815,6 +2815,72 @@ class Xcrud
         return $this;
     }
     /**
+     * Get grid data for custom rendering (e.g., grid view)
+     * 
+     * @return array|null List data or null if not available
+     */
+    public function get_grid_data()
+    {
+        // Return data regardless of task, as long as result_list exists
+        if (isset($this->result_list)) {
+            return $this->result_list;
+        }
+        return null;
+    }
+    
+    /**
+     * Get column definitions for custom rendering
+     * 
+     * @return array Column definitions with labels
+     */
+    public function get_columns_data()
+    {
+        // Return the columns_names array which has the proper labels
+        $labels = array();
+        
+        // If columns_names is set, use it directly as it contains the labels
+        if (isset($this->columns_names) && is_array($this->columns_names)) {
+            foreach ($this->columns_names as $field => $label) {
+                $labels[$field] = array(
+                    'field' => $field,
+                    'label' => $label
+                );
+            }
+        }
+        
+        // If no columns_names, try to build from columns
+        if (empty($labels) && isset($this->columns) && is_array($this->columns)) {
+            foreach ($this->columns as $key => $col) {
+                $field = is_array($col) ? (isset($col['field']) ? $col['field'] : $key) : $col;
+                
+                // Clean up field name - remove table prefix if present
+                $clean_field = $field;
+                if (strpos($field, '.') !== false) {
+                    $parts = explode('.', $field);
+                    $clean_field = end($parts);
+                }
+                
+                $labels[$clean_field] = array(
+                    'field' => $clean_field,
+                    'label' => ucwords(str_replace('_', ' ', $clean_field))
+                );
+            }
+        }
+        
+        return $labels;
+    }
+    
+    /**
+     * Get primary key field name
+     * 
+     * @return string Primary key field name
+     */
+    public function get_primary_key()
+    {
+        return $this->primary_key;
+    }
+    
+    /**
      * Check system requirements and configuration
      * 
      * @return array System check results
