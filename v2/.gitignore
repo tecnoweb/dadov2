@@ -1,0 +1,64 @@
+# Sistema
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.temp
+*.cache
+
+# IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Dependencies
+vendor/
+node_modules/
+bower_components/
+
+# Uploads & User content
+uploads/
+upload/
+files/
+temp/
+tmp/
+
+# Config locali (da non committare)
+config.local.php
+database.local.php
+*.local.php
+
+# Session files
+sess_*
+sessions/
+
+# Cache
+cache/
+*.cache
+
+# Backup files
+*.bak
+*.backup
+*.old
+*~
+
+# Logs
+logs/
+*.log
+error_log
+
+# Environment
+.env
+.env.local
+
+# Database dumps
+*.sql
+*.sqlite
+*.db
+
+# Compiled/Generated
+*.min.js
+*.min.css
+dist/
+build/

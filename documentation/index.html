@@ -1,0 +1,2201 @@
+<!doctype html>  
+<!--[if IE 6 ]><html lang="en-us" class="ie6"> <![endif]-->
+<!--[if IE 7 ]><html lang="en-us" class="ie7"> <![endif]-->
+<!--[if IE 8 ]><html lang="en-us" class="ie8"> <![endif]-->
+<!--[if (gt IE 7)|!(IE)]><!-->
+<html lang="en-us"><!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	
+	<title>RocketxCRUD v.2 - Documentation and code examples</title>
+	
+
+	<link rel="stylesheet" href="assets/css/documenter_style.css" media="all">
+	<link rel="stylesheet" href="assets/js/google-code-prettify/prettify.css" media="screen">
+	<script src="assets/js/google-code-prettify/prettify.js"></script>
+
+	
+	
+	<script src="assets/js/jquery.js"></script>
+	
+	<script src="assets/js/jquery.scrollTo.js"></script>
+	<script src="assets/js/jquery.easing.js"></script>
+	
+	<script>document.createElement('section');var duration='500',easing='swing';</script>
+	<script src="assets/js/script.js"></script>
+	
+	<style>
+		html{background-color:#EEEEEE;color:#383838;}
+		::-moz-selection{background:#333636;color:#1bcfd;}
+		::selection{background:#333636;color:#1bcfd;}
+		#documenter_sidebar #documenter_logo{background-image:url(assets/images/image_3.png);}
+		a{color:#008C9E;}
+		.btn {
+			border-radius:3px;
+		}
+		.btn-primary {
+			  background-image: -moz-linear-gradient(top, #008C9E, #006673);
+			  background-image: -ms-linear-gradient(top, #008C9E, #006673);
+			  background-image: -webkit-gradient(linear, 0 0, 0 008C9E%, from(#343838), to(#006673));
+			  background-image: -webkit-linear-gradient(top, #008C9E, #006673);
+			  background-image: -o-linear-gradient(top, #008C9E, #006673);
+			  background-image: linear-gradient(top, #008C9E, #006673);
+			  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#008C9E', endColorstr='#006673', GradientType=0);
+			  border-color: #006673 #006673 #bfbfbf;
+			  color:#FFFFFF;
+		}
+		.btn-primary:hover,
+		.btn-primary:active,
+		.btn-primary.active,
+		.btn-primary.disabled,
+		.btn-primary[disabled] {
+		  border-color: #008C9E #008C9E #bfbfbf;
+		  background-color: #006673;
+		}
+		hr{border-top:1px solid #D4D4D4;border-bottom:1px solid #FFFFFF;}
+		#documenter_sidebar, #documenter_sidebar ul a{background-color:#343838;color:#FFFFFF;}
+		#documenter_sidebar ul a{-webkit-text-shadow:1px 1px 0px #494F4F;-moz-text-shadow:1px 1px 0px #494F4F;text-shadow:1px 1px 0px #494F4F;}
+		#documenter_sidebar ul{border-top:1px solid #212424;}
+		#documenter_sidebar ul a{border-top:1px solid #494F4F;border-bottom:1px solid #212424;color:#FFFFFF;}
+		#documenter_sidebar ul a:hover{background:#333636;color:#1bcfd;border-top:1px solid #333636;}
+		#documenter_sidebar ul a.current{background:#333636;color:#1bcfd;border-top:1px solid #333636;}
+		#documenter_copyright{display:block !important;visibility:visible !important;}
+	</style>
+	
+</head>
+<body class="documenter-project-xcrud-v16">
+	<div id="documenter_sidebar">
+		<a href="#documenter_cover" id="documenter_logo"></a>
+		<ul id="documenter_nav">
+			<li><a class="current" href="#documenter_cover">Start</a></li>
+				
+			<li><a href="#basic_configuration_and_quick_start" title="1. Basic configuration and quick start">1. Basic configuration and quick start</a></li>
+			<li><a href="#advanced_configuration" title="2. Advanced Configuration">2. Advanced Configuration</a></li>
+			<li><a href="#main_features_of_the_application" title="3. Main features of the application.">3. Main features of the application.</a></li>
+			<li><a href="#the_main_methods_and_loading_xcrud" title="4. The main methods and loading xCRUD">4. The main methods and loading xCRUD</a></li>
+			<li><a href="#compatibility_and_plug_ins" title="5. Compatibility and plug-ins.">5. Compatibility and plug-ins.</a></li>
+			<li><a href="#select_data" title="6. Select Data.">6. Select Data.</a></li>
+			<li><a href="#overview_table" title="7. Overview table.">7. Overview table.</a></li>
+			<li><a href="#create_edit" title="8. Create / Edit">8. Create / Edit</a></li>
+			<li><a href="#field_types" title="9. Field types">9. Field types</a></li>
+			<li><a href="#0_data_manipulation" title="10. Data manipulation">10. Data manipulation</a></li>
+			<li><a href="#1_themes_guide" title="11. Themes guide">11. Themes guide</a></li>
+			<li><a href="#2_date_and_time_formats" title="12. Date and time formats">12. Date and time formats</a></li>
+			<li><a href="#3_migrate_from_1_5" title="13. Migrate from 1.5">13. Migrate from 1.5</a></li>
+			<li><a href="#4_resources_and_thanks" title="14. Resources and thanks">14. Resources and thanks</a></li>
+
+		</ul>
+
+	</div>
+	<div id="documenter_content">
+	<section id="documenter_cover">
+	<h1>RocketxCRUD v.2.0</h1>
+	<h2>Documentation and code examples</h2>
+	<div id="documenter_buttons">
+		
+	</div>
+	<hr>
+	<ul>
+	<li>created: 10/13/2012</li>
+	<li>latest update: 29/01/2020</li>
+	<li>Compatibile to PHP 7.3</li>
+
+	<p>xCRUD - is a simple-usage but powerful Create-Read-Update-Delete application for php and MySQL.</p>
+	</section>
+	
+	<section id="basic_configuration_and_quick_start">
+	<div class="page-header"><h3>1. Basic configuration and quick start</h3><hr class="notop"></div>
+<p style="color: rgb(34, 34, 34); font-family: Arial, Verdana, sans-serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;">
+	Upload the folder with application to your local or remote server (by default, it is called &quot;xcrud&quot;). No matter how it will be named later, and where it will be located.</p>
+<p class="warning" style="padding: 10px 10px 10px 30px; border: 1px solid rgb(213, 212, 88); background-color: rgb(240, 254, 177); background-image: url(assets/images/image_2.png); color: rgb(34, 34, 34); font-family: Arial, Verdana, sans-serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-position: 8px 11px; background-repeat: no-repeat no-repeat;">
+	Important: Do not rename anything in the application folder!</p>
+<p style="color: rgb(34, 34, 34); font-family: Arial, Verdana, sans-serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;">
+	Now you need to configure the default connection to the database and set the URL to the application folder.<br>
+	<br>
+	The configuration file is located in the application folder and is called<span class="Apple-converted-space">&nbsp;</span><strong>Xcrud_config.php</strong>. This file contains all the basic settings, most of which you can change directly in the application initialization. More information about this you can read in the following sections of this documentation.</p>
+<pre class="prettyprint lang-php linenums">
+class Xcrud_config{
+    // default connection
+    public static $dbname = &#39;dbname&#39;;
+&nbsp;&nbsp;&nbsp; public static $dbuser = &#39;dbuser&#39;;
+&nbsp;&nbsp;&nbsp; public static $dbpass = &#39;dbpass&#39;;
+&nbsp;&nbsp;&nbsp; public static $dbhost = &#39;localhost&#39;;
+&nbsp;&nbsp;&nbsp; ....
+// more settings here... :)
+</pre>
+<p style="color: rgb(34, 34, 34); font-family: Arial, Verdana, sans-serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;">
+	When everything is set up, you can try to include the main application file, and create a new instance of the application.<br>
+	&nbsp;</p>
+<pre class="prettyprint lang-php linenums">
+include(&#39;real_path/xcrud/xcrud.php&#39;);
+$xcrud = Xcrud::get_instance();
+$xcrud-&gt;table(&#39;my_table&#39;);
+echo $xcrud-&gt;render();
+</pre>
+<p style="color: rgb(34, 34, 34); font-family: Arial, Verdana, sans-serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;">
+	That&#39;s it. If done correctly, you should see your table.</p>
+<p style="color: rgb(34, 34, 34); font-family: Arial, Verdana, sans-serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;">
+	Note: If you start&nbsp; with blank file, your result code must look like this</p>
+<pre class="prettyprint lang-html linenums">
+&lt;?php
+    include(&#39;xcrud/xcrud.php&#39;);
+    $xcrud = Xcrud::get_instance();
+    $xcrud-&gt;table(&#39;your_table&#39;);
+?&gt;
+&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+    &lt;title&gt;Some page title&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;?php
+    echo $xcrud-&gt;render();
+?&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<p class="info" style="padding: 10px 10px 10px 30px; border: 1px solid rgb(106, 179, 255); background-color: rgb(163, 208, 255); background-image: url(assets/images/image_1.png); color: rgb(34, 34, 34); font-family: Arial, Verdana, sans-serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-position: 8px 11px; background-repeat: no-repeat no-repeat;">
+	<strong>I highly recommend to use UTF-8 in your projects. This will save you from a lot of problems with the encoding and localizations.</strong></p>
+</section>
+<section id="advanced_configuration">
+	<div class="page-header"><h3>2. Advanced Configuration</h3><hr class="notop"></div>
+<p>
+	The configuration file contains&nbsp; default settings, you can customize the behavior xCRUD to your taste. The configuration file is well commented, you should not have any problems with the editing.</p>
+</section>
+<section id="main_features_of_the_application">
+	<div class="page-header"><h3>3. Main features of the application.</h3><hr class="notop"></div>
+<p>
+	xCRUD &ndash; is a simple-usage but powerfull Create-Read-Update-Delete (CRUD) generator application for PHP and MySQL. The application offers you many ways to work with your data and scaffolding, while remaining very easy to use even for non-programmers. Content management becomes simple and flexible, hours of saved time, minutes to implement. You can use it as plain php library or with your favorite framework and cms.</p>
+<p>
+	xCRUD implements Singleton pattern, so it can be initialized in any part of the script as desired. It will not appear on the performance, because you will always work with a single original object xCRUD. You can pre-set parameters and output data in different parts of your script: in different functions, classes, or even in different files. This way, you can create custom settings for your specific set xCRUD (first, read the configuration file, most of the default settings can be done there).</p>
+<p>
+	xCRUD implements multi-instance system, which allows a single page load multiple instances xCRUD and work with multiple tables simultaneously. Regardless on how many copies, xCRUD open only one connection to your database, which is also significantly improves performance gains.</p>
+<p>
+	You can connect every instance to different database and work not only with different tables on the page, but also with multiple databases even on one page.</p>
+<p>
+	The application uses a fast ajax interface for all of your actions, you do not need to wait for page reloading and loading unneeded modules, you get access to the data almost immediately.</p>
+<p>
+	xCRUD uses native php session. For each request, each instance is generating unique validation key that becomes invalid immediately after usage, which ensures a secure, as well as ease and independence ajax-side of the application. Also you can use experimental alternative session, but for this you need mcrypt and memcache(d) modules installed on your server.</p>
+<p>
+	xCRUD supports all popular types of MySQL fields. Also, you can control the display of your fields, establish simple validation rules. xCRUD enables working with visual editor for text fields, date- and time-picker for date fields, automatically generates a drop-down lists for the fields of ENUM and SET. xCRUD will generate interactive google map for POINT type.</p>
+<p>
+	You can use any text editor for textarea field. xCRUD has preinstalled configs for TinyMCE and CKEditor.</p>
+<p>
+	xCRUD supports file and image uploading, unlimited thumbs creation and resizing. Blob storage is also available.</p>
+<p>
+	xCRUD provides control over your data. You can change the data directly to the entry through the callback function, and get the data immediately after writing to the database (eg for password hashing or creation (updating) data in other tables. You can create callbacks for most general actions.</p>
+<p>
+	You can completely change the look xCRUD, editing just one small css file. You can easy create your own themes or just different screens (templates) for some actions in same template.</p>
+<p>
+	xCRUD supports localization via ini files, so you can easy create your unique language file.</p>
+</section>
+<section id="the_main_methods_and_loading_xcrud">
+	<div class="page-header"><h3>4. The main methods and loading xCRUD</h3><hr class="notop"></div>
+<p>
+	<strong>get_instance ()</strong> - returns the main object xCRUD. This is a static method and can be called anywhere, indefinitely.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud = Xcrud::get_instance();
+</pre>
+<p>
+	You can create multiple instances of xCRUD on one page (for example, to work with multiple tables):</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud1 = Xcrud::get_instance();
+$xcrud2 = Xcrud::get_instance();
+</pre>
+<p>
+	Next, for each instance you can use different methods.</p>
+<p class="info">
+	If you want to get the same instance in different functions/file (for expample, in controller an view), you must specify instance name. Calling an instance by name you will always get the same instance. Example:</p>
+<pre class="prettyprint lang-php linenums">
+// controller.php
+$xcrud = Xcrud::get_instance(&#39;MyInstance&#39;);
+$xcrud-&gt;table(&#39;users&#39;); 
+</pre>
+<pre class="prettyprint lang-php linenums">
+// view.php
+$xcrud = Xcrud::get_instance(&#39;MyInstance&#39;);
+$echo xcrud-&gt;render(); </pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>table ( </strong><em>table_name</em><strong> ) </strong>- sets the table from which data will be loaded. Takes the name of the table in the first parameter. This method is mandatory.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;table(&#39;my_table&#39;);
+</pre>
+<p>
+	You can also load a table from another database.</p>
+<p class="info">
+	Most of methods requiring table, try to define this first of all.</p>
+<div class="alert alert-error">
+	Xcrud needs at least one primary or unique field in your table. If not, you will get an error. The best practice is to use primary autoincrement column in every table. This was done to prevent losing of your data. Xcrud <strong>can&#39;t </strong>work with complex (combined) primary index.</div>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>connection (</strong><em> username, password, remote_table, [localhost], [utf-8] </em><strong>)</strong> - creates a connection for the current instance xCRUD. Takes a user name, password, table, host, and the connection character. Host and encoding optional and defaults to &#39;localhost&#39; and &#39;utf-8&#39;, respectively.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud2-&gt;connection(&#39;username&#39;,&#39;password&#39;,&#39;remote_table&#39;,&#39;localhost&#39;,&#39;utf-8&#39;);
+</pre>
+<div class="alert">
+	This method is rewriting connection settings from configuration file for current instance</div>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>language( </strong><em>lang_code </em><strong>)</strong> - sets interface language in first parameter, default is &#39;en&#39;</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;language(&#39;en&#39;); // will load en.ini lang file from languages folder
+</pre>
+<div class="alert alert-info">
+	The best way is set language in configuration file. Use this method only if you really need dynamic language switching.</div>
+<p>
+	<strong>set_lang(</strong><em> lang_var, translate</em><strong> ) </strong>- allows you to replace existing translate in current instance.</p>
+<div class="alert">
+	Note: the best way is to customize lang file. Do not create new variables with <strong>set_lang()</strong>, put them in language file.</div>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>render () </strong>- displays your data. While this method is not called, xCRUD takes no action, the database is not connected, this saving system resources (especially critical for large data).</p>
+<pre class="prettyprint lang-php linenums">
+$out = $xcrud-&gt;render();
+// some code...
+echo $out;
+// or
+echo $xcrud-&gt;render();
+// or
+echo $xcrud;</pre>
+<p class="prettyprint lang-php linenums">
+	You can start xcrud not only from grid (by default), and always from create, edit or details screen:</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;render(&#39;create&#39;); // add entry screen
+$xcrud-&gt;render(&#39;edit&#39;, 12); // edit entry screen, &#39;12&#39; - primary key
+$xcrud-&gt;render(&#39;view&#39;, 85); // view entry screen, &#39;85&#39; - primary key</pre>
+<div class="alert alert-info">
+	Remember that the render () method must be called last, it just returns the data for output, and all the methods declared after (for the current instance) will not be applied.</div>
+</section>
+<section id="compatibility_and_plug_ins">
+	<div class="page-header"><h3>5. Compatibility and plug-ins.</h3><hr class="notop"></div>
+<p>
+	<strong>Configuration tricks</strong></p>
+<div class="alert">
+	You can rewrite config settings from &#39;<strong>scripts</strong>&#39; and &#39;<strong>editor</strong>&#39; sections directly on your page. This will be affected on all instances on page. You can use it when you need dynamically change some parameter from that sections.</div>
+<p>
+	Example:</p>
+<pre class="prettyprint lang-php linenums">
+Xcrud_config::$some_parameter = &#39;some value&#39;;</pre>
+<p>
+	You must write this after you included xcrud.php file and before render() method. All parameters and description you can find in configuration file (xcrud_config.php)</p>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>load_css()</strong> - Static method. Allow you to load xcrud&#39;s css files at you custom place. By default xcrud loads styles before instance output</p>
+<pre class="prettyprint lang-php linenums">
+echo Xcrud::load_css();</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>load_js()</strong> - Static method. Allow you to load xcrud&#39;s javascript files and scripts at you custom place. By default xcrud loads javascript after instance output</p>
+<pre class="prettyprint lang-php linenums">
+echo Xcrud::load_js();</pre>
+<p>
+	&nbsp;</p>
+<h4 id="compatibility_and_plug_ins_bootstrap,_jquery_and_javascript_conflicts">Bootstrap, jQuery and javascript conflicts</h4>
+<p>
+	If your template already uses jquery or jqueryui or bootstrap, you must turn off them in configuration file.</p>
+<p>
+	Note, all xCRUD&#39;s scripts must be loaded after jQuery. If your jQuery loads in the bottom of page, you must call&nbsp; <strong>&lt;?php echo Xcrud::load_js() ?&gt;</strong> in the bottom of page after jQuery and <strong>&lt;?php echo Xcrud::load_css() ?&gt;</strong> in top (the best in &lt;head&gt;&lt;/head&gt;).</p>
+<p>
+	If xCRUD&#39;s content rendered before output in template, set&nbsp; <strong>$manual_load</strong> parameter in TRUE in configuration file. This will prevent automatic loading scripts and styles.</p>
+<p>
+	&nbsp;</p>
+<h4 id="compatibility_and_plug_ins_troubles_with_session">Troubles with session</h4>
+<p>
+	Many frameworks and cms can destoy native php session on reload. xCRUD&nbsp; generates Security key error to any action. If this was happenned, you can try to use alternative session (you need memcache(d) and mcrypt modules on your server).</p>
+<p>
+	Also you will get an error when session name was changed from default. And you can try to customize <strong>$sess_name</strong> or <strong>$dynamic_session</strong> parameters in configuration.</p>
+<p>
+	If you have deep integration with your framework or cms (this mean, the xcrud&#39;s ajax file (uri) is a part of your system), you can use special functions to synhronize xcrud&#39;s session with yours. Codegniter example:</p>
+<p>
+	Ajax controller:</p>
+<pre class="prettyprint lang-php linenums">
+class Ajax extends CI_Controller{
+    public function __construct(){
+        parent::__construct();
+    }
+    public function index(){
+        include(FCPATH.&#39;/xcrud/xcrud.php&#39;);
+        Xcrud::import_session($this-&gt;session-&gt;userdata(&#39;xcrud_sess&#39;));
+        Xcrud::get_requested_instance();
+        $this-&gt;session-&gt;set_userdata(array(&#39;xcrud_sess&#39;=&gt;Xcrud::export_session()));
+    }
+} </pre>
+<p>
+	Some content controller:</p>
+<pre class="prettyprint lang-php linenums">
+class Ajax extends CI_Controller{
+    public function __construct(){
+        parent::__construct();
+    }
+    public function orders(){
+        include(FCPATH.&#39;/xcrud/xcrud.php&#39;);
+        $xcrud = Xcrud::get_instance();
+        $xcrud-&gt;table(&#39;orders&#39;);
+        $data[&#39;content&#39;] = $xcrud-&gt;render();
+        $this-&gt;load-&gt;view(&#39;some_content&#39;, $data);
+        
+        // Xcrud::export_session() will destroy all xcrud&#39;s instances
+        $this-&gt;session-&gt;set_userdata(array(&#39;xcrud_sess&#39;=&gt;Xcrud::export_session()));
+    }
+} </pre>
+<p>
+	&nbsp;</p>
+<p>
+	&nbsp;</p>
+<p>
+	&nbsp;</p>
+</section>
+<section id="select_data">
+	<div class="page-header"><h3>6. Select Data.</h3><hr class="notop"></div>
+<p>
+	<strong>where (</strong><em> fields, value</em><strong> )</strong> - sets the condition of choice.<br>
+	Multiple calls are united all the conditions with the operator &#39;<strong>AND</strong>&#39;.<br>
+	<em>Option 1</em><strong>:</strong> Accept the input field and value. The field should be indicated by a sign of comparison. Value will be automatically quoted.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;where(&#39;catid =&#39;, 5);
+$xcrud-&gt;where(&#39;created &gt;&#39;, $last_visit);
+// or
+$xcrud-&gt;where(&#39;catid =&#39;, 5)-&gt;where(&#39;created &gt;&#39;, $last_visit);
+</pre>
+<p>
+	<em>Option 2:</em> Accepts associations are an array of field-value. The field should be indicated by a sign of comparison. Value will be automatically quoted.</p>
+<pre class="prettyprint lang-php linenums">
+$cond = array(&#39;catid =&#39; =&gt; 5, &#39;created &gt;&#39; =&gt; $last_visit);
+$xcrud-&gt;where($cond);
+</pre>
+<div class="alert">
+	Please note: all the conditions in array will be merged with the operator &#39;AND&#39;.</div>
+<p>
+	<em>Option 3:</em> Accepts custom line environment, you must specify the name of the table in front of each field, to avoid any conflict in relationships with other tables. You also have to take care of yourself on preparing values.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;where(&quot;content.catid = 5 AND content.created &gt; &#39;{$last_visit}&#39;&quot;);
+// or
+$xcrud-&gt;where(&quot;&quot;, &quot;content.catid = 5 AND content.created &gt; &#39;{$last_visit}&#39;&quot;); // 1.5 compat.
+</pre>
+<p>
+	<em>Alternative usage</em></p>
+<pre class="prettyprint lang-php linenums">
+// using OR glue
+$xcrud-&gt;where(&#39;catid&#39;, 5);
+$xcrud-&gt;or_where(&#39;created &gt;&#39;, $last_visit);
+
+// using IN and NOT IN
+$xcrud-&gt;where(&#39;catid&#39;, array(&#39;5&#39;,&#39;7&#39;,&#39;8&#39;); // `catid` IN (&#39;5&#39;,&#39;7&#39;,&#39;8&#39;)
+$xcrud-&gt;where(&#39;catid !&#39;, array(&#39;5&#39;,&#39;7&#39;,&#39;8&#39;); // `catid` NOT IN (&#39;5&#39;,&#39;7&#39;,&#39;8&#39;)</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>or_where() </strong>- the same as<strong> where()</strong> method, but multiple calls will be united with operator &#39;<strong>OR</strong>&#39;</p>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>no_quotes( </strong><em>fields </em><strong>)</strong> - The method allows to cancel the automatic shielding values, so you can use the functions in mysql query. Affects on where expressions and pass_var () method. Takes comma-separated fieldnames or array of fieldnames in first parameter.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;no_quotes(&#39;created&#39;);
+$xcrud-&gt;pass_var(&#39;created&#39;,&#39;now()&#39;);
+//or
+$xcrud-&gt;where(&#39;created !=&#39;,&#39;null&#39;);</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>relation ( </strong><em>field, target_table,target_id, target_name, where, order_by, multi, concat_separator, tree, depend_field, depend_on</em><strong> )</strong> - binds the current table with a list of the other table. Takes as input the name of the field in the current table, the name of the linked table, the link field, the title field , the selection condition for the linked table (optional).</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;relation(&#39;catid&#39;,&#39;categories&#39;,&#39;cid&#39;,&#39;category_name&#39;,array(&#39;published&#39; =&gt; 1));
+//or
+$xcrud-&gt;relation(&#39;catid&#39;,&#39;categories&#39;,&#39;cid&#39;,&#39;category_name&#39;,&#39;categories.published = 1&#39;);
+</pre>
+<p>
+	Since 1.5.4 relation() has additional parameters:</p>
+<p>
+	<strong>relation ( </strong><em>field, target_table, target_id, target_name, where_array, main_table, multi, concat_separator, tree, depend_field, depend_on</em><strong> )</strong></p>
+<ul>
+	<li>
+		<em><strong>field</strong> - </em>main table relation field, that will be replases; data will be written in this field</li>
+	<li>
+		<strong><em>target_table</em></strong> - related (target) table, options for dropdown will be get from here</li>
+	<li>
+		<strong><em>target_id</em></strong> - row id from target table, will be writen into <em><strong>field</strong></em></li>
+	<li>
+		<strong><em>target_name</em></strong> - field, that will be displayed as name of dropdown option. This can be array of few fields.</li>
+	<li>
+		<strong><em>where</em></strong> - (optional) - allows to specify selection items from the <strong><em>target_table</em></strong>, see<em> where()</em>. Default is null.</li>
+	<li>
+		<strong><em>order_by</em></strong> - (optional) - order by condition (eg. &#39;username desc&#39;). Default is by target_name.</li>
+	<li>
+		<strong><em>multi</em></strong> - (optional, boolean) - can change dropdown to multiselect (items will be saved separated by comma). Default is false.</li>
+	<li>
+		<strong><em>concat_separator</em></strong> - (optional) - take effect only when <strong><em>target_name</em></strong> is array. Default is &#39; &#39;.</li>
+	<li>
+		<strong><em>tree</em></strong> - (optional) - array, sets tree rendering of dropdown list. Options: 1. array(&#39;primary_key&#39;=&gt;&#39;some_id_field_name&#39;,&#39;parent_key&#39;=&gt;&#39;some_field_name&#39;) - primary and parent key field name, will be created pk tree. 2. array(&#39;left_key&#39;=&gt;&#39;some_field_name&#39;,&#39;level_key&#39;=&gt;&#39;some_field_name&#39;) - left key and level field names, will be created nested sets tree.</li>
+	<li>
+		<strong><em>depend_field</em></strong> - field from current table, options will be extracted based on parent field value ( like country_id column in cities table)</li>
+	<li>
+		<strong><em>depend_on</em></strong> - field, thats will be parent to current dropdown.</li>
+</ul>
+<div class="alert alert-info">
+	You can use {field_tags} in &#39;where&#39; parameter to get variable from current row</div>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>fk_relation(</strong><em>label, field, fk_table, in_fk_field, out_fk_field, rel_tbl, rel_field, rel_name, rel_where, rel_orderby, rel_concat_separator, before, add_data </em><strong>) </strong>- allows to create, manage and display many-to-many connections. The syntax is similar to <strong>relation().</strong></p>
+<ul>
+	<li>
+		<em><strong>label </strong>- Displaing field label (mus be unique, used as alias)</em></li>
+	<li>
+		<em><strong>field</strong> - connection field from current table</em></li>
+	<li>
+		<em><strong>fk_table</strong> - connection table</em></li>
+	<li>
+		<em><strong>in_fk_field</strong> - field, connected with main table</em></li>
+	<li>
+		<em><strong>out_fk_field</strong> - field, connected with relation table</em></li>
+	<li>
+		<em><strong>rel_tbl</strong> - </em><em>relation table</em></li>
+	<li>
+		<strong><em>rel_field </em></strong>- connection field from relation table</li>
+	<li>
+		<em><strong>rel_name</strong> - </em>field, that will be displayed as name of dropdown option. This can be array of few fields.</li>
+	<li>
+		<em><strong>rel_where</strong> - </em>(optional) - allows to specify selection items from the <strong><em>target_table</em></strong>, see<em> where()</em>. Default is null.</li>
+	<li>
+		<em><strong>rel_orderby</strong> <em>- </em>(optional) -</em> order by condition (eg. &#39;username desc&#39;). Default is by <em><strong>rel_name.</strong></em></li>
+	<li>
+		<em><strong>rel_concat_separator</strong> <em>- </em>(optional) - </em>take effect only when <em><strong>rel_name</strong></em> is array. Default is &#39; &#39;.</li>
+	<li>
+		<em><strong>before</strong> <em>- </em>(optional) - if selected, field will be inserted before this field (by default - in the end)</em></li>
+	<li>
+		<em><strong>add_data</strong> (array) <em>- </em>(optional) - additional inserting data</em></li>
+</ul>
+<p>
+	Structure of connections:</p>
+<pre class="prettyprint lang-plain linenums">
+<strong><strong>table
+</strong></strong>|- field  --|
+            |
+            |    <strong>fk_table</strong>
+            |--  |- in_fk_field
+                 |- out_fk_field  --|
+                                    |
+                                    |    <strong>rel_table</strong>
+                                    |--  |- rel_field
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>nested_table ( </strong><em>inst_name, connect_field, nested_table, nested_connect_field</em><strong> )</strong> <strong>- </strong>takes instance name in first parameter, main field in second parameter, nested table in third and connection field from nested table in 4th.</p>
+<p>
+	Nested tables are using for easy editing of related records in other tables, such as the order and the goods in the order (see demo).</p>
+<p>
+	You can specify one nested table for each field of your main table. You can set options for nested tables as well as you do for the main table. Method <strong>nested_table ()</strong> creates an instance of a nested table, access to which can be obtained through the field name (specified in the first parameter of the method nested_table ()), only add to it the prefix nested_.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;table(&#39;orders&#39;); // main table
+$products_list = $xcrud-&gt;nested_table(&#39;products_list&#39;,&#39;orderNumber&#39;,&#39;orderdetails&#39;,&#39;orderNumber&#39;); // nested table
+$products_list-&gt;unset_add(); // nested table instance access</pre>
+<h4 id="select_data__nbsp">&nbsp;</h4>
+<p>
+	<strong>search_pattern( &#39;%&#39;, &#39;%&#39; )</strong> - allows to define search pattern for grid search. Method replaces default param ($search_pattern) from configuration.</p>
+<p>
+	&nbsp;</p>
+<h4 id="select_data_table_joining">Table joining</h4>
+<p>
+	xCRUD provide table joining and manipulating with a few tables in one box. You can use extended field syntax, when you type field name (column name or alias) as table and field with dot separator (sample: $xcrud-&gt;change_type(&#39;order.total&#39;, &#39;price&#39;);). You no need to use this when you not use table joining.</p>
+<p>
+	<strong>join(<em> </em></strong><em>field, joined_table, join_on_field [, alias] [, not_insert] </em><strong>)</strong></p>
+<p>
+	<em>field </em>- field from current table to join; <em>joined_table - </em>table, that is joined; <em>join_on_field</em> - joining on this column from joined table;<em> alias </em>- (optional) - need to use when you join one tabes more than one times.</p>
+<p>
+	<em>not_insert</em> - allows to disable inserting and deleting rows from joined table.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;table(&#39;users&#39;);
+$xcrud-&gt;join(&#39;id&#39;,&#39;profiles&#39;,&#39;user_id&#39;); // join users and profiles on users.id = profiles.user_id
+
+// now join &#39;profiles&#39; and &#39;tokens&#39; tables
+$xcrud-&gt;join(&#39;profiles.token_id&#39;,&#39;tokens&#39;,&#39;id&#39;); // on profile.token_id = tokens.id
+
+// simple actions with fields: default and joined
+$xcrud-&gt;column(&#39;username&#39;,&#39;email&#39;,&#39;profile.city&#39;,&#39;tokens.created&#39;);</pre>
+<div class="alert">
+	<strong>join </strong>uses INNER JOIN, thats mean in all tables must be present joined rows. <strong>join </strong>connects only one row from table, joined on fields must be unique. When joined rows in not unique xCRUD will be worked incorrect.</div>
+<p>
+	&nbsp;</p>
+<h4 id="select_data_custom_sql">Custom SQL</h4>
+<p>
+	<strong>query( </strong><em>sql_query</em><strong> ) </strong>- custom sql query. This method allow you to use custom sql query and display <strong>read-only </strong>datagrid.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud = Xcrud::get_instance();
+$xcrud-&gt;query(&#39;SELECT * FROM users WHERE age &gt; 25&#39;);
+echo $xcrud-&gt;render();</pre>
+<p>
+	&nbsp;</p>
+<p>
+	&nbsp;</p>
+</section>
+<section id="overview_table">
+	<div class="page-header"><h3>7. Overview table.</h3><hr class="notop"></div>
+<p>
+	<strong>columns ( </strong><em>columns, reverse</em><strong> ) </strong>- sets the columns that you want to see in the review table. Takes a string, separated by commas, or an array of values. The second optional parameter causes the function to do the opposite, ie hides the selected columns. Takes <strong>tru / false</strong>, default <strong>false</strong>.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;columns(&#39;name,email,city&#39;);
+//or
+$xcrud-&gt;columns(array(&#39;name&#39;,&#39;email&#39;,&#39;city&#39;));
+
+// hide columns
+$xcrud-&gt;columns(&#39;name,email,city&#39;, true);
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>order_by ( </strong><em>name, direction</em><strong> )</strong> - sets the initial sorting of the table, take the field and sort order. By default - in ascending order (&#39;asc&#39;).</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;order_by(&#39;name&#39;,&#39;desc&#39;);
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>label (</strong><em> fieldname, your_label</em><strong> )</strong> - Allows you to specify the name of your columns and fields, takes the field and the field name or an array.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;label(&#39;name&#39;,&#39;Your Name&#39;);
+//or
+$xcrud-&gt;label(array(&#39;name&#39; =&gt; &#39;Your Name&#39;));
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>column_name(</strong><em> fieldname, your_label</em><strong> )</strong> - the same as <strong>label()</strong>, but affects only on columns in grid.</p>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>show_primary_ai_column (</strong><em> bool</em><strong> )</strong> - takes true / false, setting the display of primary auto-increment columns in the overview table.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;show_primary_ai_column(true);
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>limit (</strong><em> int</em><strong> ) </strong>- sets the initial limit for display tables, takes an integer in the first argument. The value set by this function is always available in the list to select the number of lines per page.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;limit(25);
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>limit_list (</strong><em> string_or_array</em><strong> )</strong> - specifies a list of values ​​for the limits list. Takes an array of values, or string. Option &#39;all&#39; lift a moderate amount of a result (display all rows).</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;limit_list(&#39;5,10,15,all&#39;);
+//or
+$xcrud-&gt;limit_list(array(&#39;5&#39;,&#39;10&#39;,&#39;15&#39;,&#39;all&#39;));
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>table_name (</strong><em> name, tooltip, tooltip_icon</em><strong> )</strong> - Changes the name of the table in the title, takes a string as the first parameter, tooltip text in second parameter (optional) and tooltip icon name in 3rd (optional)</p>
+<p>
+	See <a href="http://xcrud.com/xcrud/themes/default/icons-demo.html">&#39;default&#39; theme icons</a></p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;table_name(&#39;My custom table!&#39;);
+$xcrud-&gt;table_name(&#39;My custom table!&#39;, &#39;Some tooltip text&#39;);
+$xcrud-&gt;table_name(&#39;My custom table!&#39;, &#39;Some tooltip text&#39;,&#39;icon-leaf&#39;);</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>unset_add(</strong><em> true</em><strong> )</strong> - hides add button from list view.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;unset_add();
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>unset_edit(</strong><em> true</em><strong> ) </strong>- hide edit button from list view.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;unset_edit();
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>unset_view( </strong><em>true</em><strong> )</strong> - hides view button from list view.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;unset_view();
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>unset_remove(</strong><em> true</em><strong> )</strong> - hide remove button from list view.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;unset_remove();
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>unset_csv(</strong><em> true</em><strong> )</strong> - hides csv-export button from list view.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;unset_csv();
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>unset_search( </strong><em>true</em><strong> ) </strong>- hides search feature.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;unset_search();
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>unset_print(</strong><em> true </em><strong>) </strong>- hides printout feature.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;unset_print();
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>unset_title( </strong><em>true</em><strong> )</strong> - hides table title.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;unset_title();
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>unset_numbers( </strong><em>true</em><strong> )</strong> - hides rows numbers.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;unset_numbers();
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>unset_pagination(</strong><em> true </em><strong>)</strong> - hides pagination</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;unset_pagination();
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>unset_limitlist(</strong><em> true </em><strong>)</strong> - hides list with limits buttons or dropdown</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;unset_limitlist();
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>unset_sortable(</strong><em> true </em><strong>)</strong> - makes columns unsortable</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;unset_sortable();
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>unset_list(</strong><em> true </em><strong>)</strong> - turn of grid view. Only details can be viewed or edited. Don&#39;t forget to set view parameter in <strong>render() </strong>method.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;unset_list();
+</pre>
+<p>
+	&nbsp;</p>
+<div class="alert alert-success">
+	<strong>unset_view(), unset_edit(), unset_remove(), duplicate_button()</strong> - this methods can get additional condition parameters (with {field_tags})</div>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;unset_edit(true,&#39;username&#39;,&#39;=&#39;,&#39;admin&#39;); // &#39;admin&#39; row can&#39;t be editable</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>remove_confirm(</strong><em> true</em><strong> )</strong> - removes confirmation window on remove action. Takes true / false in the first parameter.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;remove_confirm(false);
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>start_minimized (</strong><em> true</em><strong> )</strong> - start xCRUD instance minimized. Takes true / false in the first parameter.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;start_minimized(true);
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>benchmark (</strong><em> true</em><strong> )</strong> - displays information about the performance in the lower right corner of the xCRUD window. Takes true / false in the first parameter.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;benchmark(true);
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>column_cut (</strong><em> int</em><strong>,</strong><em> [fields]</em><strong> )</strong> - sets the maximum number of characters to be displayed in columns. Takes an integer value in the first parameter. In the second parameter you can define target field(s)</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;column_cut(30); // all columns
+$xcrud-&gt;column_cut(30,&#39;title,description&#39;); // separate columns
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>duplicate_button (</strong><em> true</em><strong> )</strong> - show duplicate button. You can duplicate only the records in those tables that have auto-incremental primary field, and have no other unique indexes. Otherwise you will get an error.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;duplicate_button();
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>links_label( </strong><em>label</em><strong> )</strong> - creates label for links in grid view. Takes new label in first parameter</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;links_label(&#39;home url&#39;);
+// or
+$xcrud-&gt;links_label(&#39;<span class="tag">&lt;i</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">&quot;</span>icon-home<span class="atv">&quot;</span><span class="tag">&gt;&lt;/i&gt;</span>&#39;); // bootstrap icon for bootstrap theme
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>emails_label(</strong><em> label </em><strong>)</strong> - creates label for links in grid view. Takes new label in first parameter</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;emails_label(&#39;Contact email&#39;);
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>sum (</strong><em> columns, classname, custom_data </em><strong>) </strong>- calculates sum for columns and shows result row in the bottom of table. Calculates sum of the entire list, regardless of pagination. Takes columns list in first parameter, optional classname in second, and optional custom text pattern in third.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;sum(&#39;price,fee,quantity&#39;);
+//or
+$xcrud-&gt;sum(array(&#39;price&#39;,&#39;fee&#39;,&#39;quantity&#39;));
+//or
+$xcrud-&gt;sum(&#39;price&#39;,&#39;align-center&#39;,&#39;Total price is {value}&#39;); // use {value} tag to get sum value in pattern
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>button( </strong><em>link, title, icon, classname, array_of_attributes</em><strong>, </strong><em>condition_array</em><strong> )</strong> - adds custom link in grid, like edit or remove. You can define url in first parameter (required), name (optional) in 2nd, icon(optional) in 3rd, class attribute (optional) in 4th, additional button attributes (assoc array) as 5th.</p>
+<p>
+	For icon field you must use predefined classes, this is<strong> Icon glyphs</strong> for bootstrap theme (e.g. icon-glass, icon-music...). Also see <a href="http://xcrud.com/xcrud/themes/default/icons-demo.html">&#39;default&#39; theme icons</a> for default theme.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;button(&#39;http://example.com&#39;);
+$xcrud-&gt;button(&#39;http://example.com&#39;,&#39;My Title&#39;,&#39;<span class="box1">icon-link</span>&#39;,&#39;&#39;,array(&#39;target&#39;=&gt;&#39;_blank&#39;));
+
+// {column_tags} usage:
+$xcrud-&gt;button(&#39;http://example.com/{user_id}/?token={user_token}&#39;);</pre>
+<div class="alert alert-info">
+	You can use buttons with text labels. See $button_labels parameter in configuration file</div>
+<p>
+	Also button() supports simple condition in 6th parameter. Condition value supports {field_tags}. Example:</p>
+<pre class="prettyprint lang-php linenums">
+// show button whith link from &#39;link&#39; field when &#39;link&#39; field is not empty
+$xcrud-&gt;button(&#39;{link}&#39;,&#39;userlink&#39;,&#39;link&#39;,&#39;&#39;,&#39;&#39;,array(&#39;link&#39;,&#39;!=&#39;,&#39;&#39;)); </pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>highlight(</strong><em> field, operator, value, color, classname</em><strong> )</strong> - adds background color or class attribute for grid cell based on user&#39;s condition.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;highlight(&#39;orderNumber&#39;,&#39;=&#39;,&#39;10101&#39;,&#39;red&#39;);
+$xcrud-&gt;highlight(&#39;orderNumber&#39;,&#39;&gt;=&#39;,&#39;10113&#39;,&#39;#87FF6C&#39;);
+$xcrud-&gt;highlight(&#39;city&#39;,&#39;=&#39;,&#39;Madrid&#39;,&#39;&#39;,&#39;main-city&#39;); // you can define class attribute
+</pre>
+<p>
+	Also you can get value from current row using {field_tag}</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;highlight(&#39;sum&#39;, &#39;&gt;&#39;, &#39;{profit}&#39;, &#39;red&#39;);</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>highlight_row</strong><strong>(</strong><em> field, operator, value, color, classname</em><strong> ) </strong>- the same as <strong>highlight()</strong>, but full row will be highlighted</p>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>column_class(</strong><em> column(s), classname </em><strong>)</strong> -&nbsp; adds class atribute to column(s).</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;column_class(&#39;price,sum,count&#39;, &#39;align-center&#39;);
+</pre>
+<p class="info">
+	Predefined classes: <strong>align-left, align-right, align-center, font-bold, font-italic, text-underline</strong></p>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>subselect( </strong><em>column_name, query, before_column</em><strong> )</strong> - select to other table with parameters. This will create new column and inserts it after last column in table, or before colum defined in 3rd parameter</p>
+<pre class="prettyprint lang-php linenums">
+//subselect
+$xcrud-&gt;subselect(&#39;Order total&#39;,&#39;SELECT SUM(priceEach) FROM orderdetails WHERE orderNumber = {orderNumber}&#39;); // insert as last column
+$xcrud-&gt;subselect(&#39;Products count&#39;,&#39;SELECT COUNT(*) FROM orderdetails WHERE orderNumber = {orderNumber}&#39;,&#39;status&#39;); // insert this column before &#39;status&#39; column
+
+// you can use order() and change_type() for this columns;
+$xcrud-&gt;change_type(&#39;Order total&#39;,&#39;price&#39;,&#39;&#39;,array(&#39;prefix&#39;=&gt;&#39;$&#39;));
+$xcrud-&gt;order_by(&#39;Products count&#39;);
+</pre>
+<p>
+	Also you can operate with fields only in current row</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;subselect(&#39;Sum&#39;,&#39;{price}*{qty}&#39;);</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>modal(</strong><em> field(s), icon</em><strong> ) </strong>- shows cell info in modal. See <a href="http://xcrud.com/xcrud/themes/default/icons-demo.html">&#39;default&#39; theme icons</a></p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;modal(&#39;customerName,customerDescription);
+$xcrud-&gt;modal(&#39;customerName&#39;, &#39;icon-user&#39;);
+$xcrud-&gt;modal(array(&#39;customerName&#39;=&gt;&#39;icon-user&#39;));</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>column_pattern</strong>(column_name, pattern_code)&nbsp; - replaces default column cell output by custom pattern. Pattern can contain {field_tags} and {value} tag (value of current column)</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;column_pattern(&#39;username&#39;,&#39;My name is {value}&#39;);
+</pre>
+<p>
+	Differense between {value} and {username} (see example): {username} will return raw value from current cell, but {value} will return full output if your field has some extra features (like image or formatted price)</p>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>field_tooltip(</strong><em> field(s), tooltip_text&nbsp; [, icon ]</em> <strong>)</strong> - creates tooltip icon for field label in create/edit/view mode. See <a href="http://xcrud.com/xcrud/themes/default/icons-demo.html">&#39;default&#39; theme icons</a></p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;field_tooltip(&#39;productName&#39;,&#39;Enter product name here&#39;);
+</pre>
+<p class="prettyprint lang-php linenums">
+	&nbsp;</p>
+<p>
+	<strong>column_tooltip(</strong><em> column(s), tooltip_text&nbsp; [, icon ]</em> <strong>)</strong> - creates tooltip icon for column label in create/edit/view mode. See <a href="http://xcrud.com/xcrud/themes/default/icons-demo.html">&#39;default&#39; theme icons</a></p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;field_tooltip(&#39;productName&#39;,&#39;Enter product name here&#39;);
+</pre>
+<p class="prettyprint lang-php linenums">
+	&nbsp;</p>
+<p class="prettyprint lang-php linenums">
+	<strong>search_columns(</strong><em> [ column(s) ] [, default_column ]</em><strong> )</strong> - defines column list for search and default search column</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;search_columns(&#39;productVendor,quantityInStock,buyPrice&#39;,&#39;quantityInStock&#39;);
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>buttons_position( </strong><em>position</em><strong> )</strong> - changes position of grid buttons. Can be &#39;<strong>left</strong>&#39;, &#39;<strong>right</strong>&#39; or &#39;<strong>none</strong>&#39;. &#39;None&#39; option will hide buttons, their features will be available (unlike of unset_ methods). Default is <strong>&#39;right&#39;</strong> and can be changed in configuration file.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;buttons_position(&#39;left&#39;);</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>hide_button( </strong><em>button_name(s)</em><strong> )</strong> - hides system or your custom button ( defined with render_button() method ). This not disables button feature (unlike of unset_ methods).</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;hide_button(&#39;save_return&#39;);</pre>
+<p>
+	Default system buttons are: <em>view, edit, remove, duplicate, add, csv, print, save_new, save_edit, save_return, return</em>.</p>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>column_width( </strong><em>column(s), width</em><strong> )</strong> - sets width of xcrud columns manualy.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;column_width(&#39;description&#39;,&#39;65%&#39;);
+$xcrud-&gt;column_width(&#39;first_name,last_name&#39;,&#39;100px&#39;); </pre>
+<p>
+	&nbsp;</p>
+<p>
+	&nbsp;</p>
+<p>
+	&nbsp;</p>
+</section>
+<section id="create_edit">
+	<div class="page-header"><h3>8. Create / Edit</h3><hr class="notop"></div>
+<p>
+	<strong>fields ( </strong><em>field(s), reverse, tab_name, mode</em><strong> ) </strong>- the table fields that you want to see when you edit or create entries. Takes a string, separated by commas, or an array of values. The second optional parameter causes the function to do the opposite, ie hides the selected fields. Takes <strong>tru / false</strong>, default <strong>false</strong>.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;fields(&#39;name,email,city&#39;);
+//or
+$xcrud-&gt;fields(array(&#39;name&#39;,&#39;email&#39;,&#39;city&#39;));
+// hide fields
+$xcrud-&gt;fields(&#39;name,email,city&#39;, true);
+</pre>
+<p>
+	You can create tabs for some fields, just set tab name in 3rd parameter:</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;fields(&#39;username,email&#39;, false, &#39;Account info&#39;);
+$xcrud-&gt;fields(&#39;country,city,sex,age&#39;, false, &#39;Personal&#39;);
+</pre>
+<p>
+	Also you can use different columns for different actions (<strong>create, edit, view</strong>), set action in 4th parameter:</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;fields(&#39;first_name,last_name,country&#39;, false, false, &#39;view&#39;);
+</pre>
+<p>
+	You can play with combination of this parameters. Tabs is unaviable if second parameter is<strong> true</strong>.</p>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>show_primary_ai_field () </strong>- takes true / false, setting the display of primary auto-increment field when editing the entry.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;show_primary_ai_field(true);
+</pre>
+<p class="info">
+	Primary auto-increment field will be always disabled.</p>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>readonly ( </strong><em>field(s), mode</em><strong> )</strong> - Sets the selected fields attribute &#39;readonly&#39;. Takes a string, separated by commas, or an array of values. Second paremeter sets mode (create, edit), default is all.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;readonly(&#39;name,email,city&#39;);
+//or
+$xcrud-&gt;readonly(array(&#39;name&#39;,&#39;email&#39;,&#39;city&#39;));
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>disabled (</strong><em> field(s), mode </em><strong>)</strong> - Sets the selected fields attribute &#39;disabled&#39;. Takes a string, separated by commas, or an array of values. Second paremeter sets mode (create, edit), default is all.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;disabled(&#39;name,email,city&#39;);
+//or
+$xcrud-&gt;disabled(array(&#39;name&#39;,&#39;email&#39;,&#39;city&#39;));
+
+// separate screens
+$xcrud-&gt;disabled(&#39;email&#39;,&#39;edit&#39;);
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>readonly_on_create (), readonly_on_edit (), disabled_on_create (), disabled_on_edit ()</strong> - do the same thing as the methods above, but allow you to separate the creation and editing. This methods are deprecated and will be deleted.</p>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>no_editor ( </strong><em>field(s)</em><strong> )</strong> - allows you to load a text box without an editor (it has an effect when editor is loaded). Takes a string, separated by commas, or an array of values.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;no_editor(&#39;name,email,city&#39;);
+//or
+$xcrud-&gt;no_editor(array(&#39;name&#39;,&#39;email&#39;,&#39;city&#39;));
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>change_type ( </strong><em>field(s), type, default, params_or_attr</em><strong> ) </strong>- Allows you to change the visual representation of the field. Takes the name of the field, a new type, default value, and an additional parameter (a set of values ​​for lists or the length of the field for the text boxes). Available field types:<strong> bool, int, float, text, textarea, texteditor, date, datetime, timestamp, time, year, select, multiselect, password,<strike><em> hidden</em></strike>, file, image, point.</strong></p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;change_type(&#39;last_visit&#39;,&#39;timestamp&#39;);
+$xcrud-&gt;change_type(&#39;nickname&#39;,&#39;text&#39;,&#39;&#39;,20);
+$xcrud-&gt;change_type(&#39;email&#39;,&#39;multiselect&#39;,&#39;&#101;&#109;&#97;&#105;&#108;&#50;&#64;&#101;&#120;&#46;&#99;&#111;&#109;&#39;,&#39;&#101;&#109;&#97;&#105;&#108;&#49;&#64;&#101;&#120;&#46;&#99;&#111;&#109;,&#101;&#109;&#97;&#105;&#108;&#50;&#64;&#101;&#120;&#46;&#99;&#111;&#109;,&#101;&#109;&#97;&#105;&#108;&#51;&#64;&#101;&#120;&#46;&#99;&#111;&#109;,&#101;&#109;&#97;&#105;&#108;&#52;&#64;&#101;&#120;&#46;&#99;&#111;&#109;,&#101;&#109;&#97;&#105;&#108;&#53;&#64;&#101;&#120;&#46;&#99;&#111;&#109;&#39;);
+</pre>
+<p class="info">
+	See more about <strong>change_type ()</strong> in <strong>Field types</strong> section.</p>
+<p class="warning">
+	<strong>Hidden </strong>type will add hidden input in form. Use <strong>fields()</strong> and <strong>pass_var()</strong> metods to hide fields and put custom data in your table if you need to preserve your data (pass_var will not add any input).</p>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>pass_var ( </strong><em>field, value, mode </em><strong>)</strong> - Allows you to record a variable or data directly in the database, bypassing the add / edit form. The field may not be present in the field, edit field will not affect your data. Function takes the name of the field in the first parameter, and your data, or variable in the second. Optional third parameter is available that allows you to clearly define where you want to paste the data - when creating or editing.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;pass_var(&#39;user_id&#39;, $user_id);
+$xcrud-&gt;pass_var(&#39;created&#39;, date(&#39;Y-m-d H:i:s&#39;), &#39;create&#39;);
+$xcrud-&gt;pass_var(&#39;was_edited&#39;, &#39;Yes, it was!&#39;, &#39;edit&#39;);
+
+//using field from current row
+$xcrud-&gt;pass_var(&#39;modified&#39;, &#39;{last_action}&#39;);
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>pass_default(</strong><em> field, value </em><strong>)</strong> - pass default value into field, takes the name of the field and default&nbsp; value, or array in first parameter.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;pass_default(&#39;name&#39;,&#39;Joe&#39;);
+//or
+$xcrud-&gt;pass_default(array(&#39;name&#39; =&gt; &#39;Joe&#39;, &#39;city&#39; =&gt; &#39;Boston&#39;));
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>condition ( </strong><em>field, operator, value, method, parameter(s) </em><strong>)</strong> - allows you to make some changes based on the data in the form. Takes field in first parameter, operator in second, value in 3rd, in the fourth - the method that is executed when triggered conditions, and in the fifth - the parameter passed to the method. Supported methods:<strong> readonly(), readonly_on_create(), readonly_on_edit(), disabled(), disabled_on_create(), disabled_on_edit(), no_editor(), validation_required(), validation_pattern().</strong> Supported operators: <strong>=, &gt;, &lt;, &gt;=, &lt;=, !=, ^=, $=, ~=</strong>.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;condition(&#39;access&#39;,&#39;&lt;&#39;,&#39;5&#39;,&#39;disabled&#39;,&#39;password,email,username&#39;);
+// if access &lt; 5 than make password, email and username not editable
+// or
+$xcrud-&gt;condition(&#39;access&#39;,&#39;&lt;&#39;,&#39;5&#39;,&#39;validation_pattern&#39;,array(&#39;username&#39;,&#39;[0-9A-Za-z]+&#39;));
+</pre>
+<p class="info">
+	<strong>^= </strong>- starts with,<strong> </strong><strong>$= </strong>- ends with, <strong>~=</strong> - contains.</p>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>validation_required ( </strong><em>field(s), chars</em><strong> )</strong> - a simple rule that takes the name of the field and the number of characters (default - 1) or an array.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;validation_required(&#39;name&#39;);
+$xcrud-&gt;validation_required(&#39;city&#39;,3);
+//or
+$xcrud-&gt;validation_required(array(&#39;name&#39; =&gt; 1, &#39;city&#39; =&gt; 3));
+
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>validation_pattern ( </strong><em>field(s), pattren</em><strong> )</strong> - uses a simple validation pattern to selected fields. Takes the field name and the name of the pattern or array. Available patterns: <strong>email, alpha, alpha_numeric, alpha_dash, numeric, integer, decimal, natural.</strong> Also you can use your own regular expression in second parameter.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;validation_pattern(&#39;name&#39;, &#39;alpha&#39;);
+$xcrud-&gt;validation_pattern(&#39;email&#39;, &#39;email&#39;);
+//or
+$xcrud-&gt;validation_pattern(array(&#39;name&#39; =&gt; &#39;alpha&#39;, &#39;email&#39; =&gt; &#39;email&#39;));
+// or
+$xcrud-&gt;validation_pattern(&#39;username&#39;, &#39;[a-zA-Z]{3,14}&#39;);
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>alert( </strong><em>email_field, cc, subject, body, link</em><strong> ), alert_edit(...), alert_creale(...) </strong>- sends emails when data was changed: on create, update or both. Takes email from entry (you must define column in first parameter) and carbon copy list (if defined) from second parameter(can be comma-separated string or array). You must define subject in 3rd and email body in 4th parameter. You can define additional link for email in 5th parameter (optional).</p>
+<p>
+	In message body you can use simple tags to retrive some values from row, just write column name in {}.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;alert(&#39;email&#39;,&#39;&#97;&#100;&#109;&#105;&#110;&#64;&#101;&#120;&#97;&#109;&#112;&#108;&#101;&#46;&#99;&#111;&#109;&#39;,&#39;Password changed&#39;,&#39;Your new password is {password}&#39;);
+$xcrud-&gt;alert_create(&#39;email&#39;,&#39;&#39;,&#39;Email Testing&#39;,&#39;Hello!!!!!&#39;);
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>mass_alert(), </strong><strong>mass_</strong><strong>alert_edit(), </strong><strong>mass_</strong><strong>alert_create() </strong>- the same like alert(), but it send message to all emails from selected table.</p>
+<p>
+	<strong>mass_alert(</strong><em>email_table,email_column,email_where,subject,message,link,curent_param,param_value</em><strong>)</strong></p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;mass_alert(&#39;user&#39;,&#39;email&#39;,&#39;subscribe = 1&#39;,&#39;Email test&#39;,&#39;Hello!&#39;);
+</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>page_call(</strong><em>url, data_array, param, param_value, method</em><strong>), page_call_create(...), page_call_edit(...) </strong>- sends http query to another file/page. This method not receive any data. It only sends request when row was added or changed.</p>
+<p>
+	You can define any data into <strong>data_array</strong>, including {field_tags}, this data will be received in target page like $_GET or $_POST array. If <strong>param</strong> is defined, method will run only if field value from current row (<strong>param</strong>) will be equal to <strong>param_value</strong><em>.</em> <strong>Method</strong> defines type of request (get or post), default is get.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;page_call(&#39;http://mysite/admin/mytarget.php&#39;, array(&#39;id&#39;=&gt;&#39;{user_id}&#39;,&#39;text&#39;=&gt;&#39;User {user_name} here!&#39;));
+</pre>
+<div class="alert">
+	If your site using authorization, you can try to send browser cookie with request. This featue is experimental and can be turn on from configuration file. <strong>BE CAREFUL: DON&#39;T USE IT FOR REQUESTS TO EXTERNAL SITES!!!</strong></div>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>set_attr( </strong><em>field(s), array attr</em><strong> ) </strong>- allows to set custom attributes for fields in edit form. <em>field(s) </em>- form field(s), <em>attr </em>- assoc array with attributes.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;set_attr(&#39;user&#39;,array(&#39;id&#39;=&gt;&#39;user&#39;,&#39;data-role&#39;=&gt;&#39;admin&#39;));</pre>
+<p>
+	&nbsp;</p>
+<p>
+	&nbsp;</p>
+<p>
+	&nbsp;</p>
+</section>
+<section id="field_types">
+	<div class="page-header"><h3>9. Field types</h3><hr class="notop"></div>
+<p>
+	Function <strong>change_type ()</strong> a little difficult to understand, because it uses a specific syntax, which varies depending on the task. Let&#39;s try to beat these tasks for conventional groups.</p>
+<p>
+	The first three parameters are always the same. They take the name of the field, the desired type of field and default value. The third and the fourth parameter is not required. If you do not specify them, ​​will be loaded values by default.</p>
+<p>
+	4th parameter - array with type-parameters and/or html attributes. You can use custom html attributes in most of types.</p>
+<h4 id="field_types_1_text_fields">1. Text fields.</h4>
+<p>
+	This group includes the following types of fields: <strong>text, int, float, <strike><em>hidden</em></strike>.</strong></p>
+<p>
+	For these types the function of the default value in the third parameter, and the maximum number of characters in the fourth parameter (exclude <strike><em><strong>hidden</strong></em></strike>).</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;change_type(&#39;user_code&#39;, &#39;int&#39;, &#39;000&#39;, 10); // v1.5 legacy
+$xcrud-&gt;change_type(&#39;user_code&#39;, &#39;int&#39;, &#39;000&#39;, array(&#39;maxlength&#39;=&gt;10)); // v1.6
+</pre>
+<p class="warning">
+	Use <strong>fields()</strong> and <strong>pass_var()</strong> metods to hide fields and put custom data in your table.</p>
+<h4 id="field_types_2_multi_line_text_fields">2. Multi-line text fields.</h4>
+<p>
+	This group includes the following types of fields: <strong>textarea, </strong><strong>texteditor</strong><strong>.</strong></p>
+<p>
+	This types no need any additional parameters.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;change_type(&#39;user_desc&#39;, &#39;textarea&#39;);
+</pre>
+<h4 id="field_types_3_date_fields">3. Date fields.</h4>
+<p>
+	This group includes the following types of fields: <strong>date, datetime, time, year, timestamp.</strong></p>
+<p>
+	These types of fields will only accept the default value in the third parameter.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;change_type(&#39;created&#39;, &#39;datetime&#39;, &#39;2012-10-22 07:01:33&#39;);
+</pre>
+<p class="c_4">
+	Date range can be used with <strong>date</strong> type:</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;change_type(&#39;created&#39;, &#39;date&#39;, &#39;&#39;, array(&#39;range_end&#39;=&gt;&#39;end_date&#39;)); // this is start date field and it points to end date field
+$xcrud-&gt;change_type(&#39;created&#39;, &#39;date&#39;, &#39;&#39;, array(&#39;range_start&#39;=&gt;&#39;start_date&#39;)); // this is end of range date and it points to the start date range date
+</pre>
+<p class="prettyprint lang-php linenums">
+	This will create relation between two date fields.</p>
+<h4 id="field_types_4_lists">4. Lists.</h4>
+<p>
+	This group includes the following types of fields: <strong>select, multiselect, radio, checkboxes</strong></p>
+<p>
+	These types of fields are set to default in the third argument, and a list of available values, separated by commas, in the second parameter. <strong>multiselect </strong>can contain several values ​​by default.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;change_type(&#39;adm_email&#39;,&#39;select&#39;,&#39;&#101;&#109;&#97;&#105;&#108;&#50;&#64;&#101;&#120;&#46;&#99;&#111;&#109;&#39;,&#39;&#101;&#109;&#97;&#105;&#108;&#49;&#64;&#101;&#120;&#46;&#99;&#111;&#109;,&#101;&#109;&#97;&#105;&#108;&#50;&#64;&#101;&#120;&#46;&#99;&#111;&#109;,&#101;&#109;&#97;&#105;&#108;&#51;&#64;&#101;&#120;&#46;&#99;&#111;&#109;,&#101;&#109;&#97;&#105;&#108;&#52;&#64;&#101;&#120;&#46;&#99;&#111;&#109;,&#101;&#109;&#97;&#105;&#108;&#53;&#64;&#101;&#120;&#46;&#99;&#111;&#109;&#39;);
+$xcrud-&gt;change_type(&#39;fav_color&#39;,&#39;multiselect&#39;,&#39;black,white&#39;,&#39;red,blue,yellow,green,black,white&#39;);
+
+// v1.6 new syntax
+$xcrud-&gt;change_type(&#39;fav_color&#39;,&#39;multiselect&#39;,&#39;black,white&#39;, array(&#39;values&#39;=&gt;&#39;red,blue,yellow,green,black,white&#39;));
+</pre>
+<p class="c_4">
+	You&nbsp; can show optgroups in dropdowns. Just us multidimensional array:</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;change_type(&#39;country&#39;,&#39;select&#39;,&#39;&#39;,array(&#39;values&#39;=&gt;array(&#39;Europe&#39;=&gt;array(&#39;UK&#39;=&gt;&#39;United Kindom&#39;,&#39;FR&#39;=&gt;&#39;France&#39;),&#39;Asia&#39;=&gt;array(&#39;RU&#39;=&gt;&#39;Russia&#39;,&#39;CH&#39;=&gt;&#39;China&#39;))));</pre>
+<p>
+	&nbsp;</p>
+<h4 id="field_types_5_password">5. Password.</h4>
+<p>
+	This group includes the following types of fields: <strong>password.</strong></p>
+<p>
+	Takes the type of hashing in the third parameter (e.g.<strong> md5</strong> or <strong>sha1 </strong>or <strong>sha256... </strong>, leave blank if you do not want to use hashing) and the maximum number of characters in the fourth. The peculiarity of this field is that it does not load the values ​​and does not store the null value (not allowing you to change the previous one to null). This is due to the fact that passwords are usually encrypted or hashed before being stored in the database.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;change_type(&#39;user_key&#39;, &#39;password&#39;, &#39;&#39;, 32);
+$xcrud-&gt;change_type(&#39;user_pass&#39;, &#39;password&#39;, &#39;sha256&#39;, 8);
+// attributes example
+$xcrud-&gt;change_type(&#39;user_pass&#39;, &#39;password&#39;, &#39;md5&#39;, array(&#39;maxlength&#39;=&gt;10,&#39;placeholder&#39;=&gt;&#39;enter password&#39;));
+</pre>
+<h4 id="field_types_6_upload">6. Upload.</h4>
+<p>
+	This group includes the following types of fields: <strong>file, image.</strong></p>
+<p>
+	Takes the path to the upload folder (must exist and be writable) in the third parameter and configuration array in the fourth.</p>
+<p>
+	For all uploaded files xCRUD creates a unique name to avoid overwriting, but you can cancel the renaming. In this case, the file name will be brought to the alpha-numeric pattern.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;change_type(&#39;attach&#39;, &#39;file&#39;, &#39;&#39;, array(&#39;not_rename&#39;=&gt;true));
+</pre>
+<p>
+	You can resize the uploaded <strong>image</strong>, and crop them at different proportions.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;change_type(&#39;photo&#39;,&#39;image&#39;,&#39;&#39;,array(&#39;width&#39;=&gt;300)); // resize main image
+$xcrud-&gt;change_type(&#39;photo&#39;,&#39;image&#39;,&#39;&#39;,array(&#39;width&#39;=&gt;300, &#39;height&#39;=&gt;300, &#39;crop&#39;=&gt;true)); // auto-crop
+$xcrud-&gt;change_type(&#39;photo&#39;,&#39;image&#39;,&#39;&#39;,array(&#39;manual_crop&#39;=&gt;true)); // crop it as you want
+</pre>
+<p>
+	You can create a preview picture for your image to be stored in that same folder, and a marker will differ at the end of the name.&nbsp; You can also specify the size of thumbnails, resize method and subfolder.</p>
+<div class="alert">
+	Note: &#39;Manual crop&#39; will crop thumbnails in same proportion as main image</div>
+<p>
+	You can add any number of thumbs, you must create subarray in thumbs array&nbsp; for each thumbnail</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;change_type(&#39;photo&#39;,&#39;image&#39;,&#39;&#39;,array(
+    &#39;thumbs&#39;=&gt;array(
+        array(&#39;width&#39;=&gt; 50, &#39;marker&#39;=&gt;&#39;_small&#39;),
+        array(&#39;width&#39;=&gt; 100, &#39;marker&#39;=&gt;&#39;_middle&#39;),
+        array(&#39;width&#39; =&gt; 150, &#39;folder&#39; =&gt; &#39;thumbs&#39; // using &#39;thumbs&#39; subfolder
+    )
+));
+</pre>
+<p>
+	You can save your image as a binary string in the database. For this field in your database must be of type BLOB, MEDIUMBLOB or LONGBLOB. Thumbnail creation in this case is not available. If you do not know how to extract data from these fields, it is better use the normal load.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;change_type(&#39;photo&#39;,&#39;image&#39;,&#39;&#39;,array(&#39;blob&#39;=&gt;true));
+</pre>
+<p>
+	<strong>Uploads parameters:</strong></p>
+<p>
+	Files:</p>
+<ul>
+	<li>
+		<strong>not_rename</strong> - <em>(true/false) </em>- disables auto-renaming of uploaded files</li>
+	<li>
+		<strong>text</strong> - <em>(string)</em> - display custom file name</li>
+	<li>
+		<strong>path</strong> - relative or absolute path to uploads folder</li>
+	<li>
+		<strong>blob</strong> - <em>(true/false)</em> - saves image as binary string in database blob field</li>
+	<li>
+		<strong>filename</strong> - <em>(string)</em> - name of downloadable file</li>
+	<li>
+		<strong>url</strong> - <em>(string)</em> -real url to upload folder (optional, if you want to use real links)</li>
+</ul>
+<p>
+	Images:</p>
+<ul>
+	<li>
+		<strong>not_rename</strong> - <em>(true/false) </em>- disables auto-renaming of uploaded files</li>
+	<li>
+		<strong>path</strong> - relative or absolute path to uploads folder</li>
+	<li>
+		<strong>width, height</strong> - <em>(integer)</em> - sets dimensions for image, if both is not set image will not been resized</li>
+	<li>
+		<strong>crop</strong> - <em>(true/false)</em> - image will be cropped (if not set, image will be saved with saving proportions). Both width and height required</li>
+	<li>
+		<strong>manual_crop</strong> - <em>(</em><em>true/false</em><em>)</em> -&nbsp; Allows to crop image manually</li>
+	<li>
+		<strong>ratio</strong> - <em>(float)</em> - cropped area ratio (uses with manual_crop)</li>
+	<li>
+		<strong>watermark</strong> - <em>(string)</em> - relative or absolute path to watermark image</li>
+	<li>
+		<strong>watermark_position</strong> - <em>(array) </em>- array with two elements (left,top), sets watermark offsets in persents (example: array(95,5) - right top corner)</li>
+	<li>
+		<strong>blob</strong> - <em>(true/false)</em> - saves image as binary string in database blob field. Thumbnails creation is not available.</li>
+	<li>
+		<strong>grid_thumb</strong> - (<em>int</em>) - number of thumb, which will be displayed in grid. If not set, original image will be displayed.</li>
+	<li>
+		<strong>detail_thumb</strong> - (<em>int</em>) - number of thumb, which will be displayed in detail view/create/edit . If not set, original image will be displayed.</li>
+	<li>
+		<strong>url</strong> - <em>(string)</em> -real url to upload folder (optional, if you want to use real links)</li>
+	<li>
+		<strong>thumbs</strong> - array of thumb arrays<strong>:</strong>
+		<ul>
+			<li>
+				<strong>width, height, </strong><strong>crop, </strong><strong>watermark, </strong><strong>watermark_position </strong>- see parent</li>
+			<li>
+				<strong>marker - </strong><em>(string)</em> - thumbnail marker (if you not set marker or folder, the main image will be replaced with thumbnail)</li>
+			<li>
+				<strong>folder - </strong><em>(string)</em> - thumbnail subfolder, relative to uploads folder (if you not set marker or folder, the main image will be replaced with thumbnail)</li>
+		</ul>
+	</li>
+</ul>
+<div class="alert">
+	All paths are always relative to xcrud&#39;s folder</div>
+<h4 id="field_types_7_price">7. Price</h4>
+<p>
+	This group includes the following types of fields: <strong>price.</strong></p>
+<p>
+	Takes default value in third parameter and array of parameters in 4th.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;change_type(&#39;amount&#39;, &#39;price&#39;, &#39;5&#39;, array(&#39;prefix&#39;=&gt;&#39;$&#39;));
+</pre>
+<p>
+	<strong>Parameters:</strong></p>
+<ul>
+	<li>
+		<strong>max </strong>- <em>(integer)</em> - maximal length of text field (create/update), default is 10</li>
+	<li>
+		<strong>decimals</strong> - <em>(integer)</em> - cout of decimals, default is 2</li>
+	<li>
+		<strong>separator</strong> - <em>(string)</em> - thousands separator, default is comma (list view)</li>
+	<li>
+		<strong>prefix</strong> - <em>(string)</em> - prefix for list view</li>
+	<li>
+		<strong>suffix</strong> - <em>(string)</em> - suffix for list view</li>
+	<li>
+		<strong>point </strong>- <em>(string)</em> - decimal point for list view</li>
+</ul>
+<h4 id="field_types_8_remote_images">8. Remote images</h4>
+<p>
+	This group includes the following types of fields: <strong>remote_image.</strong></p>
+<p>
+	Takes default value in 3rd parameter and link part in 4th (e.g. if your field contains only file name, not full url).</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;change_type(&#39;avatar&#39;, &#39;remote_image&#39;);
+// or
+$xcrud-&gt;change_type(&#39;avatar&#39;, &#39;remote_image&#39;, &#39;&#39;, &#39;http://my-img-host.net/my-folder/&#39;);
+// 1.6
+$xcrud-&gt;change_type(&#39;avatar&#39;, &#39;remote_image&#39;, &#39;&#39;, array(&#39;link&#39;=&gt;&#39;http://my-img-host.net/my-folder/&#39;));</pre>
+<p>
+	&nbsp;</p>
+<h4 id="field_types_9_locations_and_maps">9. Locations and maps</h4>
+<p>
+	This group includes the following types of fields: <strong>point.</strong></p>
+<p>
+	This automatically works with &#39;POINT&#39; mysql field type. In text field type coordinates will be saved as string separated with comma. 4th parameter gets array with map settings, also you can define them in configuration file to use by default.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;change_type(&#39;my_location&#39;,&#39;point&#39;,&#39;39.909736,-6.679687&#39;,array(&#39;text&#39;=&gt;&#39;Your are here&#39;));
+</pre>
+<p>
+	<strong>Parameters:</strong></p>
+<ul>
+	<li>
+		<strong>width </strong>- <em>(integer)</em> - width of map</li>
+	<li>
+		<strong>height</strong> - <em>(integer)</em> - height of map</li>
+	<li>
+		<strong>zoom</strong> - <em>(integer)</em> - map zoom</li>
+	<li>
+		<strong>text</strong> - <em>(string)</em> - text in info window</li>
+	<li>
+		<strong>search_text -</strong> <em>(</em><em>string</em><em>)</em> - placeholder for search field</li>
+	<li>
+		<strong>search </strong>- <em>(true/false)</em> - show search field</li>
+	<li>
+		<strong>coords</strong> -<em> (true/false)</em> - show coordinates field</li>
+</ul>
+<p>
+	&nbsp;</p>
+<p>
+	&nbsp;</p>
+</section>
+<section id="0_data_manipulation">
+	<div class="page-header"><h3>10. Data manipulation</h3><hr class="notop"></div>
+<p>
+	xCRUD use loadable libraries for data manipulation. You can use static functions in the classes, methods, objects, or simply a set of procedural functions. You need to specify the path to your library functions, and xCRUD it connects itself, when in fact will need. Xcrud will call own functions.php file when path is not defined. Xcrud instance will be always available in your function as last parameter.</p>
+<div class="alert alert-info">
+	<strong>callable</strong> - is callable parameter, if you want to call method from class, you must use an array, e.g. array(&#39;class&#39;, &#39;method&#39;). For procedural function just set function name.</div>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>$postdata</strong> - the object, which represented xcrud&#39;s form data sent to server side. It has three methods:</p>
+<ul>
+	<li>
+		<strong>$postdata-&gt;get(</strong><em> field </em><strong>)</strong> - returns value of a field or FALSE if field is not exist</li>
+	<li>
+		<strong>$postdata-&gt;set(</strong><em> field, value </em><strong>)</strong> - sets new value in a field or creates new field in $postdata. Returns nothing. You no need to use unlock_field() method anymore.</li>
+	<li>
+		<strong>$postdata-&gt;to_array()</strong> - returns all data in array.</li>
+	<li>
+		<strong>$postdata-&gt;del(</strong><em> field </em><strong>)</strong> - removes field from dataset. Be careful, this can make errors in application.</li>
+</ul>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>before_insert (</strong><em>callable, path</em><strong>)</strong> - allows you to prepare the data before inserting it into the database. Takes an callable in first parameter and the library path in second.&nbsp; Your function should take postdata object in the first parameter, xcrud&#39;s instance in second and no need to return anything.</p>
+<pre class="prettyprint lang-php linenums">
+// function in functions.php
+function hash_password($postdata, $xcrud){
+    $postdata-&gt;set(&#39;password&#39;, sha1( $postdata-&gt;get(&#39;password&#39;) ));
+}</pre>
+<pre class="prettyprint lang-php linenums">
+// creating action
+$xcrud-&gt;before_insert(&#39;hash_password&#39;); // automatic call of functions.php
+//or
+$xcrud-&gt;before_insert(&#39;hash_password&#39;, &#39;functions.php&#39;); // manualy load<span id="cke_bm_109E" style="display: none;"> </span></pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>before_update (</strong><em>callable, path</em><strong>)</strong> - allows you to prepare the data before updating the records in the database. Takes a callable as the first parameter and the library path in second. Your function should take an array of data in the first parameter and the same return. As well as optionally the primary key in the second parameter.</p>
+<pre class="prettyprint lang-php linenums">
+// function in functions.php
+function hash_password($postdata, $primary, $xcrud){
+    $postdata-&gt;set(&#39;password&#39;, sha1( $postdata-&gt;get(&#39;password&#39;) ));
+}</pre>
+<pre class="prettyprint lang-php linenums">
+// creating action
+$xcrud-&gt;before_update(&#39;hash_password&#39;);</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>after_insert (</strong><em>callable, path</em><strong>), after_update (</strong><em>callable, path</em><strong>)</strong> - allow you to pass data and primary key after upgrading to the custom function. The syntax is the same as in <strong>before_update (),</strong> except that the function is not obliged to return something.</p>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>before_remove (</strong><em>callable, path</em><strong>), after_remove (</strong><em>callable, path</em><strong>) </strong>- sends to user-defined function only the primary key record to be deleted in the first parameter. The syntax is the same as in previous examples. User-defined function is not obliged to return something.</p>
+<pre class="prettyprint lang-php linenums">
+// function in functions.php
+function delete_user_data($primary, $xcrud){
+    $db = Xcrud_db::get_instance();
+    $db-&gt;query(&#39;DELETE FROM gallery WHERE user_id = &#39; . $db-&gt;escape($primary));
+}</pre>
+<pre class="prettyprint lang-php linenums">
+// creating action
+$xcrud-&gt;before_remove(&#39;delete_user_data&#39;);</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>column_callback (</strong><em>column, callable, </em><em>path</em><strong>)</strong> - allows you to define custom layer for your column data.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;column_callback(&#39;name&#39;,&#39;add_user_icon&#39;);</pre>
+<p>
+	functions.php:</p>
+<pre class="prettyprint lang-php linenums">
+&lt;?php
+function add_user_icon($value, $fieldname, $primary_key, $row, $xcrud)
+{
+   return &#39;&lt;i class=&quot;icon-user&quot;&gt;&lt;/i&gt;&#39; . $value;
+}
+?&gt;
+</pre>
+<p>
+	<em><strong>$row </strong>- full current row.</em></p>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>field_callback (</strong><em>field, </em><em>callable, </em><em>path</em><strong>)</strong> - allows you to define custom layer for your edit field.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;field_callback(&#39;name&#39;,&#39;nice_input&#39;);
+</pre>
+<p>
+	functions.php:</p>
+<pre class="prettyprint lang-php linenums">
+&lt;?php
+function nice_input($value, $field, $priimary_key, $list, $xcrud)
+{
+   return &#39;&lt;div class=&quot;input-prepend input-append&quot;&gt;&#39; 
+        . &#39;&lt;span class=&quot;add-on&quot;&gt;$&lt;/span&gt;&#39;
+        . &#39;&lt;input type=&quot;text&quot; name=&quot;&#39;.$xcrud-&gt;fieldname_encode($fieldname).&#39;&quot; value=&quot;&#39;.$value.&#39;&quot; class=&quot;xcrud-input&quot; /&gt;&#39;
+        . &#39;&lt;span class=&quot;add-on&quot;&gt;.00&lt;/span&gt;&#39;
+&nbsp;&nbsp;&nbsp;     . &#39;&lt;/div&gt;&#39;;
+}
+?&gt;
+</pre>
+<p class="prettyprint lang-php linenums">
+	<em><strong>$list </strong>- all fields data</em></p>
+<p class="prettyprint lang-php linenums">
+	<strong><em>fieldname_encode</em>()</strong> - this encodes field name in compatible format.</p>
+<p>
+	You can use <strong>data-required</strong> and <strong>data-pattern</strong> attributes, and <strong>unique</strong> class.</p>
+<p class="warning">
+	Important: you need to use<strong> xcrud-input</strong> class for your custom inputs to make its usable by Xcrud.</p>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>replace_insert(c</strong><em>allable, path</em><strong>), replase_update(...), replace_remove(...)</strong> - replaces standsrt xcrud actions (insert, update, remove) by custom function. Each of this methods passes in the the target function its parameters.</p>
+<p>
+	Target function for <strong>replace_remove()</strong></p>
+<pre class="prettyprint lang-php linenums">
+function remove_replacer($primary_key, $xcrud){ ... }
+</pre>
+<p>
+	Target function for <strong>replace_insert()</strong></p>
+<pre class="prettyprint lang-php linenums">
+function insert_replacer($postdata, $xcrud){ ... }
+</pre>
+<p>
+	Target function for <strong>replace_update()</strong></p>
+<pre class="prettyprint lang-php linenums">
+function update_replacer($postdata, $primary_key, $xcrud){ ... }
+</pre>
+<p>
+	<em>$xcrud - xcrud current instance object.</em></p>
+<div class="alert alert-error">
+	<strong>replace_insert() </strong>and <strong>replace_update()</strong> methods must return value of primary key!</div>
+<p>
+	&nbsp;</p>
+<p class="prettyprint lang-php linenums">
+	<strong>call_update( </strong><em>postdata, primary_key </em><strong>)</strong></p>
+<p>
+	You can call xcrud update method in your replace_insert(), replase_update(), replace_remove() target functions:</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;call_update($postdata, $primary_key);</pre>
+<p>
+	&nbsp;</p>
+<h4 id="0_data_manipulation_upload_callbacks">Upload callbacks</h4>
+<p>
+	<strong>before_upload(</strong>c<em>allable, path</em><strong>)</strong> - runs when files was sent to a server, but not processed yet.</p>
+<p>
+	<strong>after_upload(</strong>c<em>allable, path</em><strong>)</strong> - file was uploaded and moved to deinstanation folder (but not resized yet, if image).</p>
+<p>
+	<strong>after_resize(</strong>c<em>allable, path</em><strong>)</strong> - file was already resized.&nbsp; Available only for images.</p>
+<p>
+	Callback function example:</p>
+<pre class="prettyprint lang-php linenums">
+function file_callback($field,$filename,$file_path,$config,$xcrud){
+    ...
+}</pre>
+<ul>
+	<li>
+		<strong>$field</strong> - full field name (table and culumn with dot separator)</li>
+	<li>
+		<strong>$filename</strong> - name of the file (not available for <strong>before_upload</strong>())</li>
+	<li>
+		<strong>$file_path</strong> - full file path with file name (not available for <strong>before_upload</strong>())</li>
+	<li>
+		<strong>$config</strong> - array with parameters from change_type() method (4th parameter).</li>
+	<li>
+		<strong>$xcrud </strong>- xcrud instance</li>
+</ul>
+<h4 id="0_data_manipulation__nbsp">&nbsp;</h4>
+<h4 id="0_data_manipulation_other_callbacks">Other callbacks</h4>
+<p>
+	<strong>before_list(</strong>c<em>allable, path</em><strong>)</strong> - can run before grid will be displayed.</p>
+<pre class="prettyprint lang-php linenums">
+// function in functions.php
+function before_list_callback($grid_data, $xcrud){
+    print_r($grid_data);
+}</pre>
+<p>
+	&nbsp;</p>
+<p>
+	<strong>before_create(</strong>c<em>allable, path</em><strong>)</strong> , <strong>before_edit</strong>(...), <strong>before_view</strong>(...) - can run before details view will be displayed.</p>
+<pre class="prettyprint lang-php linenums">
+// function in functions.php (before edit/view)
+function before_details_callback($row_data, $primary, $xcrud){
+     echo $row_data-&gt;get(&#39;username&#39;); // like &#39;postdata&#39;
+}</pre>
+<pre class="prettyprint lang-php linenums">
+// function in functions.php (before create, there is no primary)
+function before_details_callback($row_data, $xcrud){
+     echo $row_data-&gt;get(&#39;username&#39;); // like &#39;postdata&#39;
+}</pre>
+<p>
+	&nbsp;</p>
+<h4 id="0_data_manipulation_database_instanse">Database instanse</h4>
+<p>
+	In all external files you can use xcrud <strong>database instanse</strong>:</p>
+<pre class="prettyprint lang-php linenums">
+$db = Xcrud_db::get_instance();
+$db-&gt;query(...) // executes query, returns count of affected rows
+$db-&gt;result(); // loads results as list of arrays
+$db-&gt;row(); // loads one result row as associative array
+$var = $db-&gt;escape($var); // escapes variable, ads single quotes
+$db-&gt;insert_id(); // returns last insert id
+</pre>
+<h4 id="0_data_manipulation_control_file_type_with_upload_callback_quick_sample_">Control file type with upload callback (quick sample):</h4>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;after_upload(&#39;after_upload_example&#39;);</pre>
+<p>
+	functions.php:</p>
+<pre class="prettyprint lang-php linenums">
+function after_upload_example($field, $file_name, $file_path, $params, $xcrud){
+    $ext = trim(strtolower(strrchr($file_name, &#39;.&#39;)), &#39;.&#39;);
+    if($ext != &#39;pdf&#39; &amp;&amp; $field == &#39;uploads.simple_upload&#39;){ // you can use other check-in
+        unlink($file_path);
+        $xcrud-&gt;set_exception(&#39;simple_upload&#39;,&#39;This is not PDF&#39;,&#39;error&#39;);
+    }
+}</pre>
+<p>
+	&nbsp;</p>
+<h4 id="0_data_manipulation_additional_variables">Additional variables</h4>
+<p>
+	This methods allow you to send custom data in xcrud&#39;s templates or in calback functions.</p>
+<p>
+	<strong>set_var( </strong><em>var_name, value </em><strong>)</strong> - set user variable</p>
+<p>
+	<strong>get_var(</strong><em> var_name </em><strong>)</strong> - get user variable</p>
+<p>
+	<strong>unset_var(</strong><em> var_name</em><strong> ) </strong>- unset user variable</p>
+<p>
+	&nbsp;</p>
+<h4 id="0_data_manipulation_interactive_ajax_callbacks">Interactive ajax callbacks</h4>
+<p>
+	You can easy create some actions with callback on server side in xcrud&#39;s grid (see <a href="http://xcrud.com/demos/index.php?page=action" target="_blank">example</a>)</p>
+<p>
+	First you must create callback (like other callbacks) with method &#39;create action()&#39;.</p>
+<p>
+	<strong>create_action( </strong><em>action_name, callable, [path] </em><strong>) </strong>- <em>action_name</em> - name of your action, <em>callable</em> - name of your callback (function or method), <em>path (optional)</em> - path to your file with function, default is &#39;functions.php&#39;.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;create_action(&#39;my_action&#39;,&#39;my_function&#39;); </pre>
+<p>
+	Than, create function in your functions.php (or you can use other file)</p>
+<pre class="prettyprint lang-php linenums">
+function my_functions($xcrud){
+    // some manipulations
+} </pre>
+<p>
+	Finally, create button or link (or any) with specific class and data attributes. Simpliest button will be:</p>
+<pre class="prettyprint lang-html linenums">
+&lt;button class=&quot;xcrud-action&quot; data-task=&quot;action&quot; data-action=&quot;my_action&quot;&gt;GO!&lt;/button&gt; </pre>
+<p>
+	This is required. You can define any other data attributes and all of them will be sent with action. To receive them in callback function you must call <strong>get()</strong> method with your attribute name in parameter (without data- prefix):</p>
+<pre class="prettyprint lang-php linenums">
+function my_functions($xcrud){
+    $myvalue = $xcrud-&gt;get(&#39;myvalue&#39;); // data-myvalue attr.
+    // some manipulations
+}  </pre>
+<p>
+	&nbsp;</p>
+<h4 id="0_data_manipulation_returning_errors_from_callback_function">Returning errors from callback function</h4>
+<p>
+	You can do you own validation or something more in any callback function during saving and return user back to form.</p>
+<p>
+	<strong>set_exception(</strong><em> [fields] , [text], [message_type]</em><strong> )</strong> - fields - highlighted fields in form, text - error message, message_type - type of error message (error, note, success, info), just css class for message box, default is &#39;error&#39;.<br>
+	&nbsp;All arguments is optional.</p>
+<pre class="prettyprint lang-php linenums">
+// function in functions.php
+function hash_password($postdata, $primary, $xcrud){
+    $pass = $postdata-&gt;get(&#39;password&#39;);
+    if(preg_match(&#39;/[a-zA-Z]+/u&#39;,$pass) &amp;&amp; preg_match(&#39;/[0-9]+/u&#39;,$pass)){
+        $postdata-&gt;set(&#39;password&#39;, sha1( $pass ) );    
+    }
+    else{
+        $xcrud-&gt;set_exception(&#39;password&#39;,&#39;Your password is too simple.&#39;);
+    }
+}</pre>
+<p>
+	&nbsp;</p>
+<p>
+	&nbsp;</p>
+</section>
+<section id="1_themes_guide">
+	<div class="page-header"><h3>11. Themes guide</h3><hr class="notop"></div>
+<p>
+	You can create you own themes and customize standart themes in very simple way.</p>
+<h4 id="1_themes_guide_theme_structure_and_files">Theme structure and files</h4>
+<p>
+	Xcrud&#39;s theme has 5 required files:</p>
+<ol>
+	<li>
+		<strong>xcrud_container.php</strong></li>
+	<li>
+		<strong>xcrud_list_view.php</strong></li>
+	<li>
+		<strong>xcrud_detail_view.php</strong></li>
+	<li>
+		<strong>xcrud.ini</strong></li>
+	<li>
+		<strong>xcrud.css</strong></li>
+</ol>
+<p>
+	<strong>xcrud_container.php</strong> - this file is static container for ajax side of Xcrud.&nbsp; It can be non-styled, but all Xcrud&#39;s event are delegated to this container. I not recommend to change something in this file.</p>
+<p>
+	<strong>xcrud_list_view.php</strong> - grid rendering.</p>
+<p>
+	<strong>xcrud_detail_view.php</strong> - rendering of create/edit/view screen</p>
+<p>
+	<strong>xcrud.ini</strong> - List of class names of core html elements, which cannot be changed in theme files.</p>
+<p>
+	<strong>xcrud.css</strong> - theme styles.</p>
+<p>
+	All this files will be loaded automatically.</p>
+<p>
+	&nbsp;</p>
+<h4 id="1_themes_guide_global_variables_in_templates">Global variables in templates</h4>
+<p>
+	<strong>$mode</strong> - shows current action. It can be <strong>list</strong>, <strong>create</strong>, <strong>edit</strong>,<strong> view</strong>.</p>
+<p>
+	&nbsp;</p>
+<h4 id="1_themes_guide_standart_render_methods">Standart render methods</h4>
+<div class="alert">
+	Some of render methods can accept <strong>tag</strong> paremeter. It can be a simple string (&#39;div&#39;,&#39;h1&#39; etc) or array (array(&#39;tag&#39;=&gt;&#39;div&#39;)). In array you can add any other html attributes (array(&#39;tag&#39;=&gt;&#39;a&#39;,&#39;href&#39;=&gt;&#39;http://example.com&#39;)).</div>
+<p>
+	<strong>csv_button( </strong><em>classname, icon</em><strong> )</strong> - render csv export button</p>
+<p>
+	<strong>print_button( </strong><em>classname, icon</em><strong> )</strong> - render print button button</p>
+<p>
+	<strong>add_button( </strong><em>classname, icon</em><strong> )</strong> - render Add button button</p>
+<p>
+	<strong>render_limitlist( </strong><em>buttons</em><strong> )</strong> - render dropdown list or buttons with available rows per page. buttons = true - enable buttons instead of dropdown, default is false.</p>
+<p>
+	<strong>render_pagination(</strong><em> numbers, offsets</em><strong> ) </strong>- pagination; numbers - count of pagination buttons (default is 10); offsets -&nbsp; first and last buttons offsets (default is 2)</p>
+<p>
+	<strong>render_search()</strong> - search form</p>
+<p>
+	<strong>render_button( </strong><em>name, task, mode_after_task, classname, icon, primary_key </em><strong>) </strong>- sender system action button.</p>
+<p>
+	<strong>render_benchmark( </strong><em>tag )</em> - shows benchmark info. Recomended to put it in the end of template.</p>
+<p>
+	<strong>render_grid_head( </strong><em>row_tag, item_tag, arrows_array</em><strong> ) </strong>- return grid heading. Arrorws array contains arrows for ordered column. Default is <strong>array(&#39;asc&#39; =&gt; &#39;&amp;uarr; &#39;, &#39;desc&#39; =&gt; &#39;&amp;darr; &#39;)</strong></p>
+<p>
+	<strong>render_grid_body( </strong><em>row_tag, item_tag</em><strong> )</strong> - main grid rendering</p>
+<p>
+	<strong>render_grid_footer( </strong><em>row_tag, item_tag</em><strong> )</strong> - renders grid footer if available ( eg sum row)</p>
+<p>
+	<strong>render_fields_list( </strong><em>mode, container, row, label, field, tabs_container, tabs_menu_container, tabs_menu_row, tabs_menu_link, tabs_content_container, tabs_pane</em><strong> )</strong> - big method, creates details row grid and tabs. Default values: (<strong>$mode, $container = &#39;table&#39;, $row = &#39;tr&#39;, $label = &#39;td&#39;, $field = &#39;td&#39;, $tabs_block = &#39;div&#39;, $tabs_head = &#39;ul&#39;, $tabs_row = &#39;li&#39;, $tabs_link = &#39;a&#39;, $tabs_content = &#39;div&#39;, $tabs_pane = &#39;div&#39;</strong>). $mode parameter is required.</p>
+<p>
+	<strong>render_table_name( </strong><em>mode, tag, minimized</em><strong> )</strong> - render table heading with table tooltip and toggle arrow. minimized - used only in container file.</p>
+<p>
+	&nbsp;</p>
+<h4 id="1_themes_guide_sending_custom_variables_in_template">Sending custom variables in template</h4>
+<p>
+	<strong>set_var( </strong><em>var_name, value </em><strong>)</strong> - set user variable</p>
+<p>
+	<strong>get_var(</strong><em> var_name </em><strong>)</strong> - get user variable</p>
+<p>
+	<strong>unset_var(</strong><em> var_name</em><strong> ) </strong>- unset user variable</p>
+<div class="alert alert-info">
+	In theme files current instance can be accessed as <strong>$this</strong>, e.g. <strong>$this-&gt;get_var(&#39;my_var&#39;);</strong></div>
+<p>
+	&nbsp;</p>
+<h4 id="1_themes_guide_relocating_template_files">Relocating template files</h4>
+<p>
+	<strong>load_view(</strong><em> task, file </em><strong>) </strong>- this method allows you to replace default view file by your custom by task for current instance.</p>
+<pre class="prettyprint lang-php linenums">
+$xcrud-&gt;load_view(&#39;create&#39;,&#39;my_custom_create_form.php&#39;); </pre>
+<p>
+	Your custom theme files must be in your theme folder.</p>
+<p>
+	&nbsp;</p>
+<h4 id="1_themes_guide_creating_non_standart_rendering">Creating non-standart rendering</h4>
+<p>
+	<strong>$this-&gt;result_list</strong> - array of arrays with full result from database (grid). You can use it to create your own grid rendering.</p>
+<p>
+	<strong>$this-&gt;result_row</strong> - array with full result form database (create/edit/view).</p>
+<p>
+	<strong>$this-&gt;fields_output</strong> - array with rendered fields, exept hidden and additional fields. Every element contains:</p>
+<ol>
+	<li>
+		<em>label</em> - field name, generated by Xcrud or defined by label() method</li>
+	<li>
+		<em>name</em> - full field name, used by Xcrud.</li>
+	<li>
+		<em>value</em> - raw value from database</li>
+	<li>
+		<em>field</em> - already rendered form field by Xcrud.</li>
+</ol>
+<p>
+	<strong>$this-&gt;hidden_fields_output </strong>- array of rendered hidden fields</p>
+<p>
+	&nbsp;</p>
+<p>
+	&nbsp;</p>
+</section>
+<section id="2_date_and_time_formats">
+	<div class="page-header"><h3>12. Date and time formats</h3><hr class="notop"></div>
+<h4 id="2_date_and_time_formats_php_date_format">PHP date format</h4>
+<p>
+	<strong>Link: <a href="http://www.php.net/manual/en/function.date.php">http://www.php.net/manual/en/function.date.php</a></strong></p>
+<p class="para">
+	The format of the outputted date <span class="type"><a class="type string" href="http://www.php.net/manual/en/language.types.string.php">string</a></span>. See the formatting options below. There are also several <a class="link" href="http://www.php.net/manual/en/class.datetime.php#datetime.constants.types">predefined date constants</a> that may be used instead, so for example <strong><code>DATE_RSS</code></strong> contains the format string <em>&#39;D, d M Y H:i:s&#39;</em>.</p>
+<table class="doctable table">
+	<caption>
+		<strong>The following characters are recognized in the <em><code class="parameter">format</code></em> parameter string</strong></caption>
+	<thead>
+		<tr>
+			<th>
+				<em><code class="parameter">format</code></em> character</th>
+			<th>
+				Description</th>
+			<th>
+				Example returned values</th>
+		</tr>
+	</thead>
+	<tbody class="tbody">
+		<tr>
+			<td style="text-align: center;">
+				<em class="emphasis">Day</em></td>
+			<td>
+				---</td>
+			<td>
+				---</td>
+		</tr>
+		<tr>
+			<td>
+				<em>d</em></td>
+			<td>
+				Day of the month, 2 digits with leading zeros</td>
+			<td>
+				<em>01</em> to <em>31</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>D</em></td>
+			<td>
+				A textual representation of a day, three letters</td>
+			<td>
+				<em>Mon</em> through <em>Sun</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>j</em></td>
+			<td>
+				Day of the month without leading zeros</td>
+			<td>
+				<em>1</em> to <em>31</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>l</em> (lowercase &#39;L&#39;)</td>
+			<td>
+				A full textual representation of the day of the week</td>
+			<td>
+				<em>Sunday</em> through <em>Saturday</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>N</em></td>
+			<td>
+				ISO-8601 numeric representation of the day of the week (added in PHP 5.1.0)</td>
+			<td>
+				<em>1</em> (for Monday) through <em>7</em> (for Sunday)</td>
+		</tr>
+		<tr>
+			<td>
+				<em>S</em></td>
+			<td>
+				English ordinal suffix for the day of the month, 2 characters</td>
+			<td>
+				<em>st</em>, <em>nd</em>, <em>rd</em> or <em>th</em>. Works well with <em>j</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>w</em></td>
+			<td>
+				Numeric representation of the day of the week</td>
+			<td>
+				<em>0</em> (for Sunday) through <em>6</em> (for Saturday)</td>
+		</tr>
+		<tr>
+			<td>
+				<em>z</em></td>
+			<td>
+				The day of the year (starting from 0)</td>
+			<td>
+				<em>0</em> through <em>365</em></td>
+		</tr>
+		<tr>
+			<td style="text-align: center;">
+				<em class="emphasis">Week</em></td>
+			<td>
+				---</td>
+			<td>
+				---</td>
+		</tr>
+		<tr>
+			<td>
+				<em>W</em></td>
+			<td>
+				ISO-8601 week number of year, weeks starting on Monday (added in PHP 4.1.0)</td>
+			<td>
+				Example: <em>42</em> (the 42nd week in the year)</td>
+		</tr>
+		<tr>
+			<td style="text-align: center;">
+				<em class="emphasis">Month</em></td>
+			<td>
+				---</td>
+			<td>
+				---</td>
+		</tr>
+		<tr>
+			<td>
+				<em>F</em></td>
+			<td>
+				A full textual representation of a month, such as January or March</td>
+			<td>
+				<em>January</em> through <em>December</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>m</em></td>
+			<td>
+				Numeric representation of a month, with leading zeros</td>
+			<td>
+				<em>01</em> through <em>12</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>M</em></td>
+			<td>
+				A short textual representation of a month, three letters</td>
+			<td>
+				<em>Jan</em> through <em>Dec</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>n</em></td>
+			<td>
+				Numeric representation of a month, without leading zeros</td>
+			<td>
+				<em>1</em> through <em>12</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>t</em></td>
+			<td>
+				Number of days in the given month</td>
+			<td>
+				<em>28</em> through <em>31</em></td>
+		</tr>
+		<tr>
+			<td style="text-align: center;">
+				<em class="emphasis">Year</em></td>
+			<td>
+				---</td>
+			<td>
+				---</td>
+		</tr>
+		<tr>
+			<td>
+				<em>L</em></td>
+			<td>
+				Whether it&#39;s a leap year</td>
+			<td>
+				<em>1</em> if it is a leap year, <em>0</em> otherwise.</td>
+		</tr>
+		<tr>
+			<td>
+				<em>o</em></td>
+			<td>
+				ISO-8601 year number. This has the same value as <em>Y</em>, except that if the ISO week number (<em>W</em>) belongs to the previous or next year, that year is used instead. (added in PHP 5.1.0)</td>
+			<td>
+				Examples: <em>1999</em> or <em>2003</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>Y</em></td>
+			<td>
+				A full numeric representation of a year, 4 digits</td>
+			<td>
+				Examples: <em>1999</em> or <em>2003</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>y</em></td>
+			<td>
+				A two digit representation of a year</td>
+			<td>
+				Examples: <em>99</em> or <em>03</em></td>
+		</tr>
+		<tr>
+			<td style="text-align: center;">
+				<em class="emphasis">Time</em></td>
+			<td>
+				---</td>
+			<td>
+				---</td>
+		</tr>
+		<tr>
+			<td>
+				<em>a</em></td>
+			<td>
+				Lowercase Ante meridiem and Post meridiem</td>
+			<td>
+				<em>am</em> or <em>pm</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>A</em></td>
+			<td>
+				Uppercase Ante meridiem and Post meridiem</td>
+			<td>
+				<em>AM</em> or <em>PM</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>B</em></td>
+			<td>
+				Swatch Internet time</td>
+			<td>
+				<em>000</em> through <em>999</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>g</em></td>
+			<td>
+				12-hour format of an hour without leading zeros</td>
+			<td>
+				<em>1</em> through <em>12</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>G</em></td>
+			<td>
+				24-hour format of an hour without leading zeros</td>
+			<td>
+				<em>0</em> through <em>23</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>h</em></td>
+			<td>
+				12-hour format of an hour with leading zeros</td>
+			<td>
+				<em>01</em> through <em>12</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>H</em></td>
+			<td>
+				24-hour format of an hour with leading zeros</td>
+			<td>
+				<em>00</em> through <em>23</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>i</em></td>
+			<td>
+				Minutes with leading zeros</td>
+			<td>
+				<em>00</em> to <em>59</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>s</em></td>
+			<td>
+				Seconds, with leading zeros</td>
+			<td>
+				<em>00</em> through <em>59</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>u</em></td>
+			<td>
+				Microseconds (added in PHP 5.2.2). Note that <span class="function"><strong>date()</strong></span> will always generate <em>000000</em> since it takes an <span class="type"><a class="type integer" href="http://www.php.net/manual/en/language.types.integer.php">integer</a></span> parameter, whereas <span class="methodname"><a class="methodname" href="http://www.php.net/manual/en/datetime.format.php">DateTime::format()</a></span> does support microseconds.</td>
+			<td>
+				Example: <em>654321</em></td>
+		</tr>
+		<tr>
+			<td style="text-align: center;">
+				<em class="emphasis">Timezone</em></td>
+			<td>
+				---</td>
+			<td>
+				---</td>
+		</tr>
+		<tr>
+			<td>
+				<em>e</em></td>
+			<td>
+				Timezone identifier (added in PHP 5.1.0)</td>
+			<td>
+				Examples: <em>UTC</em>, <em>GMT</em>, <em>Atlantic/Azores</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>I</em> (capital i)</td>
+			<td>
+				Whether or not the date is in daylight saving time</td>
+			<td>
+				<em>1</em> if Daylight Saving Time, <em>0</em> otherwise.</td>
+		</tr>
+		<tr>
+			<td>
+				<em>O</em></td>
+			<td>
+				Difference to Greenwich time (GMT) in hours</td>
+			<td>
+				Example: <em>+0200</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>P</em></td>
+			<td>
+				Difference to Greenwich time (GMT) with colon between hours and minutes (added in PHP 5.1.3)</td>
+			<td>
+				Example: <em>+02:00</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>T</em></td>
+			<td>
+				Timezone abbreviation</td>
+			<td>
+				Examples: <em>EST</em>, <em>MDT</em> ...</td>
+		</tr>
+		<tr>
+			<td>
+				<em>Z</em></td>
+			<td>
+				Timezone offset in seconds. The offset for timezones west of UTC is always negative, and for those east of UTC is always positive.</td>
+			<td>
+				<em>-43200</em> through <em>50400</em></td>
+		</tr>
+		<tr>
+			<td style="text-align: center;">
+				<em class="emphasis">Full Date/Time</em></td>
+			<td>
+				---</td>
+			<td>
+				---</td>
+		</tr>
+		<tr>
+			<td>
+				<em>c</em></td>
+			<td>
+				ISO 8601 date (added in PHP 5)</td>
+			<td>
+				2004-02-12T15:19:21+00:00</td>
+		</tr>
+		<tr>
+			<td>
+				<em>r</em></td>
+			<td>
+				<a class="link external" href="http://www.faqs.org/rfcs/rfc2822">&raquo;&nbsp;RFC 2822</a> formatted date</td>
+			<td>
+				Example: <em>Thu, 21 Dec 2000 16:01:07 +0200</em></td>
+		</tr>
+		<tr>
+			<td>
+				<em>U</em></td>
+			<td>
+				Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)</td>
+			<td>
+				See also <span class="function"><a class="function" href="http://www.php.net/manual/en/function.time.php">time()</a></span></td>
+		</tr>
+	</tbody>
+</table>
+<p>
+	&nbsp;</p>
+<h4 id="2_date_and_time_formats_jquery_ui_date_format">jQuery UI date format</h4>
+<p>
+	Link: <a href="http://api.jqueryui.com/datepicker/#utility-formatDate">http://api.jqueryui.com/datepicker/#utility-formatDate</a></p>
+<p>
+	Link: <a href="http://trentrichardson.com/examples/timepicker/">http://trentrichardson.com/examples/timepicker/</a></p>
+<p>
+	Format a date into a string value with a specified format.</p>
+<p>
+	The format can be combinations of the following:</p>
+<ul>
+	<li>
+		d - day of month (no leading zero)</li>
+	<li>
+		dd - day of month (two digit)</li>
+	<li>
+		o - day of the year (no leading zeros)</li>
+	<li>
+		oo - day of the year (three digit)</li>
+	<li>
+		D - day name short</li>
+	<li>
+		DD - day name long</li>
+	<li>
+		m - month of year (no leading zero)</li>
+	<li>
+		mm - month of year (two digit)</li>
+	<li>
+		M - month name short</li>
+	<li>
+		MM - month name long</li>
+	<li>
+		y - year (two digit)</li>
+	<li>
+		yy - year (four digit)</li>
+	<li>
+		@ - Unix timestamp (ms since 01/01/1970)</li>
+	<li>
+		! - Windows ticks (100ns since 01/01/0001)</li>
+	<li>
+		&#39;...&#39; - literal text</li>
+	<li>
+		&#39;&#39; - single quote</li>
+	<li>
+		anything else - literal text</li>
+</ul>
+<p>
+	There are also a number of predefined standard date formats available from <code>$.datepicker</code>:</p>
+<ul>
+	<li>
+		ATOM - &#39;yy-mm-dd&#39; (Same as RFC 3339/ISO 8601)</li>
+	<li>
+		COOKIE - &#39;D, dd M yy&#39;</li>
+	<li>
+		ISO_8601 - &#39;yy-mm-dd&#39;</li>
+	<li>
+		RFC_822 - &#39;D, d M y&#39; (See RFC 822)</li>
+	<li>
+		RFC_850 - &#39;DD, dd-M-y&#39; (See RFC 850)</li>
+	<li>
+		RFC_1036 - &#39;D, d M y&#39; (See RFC 1036)</li>
+	<li>
+		RFC_1123 - &#39;D, d M yy&#39; (See RFC 1123)</li>
+	<li>
+		RFC_2822 - &#39;D, d M yy&#39; (See RFC 2822)</li>
+	<li>
+		RSS - &#39;D, d M y&#39; (Same as RFC 822)</li>
+	<li>
+		TICKS - &#39;!&#39;</li>
+	<li>
+		TIMESTAMP - &#39;@&#39;</li>
+	<li>
+		W3C - &#39;yy-mm-dd&#39; (Same as ISO 8601)</li>
+</ul>
+<p>
+	Time format</p>
+<ul>
+	<li>
+		H - Hour with no leading 0 (24 hour)</li>
+	<li>
+		HH - Hour with leading 0 (24 hour)</li>
+	<li>
+		h - Hour with no leading 0 (12 hour)</li>
+	<li>
+		hh - Hour with leading 0 (12 hour)</li>
+	<li>
+		m - Minute with no leading 0</li>
+	<li>
+		mm - Minute with leading 0</li>
+	<li>
+		s - Second with no leading 0</li>
+	<li>
+		ss - Second with leading 0</li>
+	<li>
+		l - Milliseconds always with leading 0</li>
+	<li>
+		c - Microseconds always with leading 0</li>
+	<li>
+		t - a or p for AM/PM</li>
+	<li>
+		T - A or P for AM/PM</li>
+	<li>
+		tt - am or pm for AM/PM</li>
+	<li>
+		TT - AM or PM for AM/PM</li>
+	<li>
+		z - Timezone as defined by timezoneList</li>
+	<li>
+		Z - Timezone in Iso 8601 format (+04:45)</li>
+	<li>
+		&#39;...&#39; - Literal text (Uses single quotes)</li>
+</ul>
+<dl class="defs">
+</dl>
+<p>
+	&nbsp;</p>
+</section>
+
+
+	</div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Uploads
+uploads/
+upload/
+
+# Cache
+cache/
+tmp/
+
+# Config files with sensitive data
+config.local.php
+database.local.php
+
+# Backup files
+*.backup
+*.bak
+*.old
+
+# Tools output
+v2/tools/*.json
+v2/tools/*.csv
+v2/tools/*.txt
+!v2/tools/*.php
+
+# Node modules (if any)
+node_modules/
+
+# Composer
+vendor/
+composer.lock
+
+# Environment
+.env
+.env.local

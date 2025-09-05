@@ -1,0 +1,17 @@
+/**
+ * xCrudRevolution - [Component Name]
+ * [Component Description]
+ * 
+ * @package    xCrudRevolution
+ * @version    2.0.0
+ * @copyright  Copyright (c) 2024 xCrudRevolution. All rights reserved.
+ * @license    Proprietary License - This software is protected by copyright law.
+ *             Unauthorized copying, modification, or distribution is strictly prohibited.
+ * @author     xCrudRevolution Team
+ * @website    https://www.xcrudrevolution.com
+ * @support    support@xcrudrevolution.com
+ * 
+ * NOTICE: This is proprietary software. Unauthorized copying of this file,
+ * via any medium is strictly prohibited. This software is protected by 
+ * copyright and trade secret law.
+ */
