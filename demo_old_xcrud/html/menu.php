@@ -2,6 +2,9 @@
 <div id="caption">Old xCrud SITE - 1.6 <small><?php echo $version ?></small></div>
 <a id="buy-button"></a>
 <ul id="switchtheme">
+    <li class="<?php echo $theme == 'revolution' ? 'active' : '' ?>">
+        <a href="index.php?page=<?php echo $page ?>&theme=revolution">🚀 Revolution theme</a>
+    </li>
     <li class="<?php echo $theme == 'default' ? 'active' : '' ?>">
         <a href="index.php?page=<?php echo $page ?>&theme=default">Default theme</a>
     </li>

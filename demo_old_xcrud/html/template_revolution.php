@@ -57,10 +57,43 @@
         
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            <?php if($theme == 'revolution'): ?>
+            background: linear-gradient(135deg, #0f0f23 0%, #16213e 50%, #667eea 100%);
+            <?php else: ?>
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            <?php endif; ?>
             min-height: 100vh;
             position: relative;
         }
+        
+        <?php if($theme == 'revolution'): ?>
+        /* Revolutionary Theme Enhancements */
+        .demo-container {
+            background: rgba(255, 255, 255, 0.05) !important;
+            backdrop-filter: blur(20px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
+        }
+        
+        .content-area {
+            background: rgba(255, 255, 255, 0.03) !important;
+            backdrop-filter: blur(15px) !important;
+        }
+        
+        .content-header {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2)) !important;
+            backdrop-filter: blur(10px) !important;
+            border-radius: 16px !important;
+            margin-bottom: 24px !important;
+        }
+        
+        .theme-selector a.active {
+            background: linear-gradient(135deg, #667eea, #764ba2) !important;
+            color: white !important;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4) !important;
+            transform: translateY(-2px) !important;
+        }
+        <?php endif; ?>
         
         body::before {
             content: '';
@@ -705,6 +738,9 @@
                 <div class="description"><?php echo $description ?></div>
                 
                 <div class="theme-selector">
+                    <a href="?page=<?php echo $page ?>&theme=revolution" class="<?php echo $theme == 'revolution' ? 'active' : '' ?>">
+                        <i class="fas fa-rocket"></i> Revolution
+                    </a>
                     <a href="?page=<?php echo $page ?>&theme=default" class="<?php echo $theme == 'default' ? 'active' : '' ?>">
                         <i class="fas fa-th"></i> Default
                     </a>

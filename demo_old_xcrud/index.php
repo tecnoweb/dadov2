@@ -6,7 +6,7 @@ require ('html/pagedata.php');
 Xcrud_config::$scripts_url = '../v2';
 
 session_start();
-$theme = isset($_GET['theme']) ? $_GET['theme'] : 'default';
+$theme = isset($_GET['theme']) ? $_GET['theme'] : 'revolution';
 switch ($theme)
 {
     case 'bootstrap':
@@ -17,9 +17,17 @@ switch ($theme)
         Xcrud_config::$theme = 'minimal';
         $title_2 = 'Minimal theme';
         break;
-    default:
+    case 'default':
         Xcrud_config::$theme = 'default';
         $title_2 = 'Default theme';
+        break;
+    case 'revolution':
+        Xcrud_config::$theme = 'revolution';
+        $title_2 = 'Revolution theme - Modern & Glassmorphism';
+        break;
+    default:
+        Xcrud_config::$theme = 'revolution';
+        $title_2 = 'Revolution theme - Modern & Glassmorphism';
         break;
 }
 

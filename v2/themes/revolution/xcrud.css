@@ -1,0 +1,533 @@
+/**
+ * xCrudRevolution Theme - Revolutionary Modern Design
+ * Advanced CSS with glassmorphism, animations, and modern UI patterns
+ */
+
+/* CSS Custom Properties for Revolutionary Design */
+:root {
+    /* Revolutionary Color Palette */
+    --xcrud-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --xcrud-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --xcrud-success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --xcrud-danger: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    --xcrud-warning: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    --xcrud-info: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    
+    /* Glass Morphism */
+    --xcrud-glass: rgba(255, 255, 255, 0.15);
+    --xcrud-glass-border: rgba(255, 255, 255, 0.2);
+    --xcrud-glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    --xcrud-backdrop-blur: blur(12px);
+    
+    /* Dark Theme Support */
+    --xcrud-bg-primary: #0f0f23;
+    --xcrud-bg-secondary: #16213e;
+    --xcrud-text-primary: #ffffff;
+    --xcrud-text-secondary: #a0a0a0;
+    
+    /* Spacing & Sizing */
+    --xcrud-border-radius: 16px;
+    --xcrud-border-radius-sm: 8px;
+    --xcrud-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    --xcrud-shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.4);
+    
+    /* Typography */
+    --xcrud-font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --xcrud-font-size-base: 14px;
+    --xcrud-font-size-sm: 12px;
+    --xcrud-font-size-lg: 16px;
+    --xcrud-font-weight-normal: 400;
+    --xcrud-font-weight-medium: 500;
+    --xcrud-font-weight-bold: 700;
+}
+
+/* Base Revolutionary Styling */
+.xcrud {
+    font-family: var(--xcrud-font-family);
+    font-size: var(--xcrud-font-size-base);
+    line-height: 1.6;
+    color: var(--xcrud-text-primary);
+    margin-bottom: 30px;
+    background: transparent;
+    position: relative;
+}
+
+/* Revolutionary Container with Glassmorphism */
+.xcrud-container {
+    background: var(--xcrud-glass);
+    backdrop-filter: var(--xcrud-backdrop-blur);
+    -webkit-backdrop-filter: var(--xcrud-backdrop-blur);
+    border: 1px solid var(--xcrud-glass-border);
+    border-radius: var(--xcrud-border-radius);
+    box-shadow: var(--xcrud-glass-shadow);
+    padding: 24px;
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.xcrud-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--xcrud-primary);
+    border-radius: var(--xcrud-border-radius) var(--xcrud-border-radius) 0 0;
+}
+
+.xcrud-container:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--xcrud-shadow-hover);
+}
+
+/* Revolutionary List Table */
+.xcrud-list {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: transparent;
+    border-radius: var(--xcrud-border-radius-sm);
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin: 0;
+}
+
+.xcrud-list thead tr {
+    background: var(--xcrud-primary);
+    color: white;
+    font-weight: var(--xcrud-font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: var(--xcrud-font-size-sm);
+}
+
+.xcrud-list thead th {
+    padding: 16px 20px;
+    text-align: left;
+    border: none;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.xcrud-list thead th::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    right: 20px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.xcrud-list thead th:hover::after {
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.xcrud-list td {
+    padding: 16px 20px;
+    border: none;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.xcrud-list .xcrud-row-1 td {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.xcrud-list .xcrud-row:hover td {
+    background: var(--xcrud-glass) !important;
+    backdrop-filter: var(--xcrud-backdrop-blur);
+    -webkit-backdrop-filter: var(--xcrud-backdrop-blur);
+    transform: scale(1.005);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-color: var(--xcrud-glass-border);
+}
+
+.xcrud-list .xcrud-row:hover td::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--xcrud-primary);
+    transition: all 0.3s ease;
+}
+
+/* Revolutionary Messages - Complete Overhaul */
+.xcrud-message {
+    position: relative;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    margin: 16px 0;
+    padding: 16px 20px 16px 60px;
+    border-radius: var(--xcrud-border-radius-sm);
+    border: none;
+    color: white;
+    font-weight: var(--xcrud-font-weight-medium);
+    font-size: var(--xcrud-font-size-base);
+    box-shadow: var(--xcrud-shadow);
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    backdrop-filter: var(--xcrud-backdrop-blur);
+    -webkit-backdrop-filter: var(--xcrud-backdrop-blur);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: xcrud-message-slide-in 0.5s ease-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.xcrud-message::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    background: rgba(255, 255, 255, 0.4);
+    transition: width 0.3s ease;
+}
+
+.xcrud-message:hover::before {
+    width: 12px;
+}
+
+.xcrud-message::after {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: brightness(0) invert(1);
+}
+
+.xcrud-message:hover {
+    transform: translateX(8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Revolutionary Success Message */
+.xcrud-message.success {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 50%, #4facfe 100%);
+    border-left: 6px solid #00d4aa;
+    box-shadow: 0 8px 32px rgba(79, 172, 254, 0.3);
+}
+
+.xcrud-message.success::after {
+    content: '✓';
+    font-size: 18px;
+    font-weight: bold;
+    width: auto;
+    height: auto;
+    filter: none;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.xcrud-message.success:hover {
+    box-shadow: 0 12px 40px rgba(79, 172, 254, 0.5);
+}
+
+/* Revolutionary Error Message */
+.xcrud-message.error {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 50%, #fa709a 100%);
+    border-left: 6px solid #ff4757;
+    box-shadow: 0 8px 32px rgba(250, 112, 154, 0.3);
+}
+
+.xcrud-message.error::after {
+    content: '✗';
+    font-size: 18px;
+    font-weight: bold;
+    width: auto;
+    height: auto;
+    filter: none;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.xcrud-message.error:hover {
+    box-shadow: 0 12px 40px rgba(250, 112, 154, 0.5);
+}
+
+/* Revolutionary Info Message */
+.xcrud-message.info {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 50%, #a8edea 100%);
+    border-left: 6px solid #3742fa;
+    box-shadow: 0 8px 32px rgba(168, 237, 234, 0.3);
+    color: #2c3e50;
+}
+
+.xcrud-message.info::after {
+    content: 'i';
+    font-size: 18px;
+    font-weight: bold;
+    width: auto;
+    height: auto;
+    filter: none;
+    color: #2c3e50;
+    font-style: italic;
+}
+
+.xcrud-message.info:hover {
+    box-shadow: 0 12px 40px rgba(168, 237, 234, 0.5);
+}
+
+/* Revolutionary Warning/Note Message */
+.xcrud-message.note {
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 50%, #ffecd2 100%);
+    border-left: 6px solid #ff9f43;
+    box-shadow: 0 8px 32px rgba(255, 236, 210, 0.3);
+    color: #2c3e50;
+}
+
+.xcrud-message.note::after {
+    content: '⚠';
+    font-size: 18px;
+    font-weight: bold;
+    width: auto;
+    height: auto;
+    filter: none;
+    color: #2c3e50;
+}
+
+.xcrud-message.note:hover {
+    box-shadow: 0 12px 40px rgba(255, 236, 210, 0.5);
+}
+
+/* Revolutionary Buttons */
+.xcrud-button, a.xcrud-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    margin: 4px 4px 0 0;
+    border: none;
+    border-radius: var(--xcrud-border-radius-sm);
+    background: var(--xcrud-glass);
+    backdrop-filter: var(--xcrud-backdrop-blur);
+    -webkit-backdrop-filter: var(--xcrud-backdrop-blur);
+    color: var(--xcrud-text-primary);
+    text-decoration: none;
+    font-weight: var(--xcrud-font-weight-medium);
+    font-size: var(--xcrud-font-size-sm);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--xcrud-glass-border);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.xcrud-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.xcrud-button:hover::before {
+    left: 100%;
+}
+
+.xcrud-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    background: var(--xcrud-primary);
+    color: white;
+}
+
+/* Revolutionary Color Variants */
+.xcrud-button.xcrud-red {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    color: white;
+    border-color: transparent;
+}
+
+.xcrud-button.xcrud-blue {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: transparent;
+}
+
+.xcrud-button.xcrud-green {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+    border-color: transparent;
+}
+
+.xcrud-button.xcrud-orange {
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    color: #2c3e50;
+    border-color: transparent;
+}
+
+/* Revolutionary Animations */
+@keyframes xcrud-message-slide-in {
+    0% {
+        transform: translateX(-100%) scale(0.8);
+        opacity: 0;
+    }
+    50% {
+        transform: translateX(10%) scale(1.05);
+    }
+    100% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes xcrud-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
+    }
+}
+
+/* Revolutionary Form Elements */
+.xcrud input[type="text"],
+.xcrud input[type="password"],
+.xcrud input[type="email"],
+.xcrud input[type="number"],
+.xcrud textarea,
+.xcrud select {
+    background: var(--xcrud-glass);
+    backdrop-filter: var(--xcrud-backdrop-blur);
+    -webkit-backdrop-filter: var(--xcrud-backdrop-blur);
+    border: 1px solid var(--xcrud-glass-border);
+    border-radius: var(--xcrud-border-radius-sm);
+    color: var(--xcrud-text-primary);
+    padding: 12px 16px;
+    font-family: inherit;
+    font-size: var(--xcrud-font-size-base);
+    transition: all 0.3s ease;
+    width: 100%;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.xcrud input[type="text"]:focus,
+.xcrud input[type="password"]:focus,
+.xcrud input[type="email"]:focus,
+.xcrud input[type="number"]:focus,
+.xcrud textarea:focus,
+.xcrud select:focus {
+    outline: none;
+    border-color: rgba(102, 126, 234, 0.5);
+    box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.1),
+        0 0 0 3px rgba(102, 126, 234, 0.1);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Revolutionary Responsive Design */
+@media (max-width: 768px) {
+    .xcrud-container {
+        padding: 16px;
+        margin: 10px 0;
+        border-radius: var(--xcrud-border-radius-sm);
+    }
+    
+    .xcrud-message {
+        padding: 12px 16px 12px 50px;
+        margin: 12px 0;
+        font-size: var(--xcrud-font-size-sm);
+    }
+    
+    .xcrud-list td,
+    .xcrud-list th {
+        padding: 12px 16px;
+    }
+    
+    .xcrud-button {
+        padding: 8px 16px;
+        margin: 2px;
+        font-size: 12px;
+    }
+}
+
+/* Revolutionary Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --xcrud-text-primary: #ffffff;
+        --xcrud-text-secondary: #b0b0b0;
+        --xcrud-bg-primary: #0f0f23;
+        --xcrud-bg-secondary: #16213e;
+    }
+}
+
+/* Revolutionary Loading Animation */
+.xcrud-loading {
+    position: relative;
+    opacity: 0.7;
+}
+
+.xcrud-loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: xcrud-shimmer 1.5s infinite;
+}
+
+@keyframes xcrud-shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Revolutionary Accessibility Enhancements */
+.xcrud-button:focus-visible,
+.xcrud input:focus-visible,
+.xcrud select:focus-visible,
+.xcrud textarea:focus-visible {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+/* Revolutionary High Contrast Support */
+@media (prefers-contrast: high) {
+    .xcrud-message {
+        border: 2px solid currentColor;
+    }
+    
+    .xcrud-button {
+        border: 2px solid currentColor;
+    }
+}
+
+/* Revolutionary Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .xcrud-message,
+    .xcrud-button,
+    .xcrud-container,
+    .xcrud-list .xcrud-row:hover td {
+        animation: none;
+        transition: none;
+        transform: none;
+    }
+}

@@ -20,7 +20,7 @@ class Xcrud_config
     
     
     // theme and language
-    public static $theme = 'default'; // can be 'default', 'bootstrap', 'minimal' or your custom. Theme of xCRUD visual presentation. For using bootstrap you need to load it on your page.
+    public static $theme = 'revolution'; // can be 'default', 'bootstrap', 'minimal', 'revolution' or your custom. Theme of xCRUD visual presentation. Revolution theme features glassmorphism and modern animations.
     public static $language = 'it'; // sets default localization
     public static $is_rtl = false; // enables right-to-left (RTL) mode
     
