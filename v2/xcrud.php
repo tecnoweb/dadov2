@@ -750,12 +750,30 @@ class Xcrud
         return $this;
     }
     /**
-     * Add WHERE condition to filter records
+     * Add WHERE condition to filter records with support for advanced SQL operators
      * 
-     * @param string $field Field name or custom SQL condition
-     * @param string|array $value Value(s) to compare
-     * @param string $glue SQL operator (AND/OR, default: AND)
-     * @param string $index Optional index for named conditions
+     * Supported operators:
+     * - Basic: =, !=, <>, >, <, >=, <=
+     * - Pattern: ^= (starts with), $= (ends with), ~= (contains)
+     * - Set: IN, NOT IN (use array for values)
+     * - Range: BETWEEN, NOT BETWEEN (use array[min,max] for values)
+     * - NULL: IS NULL, IS NOT NULL (value is ignored)
+     * - LIKE: LIKE, NOT LIKE, ILIKE, NOT ILIKE
+     * - Regex: REGEXP, RLIKE, NOT REGEXP, NOT RLIKE
+     * - Advanced: EXISTS, NOT EXISTS (value should be subquery)
+     * 
+     * Examples:
+     * - $xcrud->where('status', 'active')                    // Equals (implicit)
+     * - $xcrud->where('age >', 18)                          // Greater than
+     * - $xcrud->where('category IN', array('A','B','C'))    // IN set
+     * - $xcrud->where('price BETWEEN', array(10, 100))      // Range
+     * - $xcrud->where('deleted_at IS NULL', '')             // NULL check
+     * - $xcrud->where('name LIKE', '%John%')                // Pattern match
+     * 
+     * @param string $field Field name with optional operator (e.g., 'age >', 'status IN')
+     * @param string|array $value Value(s) to compare (array for IN/BETWEEN operators)
+     * @param string $glue SQL operator to combine conditions (AND/OR, default: AND)
+     * @param string $index Optional index for named conditions (allows updating specific conditions)
      * @return $this Method chaining
      */
     public function where($fields = false, $where_val = false, $glue = 'AND', $index = false)
@@ -5384,43 +5402,113 @@ class Xcrud
                 if (!isset($params['custom']))
                 {
                     $fieldkey = $this->_where_fieldkey($params);
-                    if (is_array($params['value']))
-                    {
-                        $in_arr = array();
-                        foreach ($params['value'] as $in_val)
-                        {
-                            $in_arr[] = $db->escape($in_val);
-                        }
-                        if (isset($this->subselect[$fieldkey]))
-                        {
-                            $where_arr[] = $this->subselect_where($fieldkey) . $this->_cond_from_where_in($params['field']) . '(' . implode(',', $in_arr) .
-                                ')';
-                        }
-                        else
-                        {
-                            $where_arr[] = $this->_where_field($params) . $this->_cond_from_where_in($params['field']) . '(' . implode(',', $in_arr) .
-                                ')';
-                        }
+                    $operator = $this->_cond_from_where($params['field']);
+                    $operator_upper = strtoupper(trim($operator));
+                    
+                    // Get the field reference
+                    if (isset($this->subselect[$fieldkey])) {
+                        $field_sql = $this->subselect_where($fieldkey);
+                    } elseif (isset($this->point_field[$fieldkey])) {
+                        $pointColumn = '`' . $this->_where_field($params) . '`';
+                        $field_sql = $this->get_point_concat_sql($pointColumn);
+                    } else {
+                        $field_sql = $this->_where_field($params);
                     }
-                    else
-                    {
-                        if (isset($this->subselect[$fieldkey]))
-                        {
-                            $where_arr[] = $this->subselect_where($fieldkey) . $this->_cond_from_where($params['field']) . $db->escape($params['value'],
-                                isset($this->no_quotes[$fieldkey]));
-                        }
-                        elseif (isset($this->point_field[$fieldkey]))
-                        {
-                            $pointColumn = '`' . $this->_where_field($params) . '`';
-                            $concatExpr = $this->get_point_concat_sql($pointColumn);
-                            $where_arr[] = $concatExpr . $this->_cond_from_where($params['field']) . $db->escape($params['value'], isset($this->no_quotes[$fieldkey]));
-                        }
-                        else
-                        {
-                            $where_arr[] = $this->_where_field($params) . $this->_cond_from_where($params['field']) . $db->escape($params['value'],
-                                isset($this->no_quotes[$fieldkey]));
-                        }
+                    
+                    // Handle different operators
+                    switch($operator_upper) {
+                        case 'IN':
+                        case 'NOT IN':
+                            if (!is_array($params['value'])) {
+                                $params['value'] = array($params['value']);
+                            }
+                            $in_arr = array();
+                            foreach ($params['value'] as $in_val) {
+                                $in_arr[] = $db->escape($in_val);
+                            }
+                            $where_arr[] = $field_sql . ' ' . $operator_upper . ' (' . implode(',', $in_arr) . ')';
+                            break;
+                            
+                        case 'BETWEEN':
+                        case 'NOT BETWEEN':
+                            if (is_array($params['value']) && count($params['value']) == 2) {
+                                $val1 = $db->escape($params['value'][0], isset($this->no_quotes[$fieldkey]));
+                                $val2 = $db->escape($params['value'][1], isset($this->no_quotes[$fieldkey]));
+                                $where_arr[] = $field_sql . ' ' . $operator_upper . ' ' . $val1 . ' AND ' . $val2;
+                            } else {
+                                // Invalid BETWEEN value, skip
+                                continue 2;
+                            }
+                            break;
+                            
+                        case 'IS NULL':
+                        case 'IS NOT NULL':
+                            $where_arr[] = $field_sql . ' ' . $operator_upper;
+                            break;
+                            
+                        case 'LIKE':
+                        case 'NOT LIKE':
+                            $where_arr[] = $field_sql . ' ' . $operator_upper . ' ' . $db->escape($params['value'], false);
+                            break;
+                            
+                        case 'ILIKE':
+                        case 'NOT ILIKE':
+                            // Handle case-insensitive LIKE based on database type
+                            $dbType = $db->get_database_type();
+                            if ($dbType == 'postgresql') {
+                                $where_arr[] = $field_sql . ' ' . $operator_upper . ' ' . $db->escape($params['value'], false);
+                            } else {
+                                // For MySQL/SQLite, use LOWER() for case-insensitive
+                                $like_op = str_replace('ILIKE', 'LIKE', $operator_upper);
+                                $where_arr[] = 'LOWER(' . $field_sql . ') ' . $like_op . ' LOWER(' . $db->escape($params['value'], false) . ')';
+                            }
+                            break;
+                            
+                        case 'REGEXP':
+                        case 'RLIKE':
+                        case 'NOT REGEXP':
+                        case 'NOT RLIKE':
+                            // Handle regex based on database type
+                            $dbType = $db->get_database_type();
+                            if ($dbType == 'postgresql') {
+                                $pg_op = str_replace(array('REGEXP', 'RLIKE'), '~', $operator_upper);
+                                $pg_op = str_replace('NOT ~', '!~', $pg_op);
+                                $where_arr[] = $field_sql . ' ' . $pg_op . ' ' . $db->escape($params['value'], false);
+                            } elseif ($dbType == 'sqlite') {
+                                // SQLite doesn't have built-in REGEXP, would need extension
+                                // Fallback to LIKE for basic pattern matching
+                                $like_val = '%' . $params['value'] . '%';
+                                $like_op = strpos($operator_upper, 'NOT') !== false ? 'NOT LIKE' : 'LIKE';
+                                $where_arr[] = $field_sql . ' ' . $like_op . ' ' . $db->escape($like_val, false);
+                            } else {
+                                // MySQL supports REGEXP/RLIKE
+                                $where_arr[] = $field_sql . ' ' . $operator_upper . ' ' . $db->escape($params['value'], false);
+                            }
+                            break;
+                            
+                        case 'EXISTS':
+                        case 'NOT EXISTS':
+                            // EXISTS requires a subquery as value
+                            $where_arr[] = $operator_upper . ' (' . $params['value'] . ')';
+                            break;
+                            
+                        default:
+                            // Handle standard operators and array values for backwards compatibility
+                            if (is_array($params['value'])) {
+                                // Auto-convert array to IN clause for backwards compatibility
+                                $in_arr = array();
+                                foreach ($params['value'] as $in_val) {
+                                    $in_arr[] = $db->escape($in_val);
+                                }
+                                $in_op = ($operator == '!=' || $operator == '<>') ? ' NOT IN' : ' IN';
+                                $where_arr[] = $field_sql . $in_op . ' (' . implode(',', $in_arr) . ')';
+                            } else {
+                                // Standard comparison operators
+                                $where_arr[] = $field_sql . $operator . $db->escape($params['value'], isset($this->no_quotes[$fieldkey]));
+                            }
+                            break;
                     }
+                }
                 }
                 else
                 {
@@ -10785,9 +10873,28 @@ class Xcrud
      * @return string Comparison operator (=, >, <, !=, etc.)
      * @internal
      */
+    /**
+     * Extracts SQL operator from field specification
+     * 
+     * Parses field strings to extract operators like:
+     * - 'age >' returns '>'
+     * - 'status IN' returns ' IN'
+     * - 'deleted_at IS NULL' returns ' IS NULL'
+     * - 'name' returns '=' (default)
+     * 
+     * @param string $field Field specification potentially containing operator
+     * @return string SQL operator (defaults to '=' if not specified)
+     * @internal
+     */
     protected function _cond_from_where($field)
     {
-        if (preg_match('/\s*([<>!=]+)\s*$/u', $field, $matches))
+        // Check for special operators first (must be before simple operators)
+        if (preg_match('/\s+(BETWEEN|NOT\s+BETWEEN|IN|NOT\s+IN|IS\s+NULL|IS\s+NOT\s+NULL|LIKE|NOT\s+LIKE|ILIKE|NOT\s+ILIKE|REGEXP|RLIKE|EXISTS|NOT\s+EXISTS)\s*$/ui', $field, $matches))
+        {
+            return ' ' . strtoupper(trim($matches[1]));
+        }
+        // Check for simple comparison operators
+        elseif (preg_match('/\s*([<>!=~\^\$]+)\s*$/u', $field, $matches))
         {
             return $matches[1];
         }
@@ -10859,10 +10966,32 @@ class Xcrud
      * @return bool Result of comparison
      * @internal
      */
+    /**
+     * Compares two values using specified SQL-like operator for PHP evaluation
+     * 
+     * Used for client-side filtering and conditional display logic.
+     * Supports all SQL operators including:
+     * - Basic comparisons: =, !=, <>, >, <, >=, <=
+     * - String patterns: ^= (starts), $= (ends), ~= (contains)
+     * - Set operations: IN, NOT IN
+     * - Range: BETWEEN, NOT BETWEEN
+     * - NULL checks: IS NULL, IS NOT NULL
+     * - Pattern matching: LIKE, ILIKE, NOT LIKE, NOT ILIKE
+     * - Regular expressions: REGEXP, RLIKE, NOT REGEXP, NOT RLIKE
+     * 
+     * @param mixed $val1 First value to compare
+     * @param string $operator Comparison operator
+     * @param mixed $val2 Second value (or array for IN/BETWEEN)
+     * @return bool Result of comparison
+     * @internal
+     */
     protected function _compare($val1, $operator, $val2)
     {
+        $operator = strtoupper(trim($operator));
+        
         switch ($operator)
         {
+            // Basic comparison operators
             case '=':
                 return ($val1 == $val2) ? true : false;
             case '>':
@@ -10874,14 +11003,77 @@ class Xcrud
             case '<=':
                 return ($val1 <= $val2) ? true : false;
             case '!=':
+            case '<>':
                 return ($val1 != $val2) ? true : false;
-            case '^=':
+            
+            // String pattern operators
+            case '^=': // Starts with
                 return (mb_strpos($val1, $val2, 0, Xcrud_config::$mbencoding) === 0) ? true : false;
-            case '$=':
+            case '$=': // Ends with
                 return (mb_strpos($val1, $val2, 0, Xcrud_config::$mbencoding) == (mb_strlen($val1, Xcrud_config::$mbencoding) -
                     mb_strlen($val2, Xcrud_config::$mbencoding))) ? true : false;
-            case '~=':
+            case '~=': // Contains
                 return (mb_strpos($val1, $val2, 0, Xcrud_config::$mbencoding) !== false) ? true : false;
+            
+            // SQL-specific operators
+            case 'IN':
+                if (is_array($val2)) {
+                    return in_array($val1, $val2);
+                }
+                // If val2 is comma-separated string
+                return in_array($val1, explode(',', $val2));
+                
+            case 'NOT IN':
+                if (is_array($val2)) {
+                    return !in_array($val1, $val2);
+                }
+                return !in_array($val1, explode(',', $val2));
+                
+            case 'BETWEEN':
+                // val2 should be array with 2 values [min, max]
+                if (is_array($val2) && count($val2) == 2) {
+                    return ($val1 >= $val2[0] && $val1 <= $val2[1]);
+                }
+                return false;
+                
+            case 'NOT BETWEEN':
+                if (is_array($val2) && count($val2) == 2) {
+                    return !($val1 >= $val2[0] && $val1 <= $val2[1]);
+                }
+                return false;
+                
+            case 'IS NULL':
+                return is_null($val1) || $val1 === '';
+                
+            case 'IS NOT NULL':
+                return !is_null($val1) && $val1 !== '';
+                
+            case 'LIKE':
+            case 'ILIKE': // Case-insensitive LIKE
+                $pattern = str_replace(array('%', '_'), array('.*', '.'), preg_quote($val2, '/'));
+                $pattern = '/^' . $pattern . '$/u';
+                if ($operator == 'ILIKE') {
+                    $pattern .= 'i';
+                }
+                return preg_match($pattern, $val1) ? true : false;
+                
+            case 'NOT LIKE':
+            case 'NOT ILIKE':
+                $pattern = str_replace(array('%', '_'), array('.*', '.'), preg_quote($val2, '/'));
+                $pattern = '/^' . $pattern . '$/u';
+                if ($operator == 'NOT ILIKE') {
+                    $pattern .= 'i';
+                }
+                return !preg_match($pattern, $val1);
+                
+            case 'REGEXP':
+            case 'RLIKE':
+                return preg_match('/' . $val2 . '/u', $val1) ? true : false;
+                
+            case 'NOT REGEXP':
+            case 'NOT RLIKE':
+                return !preg_match('/' . $val2 . '/u', $val1);
+                
             default:
                 return false;
         }
