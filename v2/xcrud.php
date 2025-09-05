@@ -660,11 +660,23 @@ class Xcrud
         return $this;
     }
 
+    /**
+     * Show or hide auto-increment primary key field in forms
+     * 
+     * @param bool $bool True to show auto-increment field, false to hide
+     * @return $this Method chaining
+     */
     public function show_primary_ai_field($bool = true)
     {
         $this->show_primary_ai_field = (bool)$bool;
         return $this;
     }
+    /**
+     * Show or hide auto-increment primary key column in grid
+     * 
+     * @param bool $bool True to show auto-increment column, false to hide
+     * @return $this Method chaining
+     */
     public function show_primary_ai_column($bool = true)
     {
         $this->show_primary_ai_column = (bool)$bool;
@@ -687,6 +699,14 @@ class Xcrud
         $this->table = $this->prefix . $table;
         return $this;
     }
+    /**
+     * Set custom display name for the table with optional tooltip and icon
+     * 
+     * @param string $name Display name for the table
+     * @param string|false $tooltip Tooltip text to show (optional)
+     * @param string|false $icon Icon class or path (optional)
+     * @return $this Method chaining
+     */
     public function table_name($name = '', $tooltip = false, $icon = false)
     {
         if ($name)
@@ -908,6 +928,16 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Join additional table to the main query
+     * 
+     * @param string|array $fields Field(s) from main table to join on
+     * @param string $join_tbl Table name to join
+     * @param string $join_field Field name in joined table
+     * @param string|false $alias Table alias (optional)
+     * @param bool $not_insert Exclude from insert operations
+     * @return $this Method chaining
+     */
     public function join($fields = '', $join_tbl = '', $join_field = '', $alias = false, $not_insert = false)
     {
         $fdata = $this->_parse_field_names($fields, 'join');
@@ -1045,6 +1075,12 @@ class Xcrud
         unset($fields, $fdata);
         return $this;
     }
+    /**
+     * Set unique constraint validation on specified fields
+     * 
+     * @param string|array $fields Field name(s) to apply unique constraint
+     * @return $this Method chaining
+     */
     public function unique($fields = '')
     {
         $fdata = $this->_parse_field_names($fields, 'unique');
@@ -1275,6 +1311,12 @@ class Xcrud
         $this->is_sortable = !(bool)$bool;
         return $this;
     }
+    /**
+     * Remove/disable the list view functionality
+     * 
+     * @param bool $bool True to hide list view
+     * @return $this Method chaining
+     */
     public function unset_list($bool = true)
     {
         $this->is_list = !(bool)$bool;
@@ -1316,6 +1358,15 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Change the field type and attributes for specified fields
+     * 
+     * @param string|array $fields Field name(s) to modify
+     * @param string $type New field type (text, select, file, image, etc.)
+     * @param mixed $default Default value for the field
+     * @param array $attr Additional field attributes
+     * @return $this Method chaining
+     */
     public function change_type($fields = '', $type = '', $default = false, $attr = array())
     {
         if ($type)
@@ -1389,6 +1440,15 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Create custom virtual fields that don't exist in the database
+     * 
+     * @param string|array $fields Field name(s) to create
+     * @param string $type Field type
+     * @param mixed $default Default value
+     * @param array $attr Field attributes
+     * @return $this Method chaining
+     */
     public function create_field($fields = '', $type = '', $default = false, $attr = array())
     {
         $fdata = $this->_parse_field_names($fields, 'create_field');
@@ -1398,6 +1458,13 @@ class Xcrud
         }
         return $this->change_type($fields, $type, $default, $attr);
     }
+    /**
+     * Set default values for specified fields
+     * 
+     * @param string|array $fields Field name(s) to set defaults for
+     * @param mixed $value Default value to set
+     * @return $this Method chaining
+     */
     public function pass_default($fields = '', $value = '')
     {
         $fdata = $this->_parse_field_names($fields, 'pass_default');
@@ -1446,6 +1513,12 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Disable automatic quoting for specified fields in SQL queries
+     * 
+     * @param string|array $fields Field name(s) to disable quoting for
+     * @return $this Method chaining
+     */
     public function no_quotes($fields = '')
     {
         $fdata = $this->_parse_field_names($fields, 'no_quotes');
@@ -1476,22 +1549,53 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Make specified fields readonly in create mode only
+     * 
+     * @param string|array $field Field name(s) to make readonly
+     * @return $this Method chaining
+     */
     public function readonly_on_create($field = '')
     {
         return $this->readonly($field, 'create');
     }
+    /**
+     * Disable specified fields in create mode only
+     * 
+     * @param string|array $field Field name(s) to disable
+     * @return $this Method chaining
+     */
     public function disabled_on_create($field = '')
     {
         return $this->disabled($field, 'create');
     }
+    /**
+     * Make specified fields readonly in edit mode only
+     * 
+     * @param string|array $field Field name(s) to make readonly
+     * @return $this Method chaining
+     */
     public function readonly_on_edit($field = '')
     {
         return $this->readonly($field, 'edit');
     }
+    /**
+     * Disable specified fields in edit mode only
+     * 
+     * @param string|array $field Field name(s) to disable
+     * @return $this Method chaining
+     */
     public function disabled_on_edit($field = '')
     {
         return $this->disabled($field, 'edit');
     }
+    /**
+     * Make specified fields readonly in specified modes
+     * 
+     * @param string|array $fields Field name(s) to make readonly
+     * @param string|array|false $mode Mode(s) where fields should be readonly (create/edit/view)
+     * @return $this Method chaining
+     */
     public function readonly($fields = '', $mode = false) // needs to be re-written
     {
         $fdata = $this->_parse_field_names($fields, 'readonly');
@@ -1501,6 +1605,13 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Disable specified fields in specified modes
+     * 
+     * @param string|array $fields Field name(s) to disable
+     * @param string|array|false $mode Mode(s) where fields should be disabled (create/edit/view)
+     * @return $this Method chaining
+     */
     public function disabled($fields = '', $mode = false)
     {
         $fdata = $this->_parse_field_names($fields, 'disabled');
@@ -1510,6 +1621,17 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Set conditional logic for fields based on other field values
+     * 
+     * @param string|array $fields Field name(s) to apply condition to
+     * @param string $operator Comparison operator (=, !=, >, <, etc.)
+     * @param mixed $value Value to compare against
+     * @param string $method Method to execute when condition is met
+     * @param array $params Parameters for the method
+     * @param string|array|false $mode Mode(s) where condition applies
+     * @return $this Method chaining
+     */
     public function condition($fields = '', $operator = '', $value = '', $method = '', $params = array(), $mode = false)
     {
         if ($fields && $method && $operator)
@@ -1528,15 +1650,34 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Get the name of the current instance
+     * 
+     * @return string The instance name
+     */
     public function instance_name()
     {
         return $this->instance_name;
     }
+    /**
+     * Enable or disable performance benchmarking
+     * 
+     * @param bool $bool True to enable benchmarking, false to disable
+     * @return $this Method chaining
+     */
     public function benchmark($bool = true)
     {
         $this->benchmark = (bool)$bool;
         return $this;
     }
+    /**
+     * Set character limit for column display in grid view
+     * 
+     * @param int $int Maximum characters to display (default 50)
+     * @param string|array|false $fields Specific fields to apply limit to (false for global)
+     * @param bool $safe_output Use safe HTML output
+     * @return $this Method chaining
+     */
     public function column_cut($int = 50, $fields = false, $safe_output = false)
     {
         if ($fields === false)
@@ -1554,6 +1695,12 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Set label text for link fields
+     * 
+     * @param string $text Label text to display
+     * @return $this Method chaining
+     */
     public function links_label($text = '')
     {
         if ($text)
@@ -1562,6 +1709,12 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Set label text for email fields
+     * 
+     * @param string $text Label text to display
+     * @return $this Method chaining
+     */
     public function emails_label($text = '')
     {
         if ($text)
@@ -1571,6 +1724,12 @@ class Xcrud
         return $this;
     }
 
+    /**
+     * Disable rich text editor for specified fields
+     * 
+     * @param string|array $fields Field name(s) to disable editor for
+     * @return $this Method chaining
+     */
     public function no_editor($fields = '')
     {
         $fdata = $this->_parse_field_names($fields, 'no_editor');
@@ -1580,6 +1739,13 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Set required field validation with minimum character length
+     * 
+     * @param string|array $fields Field name(s) to make required
+     * @param int $chars Minimum number of characters required (default 1)
+     * @return $this Method chaining
+     */
     public function validation_required($fields = '', $chars = 1)
     {
         $fdata = $this->_parse_field_names($fields, 'validation_required');
@@ -1589,6 +1755,13 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Set regex pattern validation for specified fields
+     * 
+     * @param string|array $fields Field name(s) to apply validation to
+     * @param string $pattern Regular expression pattern for validation
+     * @return $this Method chaining
+     */
     public function validation_pattern($fields = '', $pattern = '')
     {
         $fdata = $this->_parse_field_names($fields, 'validation_pattern');
@@ -1598,6 +1771,19 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Set up email alerts for data changes
+     * 
+     * @param string $column Email field column name
+     * @param string|array $cc CC recipients (comma-separated or array)
+     * @param string $subject Email subject
+     * @param string $message Email message template
+     * @param string|false $link Optional link to include in email
+     * @param string|false $field Conditional field for sending
+     * @param mixed|false $value Conditional value for sending
+     * @param string $mode Mode when to send (all/create/edit)
+     * @return $this Method chaining
+     */
     public function alert($column = '', $cc = '', $subject = '', $message = '', $link = false, $field = false, $value = false,
         $mode = 'all')
     {
@@ -1627,16 +1813,54 @@ class Xcrud
                 'value' => $value);
         return $this;
     }
+    /**
+     * Set up email alerts for create operations only
+     * 
+     * @param string $column Email field column name
+     * @param string|array $cc CC recipients
+     * @param string $subject Email subject
+     * @param string $message Email message template
+     * @param string|false $link Optional link to include
+     * @param string|false $field Conditional field
+     * @param mixed|false $value Conditional value
+     * @return $this Method chaining
+     */
     public function alert_create($column = '', $cc = '', $subject = '', $message = '', $link = false, $field = false, $value = false)
     {
         return $this->alert($column, $cc, $subject, $message, $link, $field, $value, 'create');
     }
+    /**
+     * Set up email alerts for edit operations only
+     * 
+     * @param string $column Email field column name
+     * @param string|array $cc CC recipients
+     * @param string $subject Email subject
+     * @param string $message Email message template
+     * @param string|false $link Optional link to include
+     * @param string|false $field Conditional field
+     * @param mixed|false $value Conditional value
+     * @return $this Method chaining
+     */
     public function alert_edit($column = '', $cc = '', $subject = '', $message = '', $link = false, $field = false, $value = false)
     {
         return $this->alert($column, $cc, $subject, $message, $link, $field, $value, 'edit');
     }
 
-    // NEEDS TO BE REWRITTEN
+    /**
+     * Set up mass email alerts from a separate email table
+     * NEEDS TO BE REWRITTEN
+     * 
+     * @param string $email_table Table containing email addresses
+     * @param string $email_column Column name containing email addresses
+     * @param string $emeil_where WHERE condition for email selection
+     * @param string $subject Email subject
+     * @param string $message Email message template
+     * @param string|false $link Optional link to include
+     * @param string|false $field Conditional field
+     * @param mixed|false $value Conditional value
+     * @param string $mode Mode when to send (all/create/edit)
+     * @return $this Method chaining
+     */
     public function mass_alert($email_table = '', $email_column = '', $emeil_where = '', $subject = '', $message = '', $link = false,
         $field = false, $value = false, $mode = 'all')
     {
@@ -1667,16 +1891,53 @@ class Xcrud
 
         return $this;
     }
+    /**
+     * Set up mass email alerts for create operations only
+     * 
+     * @param string $email_table Table containing email addresses
+     * @param string $email_column Column name containing email addresses
+     * @param string $emeil_where WHERE condition for email selection
+     * @param string $subject Email subject
+     * @param string $message Email message template
+     * @param string|false $link Optional link to include
+     * @param string|false $field Conditional field
+     * @param mixed|false $value Conditional value
+     * @return $this Method chaining
+     */
     public function mass_alert_create($email_table = '', $email_column = '', $emeil_where = '', $subject = '', $message = '',
         $link = false, $field = false, $value = false)
     {
         return $this->mass_alert($email_table, $email_column, $emeil_where, $subject, $message, $link, $field, $value, 'create');
     }
+    /**
+     * Set up mass email alerts for edit operations only
+     * 
+     * @param string $email_table Table containing email addresses
+     * @param string $email_column Column name containing email addresses
+     * @param string $emeil_where WHERE condition for email selection
+     * @param string $subject Email subject
+     * @param string $message Email message template
+     * @param string|false $link Optional link to include
+     * @param string|false $field Conditional field
+     * @param mixed|false $value Conditional value
+     * @return $this Method chaining
+     */
     public function mass_alert_edit($email_table = '', $email_column = '', $emeil_where = '', $subject = '', $message = '',
         $link = false, $field = false, $value = false)
     {
         return $this->mass_alert($email_table, $email_column, $emeil_where, $subject, $message, $link, $field, $value, 'edit');
     }
+    /**
+     * Send data to external script or URL
+     * 
+     * @param string $path Path to external script or URL
+     * @param array $data Data to send
+     * @param string $method Method to use (include/post/get)
+     * @param string $mode When to send (all/create/edit)
+     * @param string $where_field Conditional field
+     * @param mixed $where_val Conditional value
+     * @return $this Method chaining
+     */
     public function send_external($path, $data = array(), $method = 'include', $mode = 'all', $where_field = '', $where_val =
         '')
     {
@@ -1701,18 +1962,56 @@ class Xcrud
                 'where_val' => $where_val);
         return $this;
     }
+    /**
+     * Call external page/URL with data
+     * 
+     * @param string $url URL to call
+     * @param array $data Data to send
+     * @param string $where_param Parameter name for conditional sending
+     * @param mixed $where_value Parameter value for conditional sending
+     * @param string $method HTTP method (get/post)
+     * @return $this Method chaining
+     */
     public function page_call($url = '', $data = array(), $where_param = '', $where_value = '', $method = 'get')
     {
         return $this->send_external($url, $data, $method, 'all', $where_param, $where_value);
     }
+    /**
+     * Call external page/URL with data for create operations only
+     * 
+     * @param string $url URL to call
+     * @param array $data Data to send
+     * @param string $where_param Parameter name for conditional sending
+     * @param mixed $where_value Parameter value for conditional sending
+     * @param string $method HTTP method (get/post)
+     * @return $this Method chaining
+     */
     public function page_call_create($url = '', $data = array(), $where_param = '', $where_value = '', $method = 'get')
     {
         return $this->send_external($url, $data, $method, 'create', $where_param, $where_value);
     }
+    /**
+     * Call external page/URL with data for edit operations only
+     * 
+     * @param string $url URL to call
+     * @param array $data Data to send
+     * @param string $where_param Parameter name for conditional sending
+     * @param mixed $where_value Parameter value for conditional sending
+     * @param string $method HTTP method (get/post)
+     * @return $this Method chaining
+     */
     public function page_call_edit($url = '', $data = array(), $where_param = '', $where_value = '', $method = 'get')
     {
         return $this->send_external($url, $data, $method, 'edit', $where_param, $where_value);
     }
+    /**
+     * Add a custom subselect column to the grid view
+     * 
+     * @param string $column_name Name for the custom column
+     * @param string $sql SQL subquery to execute
+     * @param string|false $before Field to position this column before
+     * @return $this Method chaining
+     */
     public function subselect($column_name = '', $sql = '', $before = false)
     {
         if ($column_name && $sql)
@@ -1786,6 +2085,13 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Enable modal display for specified columns
+     * 
+     * @param string|array $columns Column name(s) to display in modal
+     * @param string|false $icon Icon class for modal trigger
+     * @return $this Method chaining
+     */
     public function modal($columns = '', $icon = false)
     {
         $fdata = $this->_parse_field_names($columns, 'modal');
@@ -1844,6 +2150,13 @@ class Xcrud
         return $this;
     }
 
+    /**
+     * Set which columns can be searched and default search field
+     * 
+     * @param string|array|false $fields Field name(s) that can be searched
+     * @param string|false $default Default field for search
+     * @return $this Method chaining
+     */
     public function search_columns($fields = false, $default = false)
     {
         if ($fields)
@@ -1983,6 +2296,13 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Set callback to execute after file upload operations
+     * 
+     * @param callable $callback Callback function
+     * @param string $path File path containing callback (optional)
+     * @return $this Method chaining
+     */
     public function after_upload($callable = '', $path = 'functions.php')
     {
         if ($callable && $path)
@@ -1992,6 +2312,13 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Set callback to execute before file upload operations
+     * 
+     * @param callable $callback Callback function
+     * @param string $path File path containing callback (optional)
+     * @return $this Method chaining
+     */
     public function before_upload($callable = '', $path = 'functions.php')
     {
         if ($callable && $path)
@@ -2001,6 +2328,14 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Set callback function to customize column display in grid view
+     * 
+     * @param string|array $fields Field name(s) to apply callback to
+     * @param callable $callback Callback function for column formatting
+     * @param string $path File path containing callback
+     * @return $this Method chaining
+     */
     public function column_callback($fields = '', $callback = '', $path = 'functions.php')
     {
         if ($fields && $callback && $path)
@@ -2016,6 +2351,14 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Set callback function to customize field display in forms
+     * 
+     * @param string|array $fields Field name(s) to apply callback to
+     * @param callable $callback Callback function for field formatting
+     * @param string $path File path containing callback
+     * @return $this Method chaining
+     */
     public function field_callback($fields = '', $callback = '', $path = 'functions.php')
     {
         if ($fields && $callback && $path)
@@ -2032,6 +2375,13 @@ class Xcrud
         return $this;
     }
 
+    /**
+     * Replace default INSERT operation with custom callback
+     * 
+     * @param callable $callback Callback function to handle insert
+     * @param string $path File path containing callback
+     * @return $this Method chaining
+     */
     public function replace_insert($callable = '', $path = 'functions.php')
     {
         if ($callable)
@@ -2040,6 +2390,13 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Replace default UPDATE operation with custom callback
+     * 
+     * @param callable $callback Callback function to handle update
+     * @param string $path File path containing callback
+     * @return $this Method chaining
+     */
     public function replace_update($callable = '', $path = 'functions.php')
     {
         if ($callable)
@@ -2048,6 +2405,13 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Replace default DELETE operation with custom callback
+     * 
+     * @param callable $callback Callback function to handle delete
+     * @param string $path File path containing callback
+     * @return $this Method chaining
+     */
     public function replace_remove($callable = '', $path = 'functions.php')
     {
         if ($callable)
@@ -2056,6 +2420,13 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Set callback to execute before displaying the list view
+     * 
+     * @param callable $callback Callback function
+     * @param string $path File path containing callback
+     * @return $this Method chaining
+     */
     public function before_list($callable = '', $path = 'functions.php')
     {
         if ($callable && $path)
@@ -2065,6 +2436,13 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Set callback to execute before displaying the create form
+     * 
+     * @param callable $callback Callback function
+     * @param string $path File path containing callback
+     * @return $this Method chaining
+     */
     public function before_create($callable = '', $path = 'functions.php')
     {
         if ($callable && $path)
@@ -2074,6 +2452,13 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Set callback to execute before displaying the edit form
+     * 
+     * @param callable $callback Callback function
+     * @param string $path File path containing callback
+     * @return $this Method chaining
+     */
     public function before_edit($callable = '', $path = 'functions.php')
     {
         if ($callable && $path)
@@ -2083,6 +2468,13 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Set callback to execute before displaying the view form
+     * 
+     * @param callable $callback Callback function
+     * @param string $path File path containing callback
+     * @return $this Method chaining
+     */
     public function before_view($callable = '', $path = 'functions.php')
     {
         if ($callable && $path)
@@ -2092,6 +2484,14 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Manually call update operation from within callbacks
+     * 
+     * @param object $postdata Posted data object
+     * @param mixed $primary Primary key value
+     * @return mixed Update operation result
+     * @throws Exception If not called within a callback
+     */
     public function call_update($postdata, $primary)
     {
         if (!$this->task)
@@ -2100,6 +2500,13 @@ class Xcrud
         }
         return $this->_update($postdata->to_array(), $primary);
     }
+    /**
+     * Set a custom variable for use in callbacks or templates
+     * 
+     * @param string|null $name Variable name
+     * @param mixed|null $value Variable value
+     * @return $this Method chaining
+     */
     public function set_var($name = null, $value = null)
     {
         if ($name)
@@ -2108,6 +2515,12 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Get a previously set custom variable
+     * 
+     * @param string|null $name Variable name
+     * @return mixed Variable value or false if not found
+     */
     public function get_var($name = null)
     {
         if ($name)
@@ -2119,6 +2532,12 @@ class Xcrud
             return false;
         }
     }
+    /**
+     * Remove a custom variable
+     * 
+     * @param string $name Variable name to remove
+     * @return $this Method chaining
+     */
     public function unset_var($name)
     {
         if (isset($this->custom_vars[$name]))
@@ -2128,6 +2547,13 @@ class Xcrud
         return $this;
     }
 
+    /**
+     * Set display name for columns in grid view
+     * 
+     * @param string|array $fields Field name(s)
+     * @param string $text Display text for column header
+     * @return $this Method chaining
+     */
     public function column_name($fields = '', $text = '')
     {
         $fdata = $this->_parse_field_names($fields, 'column_name');
@@ -2157,6 +2583,14 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Add tooltip help text to column headers
+     * 
+     * @param string|array $fields Field name(s)
+     * @param string $tooltip Tooltip text
+     * @param string|false $icon Icon class (optional)
+     * @return $this Method chaining
+     */
     public function column_tooltip($fields = '', $tooltip = '', $icon = false)
     {
         if ($fields && $tooltip)
@@ -2170,6 +2604,12 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Set the position of action buttons in the grid
+     * 
+     * @param string $position Button position (left/right/none)
+     * @return $this Method chaining
+     */
     public function buttons_position($position = 'left')
     {
         switch ($position)
@@ -2182,6 +2622,12 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Hide specific action buttons
+     * 
+     * @param string $names Comma-separated button names to hide
+     * @return $this Method chaining
+     */
     public function hide_button($names = '')
     {
         foreach ($this->parse_comma_separated($names) as $name)
@@ -2190,6 +2636,13 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Set custom language translations
+     * 
+     * @param string $var Language variable key
+     * @param string $translate Translation text
+     * @return $this Method chaining
+     */
     public function set_lang($var = '', $translate = '')
     {
         if ($var)
@@ -2199,11 +2652,26 @@ class Xcrud
         return $this;
     }
 
+    /**
+     * Set search pattern for LIKE queries
+     * 
+     * @param string $left Left wildcard character
+     * @param string $right Right wildcard character
+     * @return $this Method chaining
+     */
     public function search_pattern($left = '%', $right = '%')
     {
         $this->search_pattern = array($left, $right);
         return $this;
     }
+    /**
+     * Load custom view template for specific modes
+     * 
+     * @param string $mode View mode (list/create/edit/view)
+     * @param string $file Path to template file
+     * @return $this Method chaining
+     * @throws Exception If incorrect mode provided
+     */
     public function load_view($mode = '', $file = '')
     {
         if ($mode && $file)
@@ -2222,6 +2690,14 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Create a custom action that can be called via AJAX
+     * 
+     * @param string $name Action name/identifier
+     * @param callable $callback Callback function to execute
+     * @param string $path File path containing callback
+     * @return $this Method chaining
+     */
     public function create_action($name = '', $callable = '', $path = 'functions.php')
     {
         if ($callable && $name)
@@ -2230,6 +2706,13 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Get request data within callbacks (POST/GET/FILES)
+     * 
+     * @param string $name Parameter name to retrieve
+     * @return mixed Parameter value or null
+     * @throws Exception If not called within a callback
+     */
     public function get($name = '')
     {
         if (!$this->task)
@@ -2245,16 +2728,33 @@ class Xcrud
             return $this->_post($name);
         }
     }
+    /**
+     * Set the default active tab for tabbed forms
+     * 
+     * @param string|false $name Tab name or false to disable
+     * @return $this Method chaining
+     */
     public function default_tab($name = false)
     {
         $this->default_tab = $name;
         return $this;
     }
+    /**
+     * Set a custom SQL query instead of auto-generated one
+     * 
+     * @param string $query Custom SQL query
+     * @return $this Method chaining
+     */
     public function query($query = '')
     {
         $this->query = $query;
         return $this;
     }
+    /**
+     * Check system requirements and configuration
+     * 
+     * @return array System check results
+     */
     public function check()
     {
         $array = array();
@@ -2262,6 +2762,13 @@ class Xcrud
         $array['PHP version'] = array('value' => $phpvers, 'state' => ((int)$phpvers >= 5 ? 'passed' : 'error'));
 
     }
+    /**
+     * Set HTML attributes for form fields
+     * 
+     * @param string|array $fields Field name(s)
+     * @param array $attr HTML attributes to set
+     * @return $this Method chaining
+     */
     public function set_attr($fields = '', array $attr = array())
     {
         if ($fields && $attr)
@@ -2282,6 +2789,12 @@ class Xcrud
         }
         return $this;
     }
+    /**
+     * Enable/disable null option in select lists
+     * 
+     * @param bool $bool True to show null option, false to hide
+     * @return $this Method chaining
+     */
     public function lists_null_opt($bool = true)
     {
         $this->lists_null_opt = $bool;
@@ -2806,6 +3319,12 @@ class Xcrud
         }
         exit();
     }
+    /**
+     * Generate and output CSV export of the current dataset
+     * 
+     * @return void Outputs CSV file directly to browser
+     * @throws Exception If CSV export is disabled
+     */
     public function _csv()
     {
         if (!$this->is_csv)
@@ -3630,6 +4149,18 @@ class Xcrud
         $this->primary_val = null;
         return $del;
     }
+    /**
+     * Validates and processes POST data before database operations
+     * 
+     * Handles field type specific processing, date/datetime validation, and conditional field removal
+     * based on disabled/readonly status. Also processes null values appropriately for different database types.
+     * 
+     * @param array $postdata Raw POST data from form submission
+     * @param mixed $primary Primary key value (for edit mode) or false (for create mode)
+     * @return array Processed and validated POST data ready for database operations
+     * @throws Exception When data validation fails
+     * @internal Used internally during save operations
+     */
     protected function check_postdata($postdata, $primary)
     {
         $mode = $primary ? 'edit' : 'create';
@@ -4096,6 +4627,16 @@ class Xcrud
         $this->after = null;
         return $this->_run_task();
     }
+    /**
+     * Validates POST data against defined validation rules
+     * 
+     * Checks required fields and pattern validations (email, numeric, alpha, etc.).
+     * Sets exception flags for invalid data that will prevent saving.
+     * 
+     * @param array $postdata POST data to validate
+     * @return void Sets internal exception state if validation fails
+     * @internal Called during save operations to ensure data integrity
+     */
     protected function validate_postdata($postdata)
     {
         foreach ($postdata as $key => $val)
@@ -4146,6 +4687,16 @@ class Xcrud
             }
         }
     }
+    /**
+     * Handles exception cases by reverting to previous state
+     * 
+     * Called when validation errors occur or other exceptions are triggered during processing.
+     * Cancels file saving operations and redirects to appropriate view based on current task.
+     * 
+     * @param array $postdata POST data that caused the exception
+     * @return string Rendered output for the reverted state
+     * @internal Used internally when exceptions occur during form processing
+     */
     protected function call_exception($postdata = array())
     {
         $this->cancel_file_saving = true;
@@ -4185,6 +4736,16 @@ class Xcrud
         }
     }
 
+    /**
+     * Processes file uploads from temporary storage to final destination
+     * 
+     * Handles blob storage by reading temporary files, storing content in database,
+     * and cleaning up temporary files. Only processes uploads when not in exception state.
+     * 
+     * @param Xcrud_postdata $pd Postdata object containing uploaded file information
+     * @return void Modifies postdata object and filesystem
+     * @internal Called during save operations to finalize file uploads
+     */
     protected function make_upload_process($pd)
     {
         if ($this->upload_config)
@@ -4214,6 +4775,14 @@ class Xcrud
     }
 
 
+    /**
+     * Set exception message and highlight specific fields with errors
+     * 
+     * @param string|array $fields Field name(s) to highlight as having errors
+     * @param string $message Error message to display
+     * @param string $type Message type (note/error/success/warning)
+     * @return $this Method chaining
+     */
     public function set_exception($fields = '', $message = '', $type = 'note')
     {
         if ($message)
@@ -4231,6 +4800,13 @@ class Xcrud
         $this->exception = true;
         return $this;
     }
+    /**
+     * Set a general message to display to the user
+     * 
+     * @param string $message Message text to display
+     * @param string $type Message type (note/error/success/warning)
+     * @return $this Method chaining
+     */
     public function set_message($message = '', $type = 'note')
     {
         if ($message)
@@ -4300,6 +4876,19 @@ class Xcrud
         return $this->_render_list();
     }
     /** defines primary condition for internal usage */
+    /**
+     * Defines primary WHERE conditions for internal queries
+     * 
+     * Sets up internal WHERE conditions that are always applied to queries.
+     * Used for nested table connections, security restrictions, and other system-level filtering.
+     * 
+     * @param mixed|false $fields Field name(s) or custom SQL condition
+     * @param mixed|false $where_val Value to compare against (when using field names)
+     * @param string $glue SQL glue operator (AND/OR) to join with other conditions
+     * @param mixed|false $index Optional index to update specific condition rather than append
+     * @return $this Method chaining
+     * @internal Used internally for system-level query filtering
+     */
     protected function where_pri($fields = false, $where_val = false, $glue = 'AND', $index = false)
     {
 
@@ -4343,6 +4932,21 @@ class Xcrud
     }
 
     /** 'select' subquery for grid view */
+    /**
+     * Builds the SELECT clause for list/grid view queries
+     * 
+     * Constructs database-agnostic SELECT statements including:
+     * - Regular columns with proper table prefixes
+     * - Subselect queries
+     * - Point field concatenation
+     * - Relation lookups with GROUP_CONCAT
+     * - BIT field casting
+     * - Hidden columns
+     * 
+     * @param bool $csv Whether building for CSV export (affects output format)
+     * @return string Complete SELECT clause with all columns and subqueries
+     * @internal Core method for building list view database queries
+     */
     protected function _build_select_list($csv = false)
     {
         $this->find_grid_text_variables();
@@ -4495,6 +5099,16 @@ class Xcrud
         return implode(',', $columns);
     }
     /** creates subselect subquery for grid view */
+    /**
+     * Builds subselect query for a specific column
+     * 
+     * Processes subselect SQL by replacing field placeholders with proper table.field references.
+     * Caches the processed query for performance.
+     * 
+     * @param string $name Column name for the subselect query
+     * @return string Complete subselect query with AS alias
+     * @internal Used when building SELECT clauses containing subselect columns
+     */
     protected function subselect_query($name)
     {
         if (isset($this->subselect_query[$name]))
@@ -4508,6 +5122,16 @@ class Xcrud
         }
         return "({$sql}) AS `{$name}`";
     }
+    /**
+     * Returns subselect query for use in WHERE clauses
+     * 
+     * Gets the processed subselect query without the AS alias for use in WHERE conditions.
+     * Builds the query if not already cached.
+     * 
+     * @param string $name Column name for the subselect query
+     * @return string Subselect query wrapped in parentheses
+     * @internal Used when filtering by subselect column values
+     */
     protected function subselect_where($name)
     {
         if (isset($this->subselect_query[$name]))
@@ -4520,6 +5144,16 @@ class Xcrud
             return '(' . $this->subselect_query[$name] . ')';
         }
     }
+    /**
+     * Callback for processing field placeholders in subselect queries
+     * 
+     * Replaces {field} and {table.field} placeholders with proper SQL field references.
+     * Handles nested subselects and table prefixing.
+     * 
+     * @param array $matches Regex matches from preg_replace_callback
+     * @return string Properly formatted SQL field reference
+     * @internal Used internally by subselect query processing
+     */
     protected function subselect_callback($matches)
     {
         if (strpos($matches[1], '.'))
@@ -4544,6 +5178,21 @@ class Xcrud
     }
 
     /** 'select' subquery part for edit/details view */
+    /**
+     * Builds SELECT clause for detail views (create/edit/view)
+     * 
+     * Constructs SELECT statement for retrieving individual record data including:
+     * - All defined fields for the current mode
+     * - Hidden fields needed for nested tables
+     * - Subselect queries
+     * - FK relation aggregated data
+     * - Point field coordinates
+     * - BIT field casting
+     * 
+     * @param string $mode Current view mode (create/edit/view)
+     * @return string Complete SELECT clause with all required fields
+     * @internal Core method for building detail view database queries
+     */
     protected function _build_select_details($mode)
     {
         $this->find_details_text_variables();
@@ -4612,6 +5261,15 @@ class Xcrud
         $fields[] = "`{$this->table}`.`{$this->primary_key}` AS `primary_key`";
         return implode(',', $fields);
     }
+    /**
+     * Builds JOIN clauses for multi-table queries
+     * 
+     * Constructs INNER JOIN statements based on defined table relationships.
+     * Used when queries need to span multiple related tables.
+     * 
+     * @return string Complete JOIN clause or empty string if no joins defined
+     * @internal Used in building complex multi-table queries
+     */
     protected function _build_table_join()
     {
         $join = '';
@@ -4629,6 +5287,19 @@ class Xcrud
     }
 
     /** builds main where condition for query */
+    /**
+     * Builds comprehensive WHERE clause for database queries
+     * 
+     * Constructs WHERE conditions from multiple sources:
+     * - User-defined where conditions
+     * - Internal primary conditions (security, nested tables)
+     * - Search conditions (single column or multi-column)
+     * - Date range filters
+     * - Relation-based searches
+     * 
+     * @return string Complete WHERE clause or empty string
+     * @internal Core method that combines all filtering logic
+     */
     protected function _build_where()
     {
         $db = Xcrud_db::get_instance($this->connection);
@@ -4898,6 +5569,16 @@ class Xcrud
             return '';
     }
     /** relation values will be searched by displayed name (not by id) */
+    /**
+     * Builds WHERE subquery for searching in relation fields
+     * 
+     * Creates subselect queries to search within related table data by display names
+     * rather than foreign key IDs. Handles multi-column relations and multi-select relations.
+     * 
+     * @param string $key Field key of the relation to search
+     * @return string Subselect query for relation search
+     * @internal Used when searching by relation display values
+     */
     protected function _build_relation_subwhere($key) // multicolumn name
     {
         $db = Xcrud_db::get_instance($this->connection);
@@ -5002,6 +5683,16 @@ class Xcrud
         }*/
     }
 
+    /**
+     * Builds WHERE subquery for searching in FK relation fields
+     * 
+     * Creates subselect queries for searching in foreign key relation data.
+     * Handles complex many-to-many relationships through junction tables.
+     * 
+     * @param string $key Field key of the FK relation to search
+     * @return string Subselect query for FK relation search
+     * @internal Used when searching by FK relation display values
+     */
     protected function _build_fk_relation_subwhere($key) // multicolumn name
     {
         $db = Xcrud_db::get_instance($this->connection);
@@ -5028,6 +5719,16 @@ class Xcrud
         return $select . ' LIKE ' . $db->escape_like($this->phrase, $this->search_pattern);
     }
 
+    /**
+     * Builds WHERE clause for FK relation constraints
+     * 
+     * Processes rel_where conditions for FK relations, replacing text variables
+     * and building proper SQL WHERE conditions for relation data filtering.
+     * 
+     * @param string $name FK relation field name
+     * @return string WHERE conditions for FK relation or '1' if no conditions
+     * @internal Used to filter FK relation data based on defined constraints
+     */
     protected function _build_rel_where($name)
     {
         $where_arr = array();
@@ -5053,6 +5754,16 @@ class Xcrud
             return 1;
         }
     }
+    /**
+     * Builds WHERE clause for FK relation insertion data constraints
+     * 
+     * Processes add_data conditions for FK relations when inserting new relation records.
+     * Replaces text variables and builds SQL WHERE conditions.
+     * 
+     * @param string $name FK relation field name
+     * @return string WHERE conditions for FK relation insertion or '1' if no conditions
+     * @internal Used when adding new FK relation records
+     */
     protected function _build_rel_ins_where($name)
     {
         $where_arr = array();
@@ -5078,6 +5789,16 @@ class Xcrud
             return 1;
         }
     }
+    /**
+     * Callback for processing field placeholders in relation WHERE conditions
+     * 
+     * Replaces {field} and {table.field} placeholders in relation WHERE clauses
+     * with proper SQL field references including table prefixes.
+     * 
+     * @param array $matches Regex matches from preg_replace_callback
+     * @return string Properly formatted SQL field reference
+     * @internal Used internally by relation WHERE clause processing
+     */
     protected function rel_where_callback($matches)
     {
         if (strpos($matches[1], '.'))
@@ -5092,6 +5813,18 @@ class Xcrud
     }
 
     /** receiving user data */
+    /**
+     * Processes incoming request data and sets task parameters
+     * 
+     * Handles both GET and POST requests, extracting task, primary key, search parameters,
+     * ordering, pagination settings, and other request data. Sets up instance state
+     * based on request parameters.
+     * 
+     * @param string|false $task Forced task type or false to detect from request
+     * @param mixed|false $primary Forced primary key value or false to detect from request
+     * @return void Modifies instance state based on request data
+     * @internal Core method for processing incoming HTTP requests
+     */
     protected function _receive_post($task = false, $primary = false)
     {
         if (!$this->table_name && !$this->query)
@@ -5159,6 +5892,15 @@ class Xcrud
 
         }
     }
+    /**
+     * Builds ORDER BY clause for database queries
+     * 
+     * Constructs proper ORDER BY statements from defined ordering rules,
+     * handling relations, subselects, and custom field ordering.
+     * 
+     * @return string Complete ORDER BY clause or empty string
+     * @internal Used to apply sorting to database queries
+     */
     protected function _build_order_by()
     {
         if (count($this->order_by))
@@ -5199,6 +5941,16 @@ class Xcrud
             return '';
         }
     }
+    /**
+     * Builds LIMIT clause for pagination
+     * 
+     * Calculates and builds database-appropriate LIMIT clause for pagination.
+     * Handles edge cases where start position exceeds total results.
+     * 
+     * @param int $total Total number of records available
+     * @return string Database-specific LIMIT clause or empty string
+     * @internal Used to implement pagination in list queries
+     */
     protected function _build_limit($total)
     {
         if ($this->limit != 'all' && $this->theme != 'printout')
@@ -5217,6 +5969,16 @@ class Xcrud
         }
     }
     /** information about table columns - Enhanced for multi-database */
+    /**
+     * Retrieves and processes database table column information
+     * 
+     * Gets table schema information from database and normalizes it across different
+     * database types (MySQL, PostgreSQL, SQLite). Includes joined table information.
+     * 
+     * @return bool Always returns true after processing
+     * @throws Exception When database query fails
+     * @internal Used during initialization to understand table structure
+     */
     protected function _get_table_info()
     {
         $this->table_info = array();
@@ -5241,6 +6003,18 @@ class Xcrud
         }
         return true;
     }
+    /**
+     * Analyzes table structure and sets appropriate field types
+     * 
+     * Processes database column information to determine appropriate field types,
+     * handles auto-increment fields, sets up validation rules, and manages field visibility
+     * based on configuration and mode.
+     * 
+     * @param string $mode View mode for field processing (create/edit/list/view)
+     * @param bool $all_fields Whether to process all fields regardless of mode restrictions
+     * @return void Modifies instance field configuration
+     * @internal Critical method for setting up field behavior based on database schema
+     */
     protected function _set_field_types($mode = 'create', $all_fields = false)
     {
         if (is_array($this->table_info) && count($this->table_info))
@@ -5559,6 +6333,18 @@ class Xcrud
             unset($fields);
         }
     }
+    /**
+     * Defines field type based on database column information
+     * 
+     * Analyzes database column type and sets appropriate field type and attributes.
+     * Handles all standard database types including special types like ENUM, SET, POINT, etc.
+     * Sets default values, validation patterns, and field-specific configurations.
+     * 
+     * @param array $row Database column information from SHOW COLUMNS or equivalent
+     * @param string $field_index Field index in format 'table.field'
+     * @return void Modifies instance field type and attribute configurations
+     * @internal Called by _set_field_types() to process individual columns
+     */
     protected function _define_field_type($row, $field_index)
     {
         if (preg_match('/^([A-Za-z]+)\((.+)\)/u', $row['Type'], $matches))
@@ -5787,6 +6573,15 @@ class Xcrud
         }
     }
 
+    /**
+     * Sets display names for grid columns
+     * 
+     * Processes column labels from various sources (custom labels, subselects, FK relations)
+     * and sets the final display names used in the list/grid view headers.
+     * 
+     * @return void Modifies internal columns_names array
+     * @internal Called during list view rendering to set up column headers
+     */
     protected function _set_column_names()
     {
         $subselect_before = $this->subselect_before;
@@ -5823,6 +6618,15 @@ class Xcrud
             }
         }
     }
+    /**
+     * Sets display names for form fields
+     * 
+     * Processes field labels and adds required field indicators (*) based on validation rules.
+     * Used for form field labels in create/edit/view modes.
+     * 
+     * @return void Modifies internal fields_names array
+     * @internal Called during detail view rendering to set up field labels
+     */
     protected function _set_field_names()
     {
         foreach ($this->fields as $key => $field)
@@ -5835,6 +6639,15 @@ class Xcrud
                     '&#42;' : '');
         }
     }
+    /**
+     * Renders the list/grid view template
+     * 
+     * Processes ordering and search defaults, loads the appropriate theme template,
+     * and generates the complete HTML output for the list view including data grid.
+     * 
+     * @return string Complete HTML output for list view
+     * @internal Core rendering method for list/grid display
+     */
     protected function _render_list()
     {
         
@@ -5880,7 +6693,17 @@ class Xcrud
         return $this->render_output();
     }
 
-    /** renders details view template */
+    /**
+     * Renders detail view templates (create/edit/view)
+     * 
+     * Processes form fields, handles field callbacks, manages nested table instances,
+     * and generates complete HTML output for detail views. Handles field-specific
+     * rendering based on field types and view modes.
+     * 
+     * @param string $mode View mode (create/edit/view)
+     * @return string Complete HTML output for detail view
+     * @internal Core rendering method for form-based views
+     */
     protected function _render_details($mode)
     {
         if (count($this->order_by))
@@ -6067,6 +6890,12 @@ class Xcrud
         return $this->render_output();
     }
     /** defines nested main condition, must be public. Only for internal usage. */
+    /**
+     * Set WHERE condition for nested tables to connect with parent
+     * 
+     * @param mixed|false $value Value to filter nested table records
+     * @return $this Method chaining
+     */
     public function inner_where($value = false)
     {
         if ($value !== false)
@@ -6161,6 +6990,18 @@ class Xcrud
             return $html;
         }
     }
+    /**
+     * Generates individual pagination item HTML
+     * 
+     * Creates HTML for a single page number in pagination, handling both active
+     * and clickable states with proper CSS classes and data attributes.
+     * 
+     * @param int $i Page number to generate
+     * @param int $curent Current active page number
+     * @param int $limit Records per page (used to calculate data-start attribute)
+     * @return string HTML for single pagination item
+     * @internal Helper method for _pagination() to generate individual page links
+     */
     protected function _pagination_item($i, $curent, $limit)
     {
         $limit1 = $i * $limit - $limit;
@@ -6172,6 +7013,19 @@ class Xcrud
                 '"><a href="javascript:;" class="xcrud-action" data-start="' . $limit1 . '">' . $i . '</a></li>';
         }
     }
+    /**
+     * Truncates text content with word-safe cutting
+     * 
+     * Cuts text to specified length with options for word-safe truncation and ellipsis.
+     * Respects field-specific cutting rules and output safety settings.
+     * 
+     * @param string $string Text to truncate
+     * @param string $field Field name for field-specific cutting rules
+     * @param bool $wordsafe Whether to break on word boundaries (default true)
+     * @param bool $dots Whether to add ellipsis for truncated text (default true)
+     * @return string Truncated and processed text
+     * @internal Used for displaying truncated content in list views
+     */
     protected function _cut($string, $field, $wordsafe = true, $dots = true)
     {
         if (isset($this->column_cut_list[$field]))
@@ -6213,6 +7067,18 @@ class Xcrud
         return $this->output_string(mb_substr($strip_string, 0, $len, Xcrud_config::$mbencoding), false, $safe) . ($dots ?
             '&#133;' : '');
     }
+    /**
+     * Processes string output with safety and formatting options
+     * 
+     * Applies strip_tags and HTML safety encoding based on configuration.
+     * Used as final step in text processing before display.
+     * 
+     * @param string $string Text to process
+     * @param bool $strip Whether to strip HTML tags
+     * @param bool $safe Whether to apply HTML safety encoding
+     * @return string Processed text ready for display
+     * @internal Helper method for text output processing
+     */
     protected function output_string($string, $strip, $safe)
     {
         if ($strip)
@@ -6225,10 +7091,29 @@ class Xcrud
         }
         return $string;
     }
+    /**
+     * Converts database field names to human-readable labels
+     * 
+     * Replaces underscores with spaces and converts to title case using
+     * multi-byte safe string functions for international characters.
+     * 
+     * @param string $text Field name to humanize
+     * @return string Human-readable field label
+     * @internal Used to generate default field labels from database column names
+     */
     protected function _humanize($text)
     {
         return mb_convert_case(str_replace('_', ' ', $text), MB_CASE_TITLE, Xcrud_config::$mbencoding);
     }
+    /**
+     * Regenerates security key for instance based on current task
+     * 
+     * Creates new SHA1 hash for most operations while preserving key for
+     * file operations, uploads, and other tasks that need consistent keys.
+     * 
+     * @return void Modifies instance key property
+     * @internal Used to maintain security during state transitions
+     */
     protected function _regenerate_key()
     {
         switch ($this->task)
@@ -6248,6 +7133,11 @@ class Xcrud
         }
     }
 
+    /**
+     * Export instance variables to session for AJAX requests
+     * 
+     * @return void Stores instance state in session
+     */
     public function _export_vars()
     {
 
@@ -6465,6 +7355,12 @@ class Xcrud
         }
     }
 
+    /**
+     * Import instance variables from session for AJAX requests
+     * 
+     * @param string|false $key Security key for session validation
+     * @return void Restores instance state from session
+     */
     public function import_vars($key = false)
     {
         
@@ -6511,6 +7407,17 @@ class Xcrud
         }
         
     }
+    /**
+     * Gets HTML attributes for form field elements
+     * 
+     * Builds array of HTML attributes including CSS classes, validation rules,
+     * accessibility attributes, and field state (readonly, disabled, required).
+     * 
+     * @param string $name Field name
+     * @param string $mode Current form mode (create/edit/view)
+     * @return array HTML attributes array ready for field rendering
+     * @internal Used by field creation methods to build proper HTML attributes
+     */
     protected function get_field_attr($name, $mode)
     {
         $tag = array('class' => 'xcrud-input');
@@ -6544,14 +7451,48 @@ class Xcrud
         }
         return $tag;
     }
+    /**
+     * Creates display-only field with no input capability
+     * 
+     * Renders field value in a span element for display purposes only.
+     * Used when field should be visible but not editable.
+     * 
+     * @param string $name Field name
+     * @param mixed $value Field value to display
+     * @param array $tag Additional HTML tag attributes (unused)
+     * @return string HTML span element with field value
+     * @internal Creates non-editable field display
+     */
     protected function create_none($name, $value = '', $tag = array())
     {
         return '<span class="xcrud-none">' . $value . '</span>';
     }
+    /**
+     * Creates view mode display for none-type fields
+     * 
+     * Renders field value in view mode using consistent formatting.
+     * 
+     * @param string $name Field name
+     * @param mixed $value Field value to display
+     * @return string HTML span element with field value
+     * @internal Creates view-mode display for none-type fields
+     */
     protected function create_view_none($name, $value = '')
     {
         return '<span class="xcrud-none">' . $value . '</span>';
     }
+    /**
+     * Creates boolean/checkbox input field
+     * 
+     * Generates HTML checkbox input with proper labeling and container structure.
+     * Falls back to view mode if field is used in subselect context.
+     * 
+     * @param string $name Field name
+     * @param mixed $value Current field value (1 for checked, 0 for unchecked)
+     * @param array $tag Additional HTML attributes
+     * @return string HTML checkbox input with label and container
+     * @internal Creates checkbox field for boolean data types
+     */
     protected function create_bool($name, $value = '', $tag = array())
     {
         if (isset($this->subselect[$name]))
@@ -6572,10 +7513,33 @@ class Xcrud
         return $this->open_tag('div', $this->theme_config('checkbox_container')) . $this->open_tag('label') . $this->single_tag($tag,
             $this->theme_config('bool_field'), $this->field_attr[$name], true) . $this->close_tag('label') . $this->close_tag('div');
     }
+    /**
+     * Creates view mode display for boolean fields
+     * 
+     * Displays localized 'On' or 'Off' text based on boolean value.
+     * 
+     * @param string $name Field name
+     * @param mixed $value Boolean field value
+     * @param array $tag Additional HTML attributes (unused)
+     * @return string Localized boolean display text
+     * @internal Creates view-mode display for boolean fields
+     */
     protected function create_view_bool($name, $value = '', $tag = array())
     {
         return (int)$value ? $this->lang('bool_on') : $this->lang('bool_off');
     }
+    /**
+     * Creates integer input field
+     * 
+     * Generates HTML text input with integer validation and styling.
+     * Includes client-side validation pattern for integer values.
+     * 
+     * @param string $name Field name
+     * @param mixed $value Current field value
+     * @param array $tag Additional HTML attributes
+     * @return string HTML text input configured for integer values
+     * @internal Creates input field for integer data types
+     */
     protected function create_int($name, $value = '', $tag = array())
     {
         if (isset($this->subselect[$name]))
@@ -6592,6 +7556,17 @@ class Xcrud
 
         return $this->single_tag($tag, $this->theme_config('int_field'), $this->field_attr[$name], true);
     }
+    /**
+     * Creates view mode display for integer fields
+     * 
+     * Displays integer value as-is without additional formatting.
+     * 
+     * @param string $name Field name
+     * @param mixed $value Integer field value
+     * @param array $tag Additional HTML attributes (unused)
+     * @return mixed Raw integer value for display
+     * @internal Creates view-mode display for integer fields
+     */
     protected function create_view_int($name, $value = '', $tag = array())
     {
         return $value;
@@ -7036,6 +8011,15 @@ class Xcrud
         $out .= $this->close_tag($tag);
         return $out;
     }
+    /**
+     * Creates checkbox input field with multiple options
+     * 
+     * @param string $name Field name
+     * @param string $value Current selected values (comma-separated)
+     * @param array $tag Additional HTML tag attributes
+     * @return string Generated HTML for checkbox field
+     * @internal
+     */
     protected function create_checkboxes($name, $value = '', $tag = array())
     {
         if (isset($this->subselect[$name]))
@@ -7085,6 +8069,15 @@ class Xcrud
         $out .= $this->close_tag($tag);
         return $out;
     }
+    /**
+     * Creates view-only display of multiselect field values
+     * 
+     * @param string $name Field name
+     * @param string $value Selected values (comma-separated)
+     * @param array $tag Additional HTML tag attributes (unused in view mode)
+     * @return string Formatted display of selected values
+     * @internal
+     */
     protected function create_view_multiselect($name, $value = '', $tag = array())
     {
         $out = array();
@@ -7118,10 +8111,28 @@ class Xcrud
         }
         return implode(', ', $out);
     }
+    /**
+     * Creates view-only display of checkbox field values
+     * 
+     * @param string $name Field name
+     * @param string $value Selected values (comma-separated)
+     * @param array $tag Additional HTML tag attributes (unused in view mode)
+     * @return string Formatted display of selected values
+     * @internal
+     */
     protected function create_view_checkboxes($name, $value = '', $tag = array())
     {
         return $this->create_view_multiselect($name, $value, $tag);
     }
+    /**
+     * Creates hidden input field
+     * 
+     * @param string $name Field name
+     * @param string $value Field value
+     * @param array $tag Additional HTML tag attributes
+     * @return string Generated HTML for hidden input field
+     * @internal
+     */
     protected function create_hidden($name, $value = '', $tag = array())
     {
         return $this->single_tag($tag + array(
@@ -7130,6 +8141,15 @@ class Xcrud
             'value' => $value,
             'name' => $name), 'xcrud-input', $this->field_attr[$name], true);
     }
+    /**
+     * Creates password input field with masking
+     * 
+     * @param string $name Field name
+     * @param string $value Field value (masked for security)
+     * @param array $tag Additional HTML tag attributes
+     * @return string Generated HTML for password input field
+     * @internal
+     */
     protected function create_password($name, $value = '', $tag = array())
     {
         if (isset($this->subselect[$name]))
@@ -7146,10 +8166,29 @@ class Xcrud
 
         return $this->single_tag($tag, $this->theme_config('password_field'), $this->field_attr[$name], true);
     }
+    /**
+     * Creates view-only display of password field (always masked)
+     * 
+     * @param string $name Field name
+     * @param string $value Field value (not displayed for security)
+     * @param array $tag Additional HTML tag attributes (unused)
+     * @return string Always returns masked password display
+     * @internal
+     */
     protected function create_view_password($name, $value = '', $tag = array())
     {
         return '*****';
     }
+    /**
+     * Creates relation field (select dropdown) with database-driven options
+     * 
+     * @param string $name Field name
+     * @param string $value Current selected value(s)
+     * @param array $tag Additional HTML tag attributes
+     * @param mixed $dependval Value for dependent relation filtering
+     * @return string Generated HTML for relation select field
+     * @internal
+     */
     protected function create_relation($name, $value = '', $tag = array(), $dependval = false)
     {
         if (!isset($this->relation[$name]))
@@ -7259,6 +8298,16 @@ class Xcrud
         unset($options);
         return $out;
     }
+    /**
+     * Creates view-only display of relation field values
+     * 
+     * @param string $name Field name
+     * @param string $value Selected relation value(s)
+     * @param array $tag Additional HTML tag attributes (unused)
+     * @param mixed $dependval Value for dependent relation filtering
+     * @return string Formatted display of related record names
+     * @internal
+     */
     protected function create_view_relation($name, $value = '', $tag = array(), $dependval = false)
     {
         if ($value === null || $value === '')
@@ -7302,6 +8351,13 @@ class Xcrud
         }
         return implode(', ', $out);
     }
+    /**
+     * Gets the ORDER BY clause for relation field options
+     * 
+     * @param array $rel Relation configuration array
+     * @return string SQL ORDER BY clause for relation options
+     * @internal
+     */
     protected function get_relation_ordering($rel)
     {
         if ($rel['tree'] && isset($rel['tree']['left_key']) && isset($rel['tree']['level_key']))
@@ -7319,6 +8375,13 @@ class Xcrud
         else
             return '`name` ASC';
     }
+    /**
+     * Gets additional SELECT fields needed for tree-structured relations
+     * 
+     * @param array $rel Relation configuration array
+     * @return string Additional SQL SELECT fields for tree relations
+     * @internal
+     */
     protected function get_relation_tree_fields($rel)
     {
         if ($rel['tree'] && isset($rel['tree']['left_key']) && isset($rel['tree']['level_key']))
@@ -7332,6 +8395,14 @@ class Xcrud
         else
             return '';
     }
+    /**
+     * Sorts and formats relation options for tree or hierarchical display
+     * 
+     * @param array $options Raw relation options from database
+     * @param array $rel Relation configuration array
+     * @return array Processed and sorted relation options
+     * @internal
+     */
     protected function resort_relation_opts($options, $rel)
     {
         if ($rel['tree'] && isset($rel['tree']['left_key']) && isset($rel['tree']['level_key']))
@@ -7368,6 +8439,14 @@ class Xcrud
         }
         return $options;
     }
+    /**
+     * Recursively builds tree structure for hierarchical relation options
+     * 
+     * @param array $options Reference to options array being built
+     * @param array $insert Reference to option being inserted into tree
+     * @return void
+     * @internal
+     */
     protected function recursive_push(&$options, &$insert)
     {
         foreach ($options as $key => $opt)
@@ -7387,6 +8466,15 @@ class Xcrud
             }
         }
     }
+    /**
+     * Recursively processes tree options into flat array with proper indentation
+     * 
+     * @param array $options Reference to processed options array
+     * @param array $array Tree-structured options array
+     * @param int $level Current nesting level for indentation
+     * @return void
+     * @internal
+     */
     protected function recursive_opts(&$options, $array, $level)
     {
         $level = $level + 1;
@@ -7412,6 +8500,15 @@ class Xcrud
         }
     }
 
+    /**
+     * Creates foreign key relation field (multiselect) with database-driven options
+     * 
+     * @param string $name Field name
+     * @param string $value Current selected values (comma-separated)
+     * @param array $tag Additional HTML tag attributes
+     * @return string Generated HTML for foreign key relation multiselect field
+     * @internal
+     */
     protected function create_fk_relation($name, $value = '', $tag = array())
     {
         if (!isset($this->fk_relation[$name]))
@@ -7504,6 +8601,15 @@ class Xcrud
         return $out;
     }
 
+    /**
+     * Creates view-only display of foreign key relation field values
+     * 
+     * @param string $name Field name
+     * @param string $value Selected foreign key values (comma-separated)
+     * @param array $tag Additional HTML tag attributes (unused)
+     * @return string Formatted display of related record names
+     * @internal
+     */
     protected function create_view_fk_relation($name, $value = '', $tag = array())
     {
         if (!isset($this->fk_relation[$name]))
@@ -7562,6 +8668,16 @@ class Xcrud
         return implode(', ', $out);
     }
 
+    /**
+     * Creates file upload field with preview and management controls
+     * 
+     * @param string $name Field name
+     * @param string $value Current filename or binary data
+     * @param array $tag Additional HTML tag attributes
+     * @param bool $is_upload Whether this is an upload operation context
+     * @return string Generated HTML for file upload field with controls
+     * @internal
+     */
     protected function create_file($name, $value = '', $tag = array(), $is_upload = false)
     {
         if (isset($this->subselect[$name]))
@@ -7630,6 +8746,15 @@ class Xcrud
 
         return $out;
     }
+    /**
+     * Creates file upload button with proper styling and attributes
+     * 
+     * @param string $name Field name
+     * @param string $value Current field value
+     * @param array $tag Additional HTML tag attributes
+     * @return string Generated HTML for file upload button
+     * @internal
+     */
     protected function upload_file_button($name, $value, $tag = array())
     {
         $out = '';
@@ -7659,6 +8784,15 @@ class Xcrud
         $out .= $this->close_tag('span');
         return $out;
     }
+    /**
+     * Creates image upload button with camera support and image-specific attributes
+     * 
+     * @param string $name Field name
+     * @param string $value Current field value
+     * @param array $tag Additional HTML tag attributes
+     * @return string Generated HTML for image upload button with camera support
+     * @internal
+     */
     protected function upload_image_button($name, $value, $tag = array())
     {
         $out = '';
@@ -7690,6 +8824,13 @@ class Xcrud
         $out .= $this->close_tag('span');
         return $out;
     }
+    /**
+     * Creates remove/delete button for uploaded files
+     * 
+     * @param string $name Field name
+     * @return string Generated HTML for file removal button
+     * @internal
+     */
     protected function remove_upload_button($name)
     {
         $out = '';
@@ -7710,6 +8851,16 @@ class Xcrud
         $out .= $this->close_tag('a');
         return $out;
     }
+    /**
+     * Creates view-only display of uploaded file with download link
+     * 
+     * @param string $name Field name
+     * @param string $value Filename or binary data indicator
+     * @param array $tag Additional HTML tag attributes (unused)
+     * @param bool $is_upload Whether this is an upload operation context
+     * @return string Generated HTML for file display with download link
+     * @internal
+     */
     protected function create_view_file($name, $value = '', $tag = array(), $is_upload = false)
     {
         $out = '';
@@ -7746,6 +8897,16 @@ class Xcrud
         }
         return $out;
     }
+    /**
+     * Creates image upload field with preview thumbnail and management controls
+     * 
+     * @param string $name Field name
+     * @param string $value Current image filename or binary data
+     * @param array $tag Additional HTML tag attributes
+     * @param bool $is_upload Whether this is an upload operation context
+     * @return string Generated HTML for image upload field with preview
+     * @internal
+     */
     protected function create_image($name, $value = '', $tag = array(), $is_upload = false)
     {
         if (isset($this->subselect[$name]))
@@ -7801,6 +8962,15 @@ class Xcrud
 
         return $out;
     }
+    /**
+     * Creates view-only display of uploaded image with proper sizing
+     * 
+     * @param string $name Field name
+     * @param string $value Image filename or binary data indicator
+     * @param array $tag Additional HTML tag attributes (unused)
+     * @return string Generated HTML for image display
+     * @internal
+     */
     protected function create_view_image($name, $value = '', $tag = array())
     {
         $out = ''; // image and delete button
@@ -7828,14 +8998,41 @@ class Xcrud
 
         return $out;
     }
+    /**
+     * Creates display for binary data field (non-editable)
+     * 
+     * @param string $name Field name
+     * @param string $value Binary data value
+     * @param array $tag Additional HTML tag attributes (unused)
+     * @return string Simple text indicator for binary data presence
+     * @internal
+     */
     protected function create_binary($name, $value = '', $tag = array())
     {
         return $value ? '[binary data]' : '[binary null]';
     }
+    /**
+     * Creates view-only display for binary data field
+     * 
+     * @param string $name Field name
+     * @param string $value Binary data value
+     * @param array $tag Additional HTML tag attributes (unused)
+     * @return string Simple text indicator for binary data presence
+     * @internal
+     */
     protected function create_view_binary($name, $value = '', $tag = array())
     {
         return $value ? '[binary data]' : '[binary null]';
     }
+    /**
+     * Creates remote image field that displays images from external URLs
+     * 
+     * @param string $name Field name
+     * @param string $value Remote image filename/path
+     * @param array $tag Additional HTML tag attributes
+     * @return string Generated HTML for remote image field with preview
+     * @internal
+     */
     protected function create_remote_image($name, $value = '', $tag = array())
     {
         if (isset($this->subselect[$name]))
@@ -7865,6 +9062,15 @@ class Xcrud
         $out .= $this->single_tag($tag, $this->theme_config('remote_image_field'), $attr, true);
         return $out;
     }
+    /**
+     * Creates view-only display of remote image
+     * 
+     * @param string $name Field name
+     * @param string $value Remote image filename/path
+     * @param array $tag Additional HTML tag attributes (unused)
+     * @return string Generated HTML for remote image display
+     * @internal
+     */
     protected function create_view_remote_image($name, $value = '', $tag = array())
     {
         if ($value)
@@ -7878,6 +9084,15 @@ class Xcrud
         }
     }
 
+    /**
+     * Creates point/coordinate field with interactive map widget
+     * 
+     * @param string $name Field name
+     * @param string $value Current coordinates (x,y format)
+     * @param array $tag Additional HTML tag attributes
+     * @return string Generated HTML for point field with map interface
+     * @internal
+     */
     protected function create_point($name, $value = '', $tag = array())
     {
         if (isset($this->subselect[$name]))
@@ -7954,6 +9169,15 @@ class Xcrud
 
         return $out;
     }
+    /**
+     * Creates view-only display of point/coordinate field with static map
+     * 
+     * @param string $name Field name
+     * @param string $value Coordinates (x,y format)
+     * @param array $tag Additional HTML tag attributes (unused)
+     * @return string Generated HTML for point field display with static map
+     * @internal
+     */
     protected function create_view_point($name, $value = '', $tag = array())
     {
         $out = '';
@@ -7987,6 +9211,12 @@ class Xcrud
     }
 
 
+    /**
+     * Starts performance benchmarking by recording start time and memory usage
+     * 
+     * @return void
+     * @internal
+     */
     protected function benchmark_start()
     {
         if ($this->benchmark)
@@ -7996,6 +9226,12 @@ class Xcrud
             $this->memory_start = memory_get_usage();
         }
     }
+    /**
+     * Ends performance benchmarking and returns formatted execution statistics
+     * 
+     * @return string HTML formatted execution time and memory usage statistics
+     * @internal
+     */
     protected function benchmark_end()
     {
         if ($this->benchmark)
@@ -8010,6 +9246,15 @@ class Xcrud
             return $out;
         }
     }
+    /**
+     * Displays error messages using the modern error handler
+     * 
+     * @param string $text Error message text
+     * @param string $type Error type ('error', 'warning', 'info')
+     * @param array $details Additional error details for debugging
+     * @return void
+     * @internal
+     */
     protected static function error($text = 'Error!', $type = 'error', $details = [])
     {
         // Include modern error handler if not already included
@@ -8073,6 +9318,10 @@ class Xcrud
     
     /**
      * Map PostgreSQL data types to MySQL-like types
+     * 
+     * @param string $pgType PostgreSQL data type
+     * @return string MySQL-equivalent data type
+     * @internal
      */
     private function mapPostgreSQLType($pgType)
     {
@@ -8105,6 +9354,10 @@ class Xcrud
     
     /**
      * Map SQLite data types to MySQL-like types
+     * 
+     * @param string $sqliteType SQLite data type
+     * @return string MySQL-equivalent data type
+     * @internal
      */
     private function mapSQLiteType($sqliteType)
     {
@@ -8126,6 +9379,12 @@ class Xcrud
         
         return $sqliteType; // Return as-is if no mapping found
     }
+    /**
+     * Main upload handler that delegates to specific file or image upload methods
+     * 
+     * @return mixed Upload result or error message
+     * @internal
+     */
     protected function _upload()
     {
         switch ($this->_post('type'))
@@ -8141,6 +9400,13 @@ class Xcrud
                 break;
         }
     }
+    /**
+     * Handles file upload process including validation, naming, and storage
+     * 
+     * @return string JSON response with upload result
+     * @throws Exception If upload fails or validation errors occur
+     * @internal
+     */
     protected function _upload_file()
     {
         $field = $this->_post('field');
@@ -8191,6 +9457,13 @@ class Xcrud
         else
             return self::error('File is not uploaded');
     }
+    /**
+     * Handles image upload process with automatic resizing and cropping support
+     * 
+     * @return string JSON response with upload result or crop window HTML
+     * @throws Exception If image upload fails, validation errors, or processing fails
+     * @internal
+     */
     protected function _upload_image()
     {
         $field = $this->_post('field');
@@ -8281,6 +9554,14 @@ class Xcrud
             return self::error('File is not uploaded');
     }
 
+    /**
+     * Renders HTML interface for manual image cropping
+     * 
+     * @param string $filename Name of the uploaded image file
+     * @param string $field Field name for the image upload
+     * @return string HTML for crop interface with image and hidden form fields
+     * @internal
+     */
     protected function render_crop_window($filename, $field)
     {
         $out = ''; // upload container
@@ -8344,6 +9625,14 @@ class Xcrud
         $out .= $this->close_tag('div');
         return $out;
     }
+    /**
+     * Applies image filters and processing like watermarks and effects
+     * 
+     * @param string $filename Name of the image file to process
+     * @param string $field Field name for the image upload
+     * @return void Processes image in-place
+     * @internal
+     */
     protected function filter_image($filename, $field)
     {
         $tmp_name = substr($filename, 0, strrpos($filename, '.')) . '.tmp';
@@ -8365,6 +9654,14 @@ class Xcrud
             }
         }
     }
+    /**
+     * Automatically resizes uploaded image according to field configuration
+     * 
+     * @param string $filename Name of the image file to resize
+     * @param string $field Field name for the image upload
+     * @return void Processes image and creates thumbnails if configured
+     * @internal
+     */
     protected function make_autoresize($filename, $field)
     {
         $tmp_name = substr($filename, 0, strrpos($filename, '.')) . '.tmp';
@@ -8381,6 +9678,13 @@ class Xcrud
             }
         }
     }
+    /**
+     * Handles manual cropping of uploaded image based on user selection
+     * 
+     * @return string Updated HTML for image field after cropping
+     * @throws Exception If cropping parameters are invalid
+     * @internal
+     */
     protected function manual_crop()
     {
         $field = $this->_post('field');
@@ -8415,6 +9719,21 @@ class Xcrud
         $this->after_render();
         return $this->create_image($field, $filename);
     }
+    /**
+     * Attempts to crop image with specified dimensions and settings
+     * 
+     * @param string $tmp_path Path to temporary image file
+     * @param string $file_path Path to final image file
+     * @param string $field Field name for the image upload
+     * @param array $settings Upload configuration settings
+     * @param int $x X coordinate for crop start
+     * @param int $y Y coordinate for crop start
+     * @param int $w Width of crop area
+     * @param int $h Height of crop area
+     * @param float $ratio Aspect ratio to maintain
+     * @return void Crops image in-place
+     * @internal
+     */
     protected function _try_crop_image($tmp_path, $file_path, $field, $settings, $x, $y, $w, $h, $ratio)
     {
         $set_w = (isset($settings['width']) && !empty($settings['width'])) ? (int)$settings['width'] : false;
@@ -8428,6 +9747,17 @@ class Xcrud
         $quality = (isset($settings['quality']) && $settings['quality']) ? $settings['quality'] : 92;
         $this->_custom_image_crop($tmp_path, $file_path, $sizes['w'], $sizes['h'], $quality, $x, $y, $w, $h, $watermark, $watermark_position);
     }
+    /**
+     * Calculates final dimensions for cropped image based on constraints
+     * 
+     * @param int $w Original crop width
+     * @param int $h Original crop height
+     * @param int|false $set_w Target width setting (false if not set)
+     * @param int|false $set_h Target height setting (false if not set)
+     * @param float $set_ratio Target aspect ratio
+     * @return array Array with 'w' and 'h' keys for calculated dimensions
+     * @internal
+     */
     protected function _calculate_crop_sizes($w, $h, $set_w, $set_h, $set_ratio)
     {
         $sizes = array();
@@ -8462,6 +9792,16 @@ class Xcrud
         }
         return $sizes;
     }
+    /**
+     * Attempts to resize or crop image based on field settings
+     * 
+     * @param string $tmp_path Path to temporary image file
+     * @param string $file_path Path to final image file
+     * @param string $field Field name for the image upload
+     * @param array $settings Upload configuration settings
+     * @return void Processes image according to settings
+     * @internal
+     */
     protected function _try_change_size($tmp_path, $file_path, $field, $settings)
     {
         $crop = (isset($settings['crop']) && $settings['crop'] == true) ? true : false;
@@ -8481,6 +9821,12 @@ class Xcrud
             $this->_image_resize($tmp_path, $file_path, $width, $height, $quality, $watermark, $watermark_position);
         }
     }
+    /**
+     * Main handler for removing uploaded files, delegates to specific remove methods
+     * 
+     * @return string Updated HTML for the field after file removal
+     * @internal
+     */
     protected function _remove_upload()
     {
         $type = isset($this->field_type[$this->_post('field')]) ? $this->field_type[$this->_post('field')] : false;
@@ -8497,6 +9843,12 @@ class Xcrud
                 break;
         }
     }
+    /**
+     * Removes uploaded file and returns updated field HTML
+     * 
+     * @return string Updated HTML for file field after removal
+     * @internal
+     */
     protected function _remove_file()
     {
         $field = $this->_post('field');
@@ -8505,6 +9857,12 @@ class Xcrud
         $this->after_render();
         return $this->create_file($field, '');
     }
+    /**
+     * Removes uploaded image and returns updated field HTML
+     * 
+     * @return string Updated HTML for image field after removal
+     * @internal
+     */
     protected function _remove_image()
     {
         $field = $this->_post('field');
@@ -8513,6 +9871,13 @@ class Xcrud
         $this->after_render();
         return $this->create_image($field, '');
     }
+    /**
+     * Manages upload file cleanup based on current task state
+     * Removes temporary files and handles file operations depending on the current operation
+     * 
+     * @return void Cleans up upload arrays and removes files as needed
+     * @internal
+     */
     protected function _remove_and_save_uploads()
     {
         if (!$this->cancel_file_saving)
@@ -8568,6 +9933,21 @@ class Xcrud
             $this->cancel_file_saving = false;
         }
     }
+    /**
+     * Resizes image while maintaining aspect ratio with optional watermarking
+     * Supports GIF, JPEG, and PNG formats with quality control
+     * 
+     * @param string $src_file Path to source image file
+     * @param string $dest_file Path to destination image file
+     * @param int|false $new_size_w Target width (false to auto-calculate)
+     * @param int|false $new_size_h Target height (false to auto-calculate)
+     * @param int $dest_qual JPEG quality (0-100)
+     * @param string|false $watermark Path to watermark image file
+     * @param array $watermark_position Watermark position as [x%, y%]
+     * @return bool Success status
+     * @throws Exception If image processing fails
+     * @internal
+     */
     protected function _image_resize($src_file, $dest_file, $new_size_w = false, $new_size_h = false, $dest_qual = 92, $watermark = false,
         $watermark_position = array(50, 50))
     {
@@ -8690,6 +10070,21 @@ class Xcrud
         $newimgarray = array($destWidth, $destHeight);
         return $newimgarray;
     }
+    /**
+     * Crops image to exact dimensions with center alignment and optional watermarking
+     * Maintains aspect ratio by cropping excess portions from center
+     * 
+     * @param string $src_file Path to source image file
+     * @param string $dest_file Path to destination image file
+     * @param int $new_size_w Target width
+     * @param int $new_size_h Target height
+     * @param int $dest_qual JPEG quality (0-100)
+     * @param string|false $watermark Path to watermark image file
+     * @param array $watermark_position Watermark position as [x%, y%]
+     * @return bool Success status
+     * @throws Exception If image processing fails
+     * @internal
+     */
     protected function _image_crop($src_file, $dest_file, $new_size_w, $new_size_h, $dest_qual = 92, $watermark = false, $watermark_position =
         array(50, 50))
     {
@@ -8830,6 +10225,25 @@ class Xcrud
         imagedestroy($dstHandle);
         return true;
     }
+    /**
+     * Crops image from specific coordinates to exact dimensions with optional watermarking
+     * Supports transparency for GIF and PNG formats
+     * 
+     * @param string $src_file Path to source image file
+     * @param string $dest_file Path to destination image file
+     * @param int $new_size_w Target width
+     * @param int $new_size_h Target height
+     * @param int $dest_qual JPEG quality (0-100)
+     * @param int $x X coordinate for crop start
+     * @param int $y Y coordinate for crop start
+     * @param int $w Width of crop area
+     * @param int $h Height of crop area
+     * @param string|false $watermark Path to watermark image file
+     * @param array $watermark_position Watermark position as [x%, y%]
+     * @return bool Success status
+     * @throws Exception If image processing fails
+     * @internal
+     */
     protected function _custom_image_crop($src_file, $dest_file, $new_size_w, $new_size_h, $dest_qual, $x, $y, $w, $h, $watermark = false,
         $watermark_position = array(50, 50))
     {
@@ -8932,6 +10346,19 @@ class Xcrud
         imagedestroy($dstHandle);
         return true;
     }
+    /**
+     * Applies watermark to existing image without resizing
+     * Preserves transparency for GIF and PNG formats
+     * 
+     * @param string $src_file Path to source image file
+     * @param string $dest_file Path to destination image file
+     * @param int $dest_qual JPEG quality (0-100)
+     * @param string|false $watermark Path to watermark image file
+     * @param array $watermark_position Watermark position as [x%, y%]
+     * @return bool Success status
+     * @throws Exception If image processing fails
+     * @internal
+     */
     protected function _draw_watermark($src_file, $dest_file, $dest_qual = 95, $watermark = false, $watermark_position =
         array(50, 50))
     {
@@ -9026,6 +10453,17 @@ class Xcrud
         imagedestroy($dstHandle);
         return true;
     }
+    /**
+     * Calculates pixel offsets for watermark positioning based on percentage coordinates
+     * 
+     * @param int $img_w Image width in pixels
+     * @param int $img_h Image height in pixels
+     * @param int $water_w Watermark width in pixels
+     * @param int $water_h Watermark height in pixels
+     * @param array $water_pos Watermark position as [x%, y%] (0-100)
+     * @return array Array with 'x' and 'y' pixel offsets
+     * @internal
+     */
     protected function calculate_watermark_offsets($img_w, $img_h, $water_w, $water_h, $water_pos)
     {
         $offsets = array();
@@ -9052,6 +10490,14 @@ class Xcrud
         return $offsets;
     }
 
+    /**
+     * Cleans and sanitizes filename by replacing special characters and spaces
+     * Converts accented characters to ASCII equivalents and removes unsafe characters
+     * 
+     * @param string $txt Original filename to clean
+     * @return string Sanitized filename safe for filesystem use
+     * @internal
+     */
     protected function _clean_file_name($txt)
     {
         $replace = array(
@@ -9219,24 +10665,60 @@ class Xcrud
         $txt = preg_replace('/[^a-zA-Z0-9_\-\.]+/', '', $txt);
         return $txt;
     }
+    /**
+     * Gets formatted file size in KB for display
+     * 
+     * @param string $path Path to the file
+     * @return string Formatted file size with unit (e.g., "123.45 KB")
+     * @internal
+     */
     protected function _file_size($path)
     {
         return number_format(is_file($path) ? filesize($path) / 1024 : 0, 2, '.', ' ') . ' KB';
     }
+    /**
+     * Gets formatted size in KB for binary data content
+     * 
+     * @param string $text Binary data string
+     * @return string Formatted size with unit (e.g., "123.45 KB")
+     * @internal
+     */
     protected function _file_size_bin($text)
     {
         return number_format(strlen($text) / 1024, 2, '.', ' ') . ' KB';
     }
+    /**
+     * Prepares field name with SQL operator for WHERE clauses
+     * Extracts field name and comparison operator from field specification
+     * 
+     * @param string $field Field specification (e.g., "name>", "age=")
+     * @return string SQL formatted field with operator (e.g., "`name`>", "`age`=")
+     * @internal
+     */
     protected function _prepare_field($field)
     {
         preg_match_all('/([^<>!=]+)/u', $field, $matches);
         preg_match_all('/([<>!=]+)/u', $field, $matches2);
         return '`' . trim($matches[0][0]) . '`' . ($matches2[0] ? implode('', $matches2[0]) : '=');
     }
+    /**
+     * Extracts clean field name from WHERE field specification
+     * 
+     * @param string $field Field specification with optional operators
+     * @return string Clean field name without operators
+     * @internal
+     */
     protected function _field_from_where($field)
     {
         return preg_replace('/\s*[<>!=]+\s*$/u', '', $field);
     }
+    /**
+     * Extracts comparison operator from field specification
+     * 
+     * @param string $field Field specification with optional operators
+     * @return string Comparison operator (=, >, <, !=, etc.)
+     * @internal
+     */
     protected function _cond_from_where($field)
     {
         if (preg_match('/\s*([<>!=]+)\s*$/u', $field, $matches))
@@ -9248,14 +10730,35 @@ class Xcrud
             return '=';
         }
     }
+    /**
+     * Builds fully qualified field name for WHERE clause
+     * 
+     * @param array $param Array with 'table' and 'field' keys
+     * @return string SQL qualified field name (e.g., "`table`.`field`")
+     * @internal
+     */
     protected function _where_field($param)
     {
         return '`' . $param['table'] . '`.`' . $this->_field_from_where($param['field']) . '`';
     }
+    /**
+     * Builds field key for WHERE clause without backticks
+     * 
+     * @param array $param Array with 'table' and 'field' keys
+     * @return string Field key in table.field format
+     * @internal
+     */
     protected function _where_fieldkey($param)
     {
         return $param['table'] . '.' . $this->_field_from_where($param['field']);
     }
+    /**
+     * Determines IN or NOT IN operator from field specification
+     * 
+     * @param string $field Field specification with optional negation
+     * @return string SQL IN operator (" IN" or " NOT IN")
+     * @internal
+     */
     protected function _cond_from_where_in($field)
     {
         if (preg_match('/\s*[!]+\s*$/u', $field))
@@ -9267,6 +10770,13 @@ class Xcrud
             return ' IN';
         }
     }
+    /**
+     * Prepares field name with IN operator for WHERE clauses
+     * 
+     * @param string $field Field specification with optional negation
+     * @return string SQL formatted field with IN operator
+     * @internal
+     */
     protected function _prepare_field_in($field)
     {
         preg_match_all('/([^!]+)/u', $field, $matches);
@@ -9274,6 +10784,15 @@ class Xcrud
         return '`' . trim($matches[0][0]) . '`' . ($matches2[0] ? ' NOT IN' : ' IN');
     }
 
+    /**
+     * Compares two values using specified operator
+     * 
+     * @param mixed $val1 First value to compare
+     * @param string $operator Comparison operator (=, >, <, !=, >=, <=)
+     * @param mixed $val2 Second value to compare
+     * @return bool Result of comparison
+     * @internal
+     */
     protected function _compare($val1, $operator, $val2)
     {
         switch ($operator)
@@ -9301,6 +10820,15 @@ class Xcrud
                 return false;
         }
     }
+    /**
+     * Creates modal popup link for displaying field content
+     * 
+     * @param string $field Field name for modal header
+     * @param string $content Content to display in modal
+     * @param string|false $image Image URL if content should be displayed as image
+     * @return string HTML for modal trigger link
+     * @internal
+     */
     protected function create_modal($field, $content, $image = false)
     {
         $out = '';
@@ -9329,6 +10857,17 @@ class Xcrud
         $out .= $this->close_tag('a');
         return $out;
     }
+    /**
+     * Renders individual field value for list/grid display with type-specific formatting
+     * Handles callbacks, relations, and different field types (image, file, etc.)
+     * 
+     * @param string $field Field name
+     * @param mixed $value Raw field value
+     * @param mixed $primary_val Primary key value for current row
+     * @param array $row Complete row data array
+     * @return string Formatted HTML for display
+     * @internal
+     */
     protected function _render_list_item($field, $value, $primary_val, $row)
     {
         $modal = '';
@@ -9515,6 +11054,13 @@ class Xcrud
             return $out;
         }
     }
+    /**
+     * Converts email addresses in text to clickable mailto links
+     * 
+     * @param string $txt Text containing email addresses
+     * @return string Text with email addresses converted to HTML mailto links
+     * @internal
+     */
     protected function make_mailto($txt)
     {
         if ($this->emails_label)
@@ -9524,6 +11070,13 @@ class Xcrud
             return preg_replace('/([A-Za-z0-9_\-\.]+)\@([A-Za-z0-9_\-\.]+)\.([A-Za-z]{2,4})/',
                 '<a target="_blank" href="mailto:$1@$2.$3">$1@$2.$3</a>', $txt);
     }
+    /**
+     * Converts URLs in text to clickable links
+     * 
+     * @param string $txt Text containing URLs
+     * @return string Text with URLs converted to HTML links with target="_blank"
+     * @internal
+     */
     protected function make_links($txt)
     {
         if ($this->links_label)
@@ -9533,7 +11086,17 @@ class Xcrud
             return preg_replace('/(http:\/\/|https:\/\/)([^\s]+)/u', '<a target="_blank" href="$1$2">$1$2</a>', $txt ?? '');
     }
 
-    /** renders grid cell content, srips tags and prepares values for export in csv or other */
+    /**
+     * Renders field value for export (CSV, print) by stripping HTML tags and formatting
+     * Handles callbacks, relations, and different field types for clean export output
+     * 
+     * @param string $field Field name
+     * @param mixed $value Raw field value
+     * @param mixed $primary_val Primary key value for current row
+     * @param array $row Complete row data array
+     * @return string Clean text value suitable for export
+     * @internal
+     */
     protected function _render_export_item($field, $value, $primary_val, $row)
     {
         $out = '';
@@ -9631,6 +11194,14 @@ class Xcrud
         }
         return $out;
     }
+    /**
+     * Renders action buttons for each row in grid/list view
+     * Includes custom buttons, duplicate, view, edit, and remove buttons based on permissions
+     * 
+     * @param array $row Row data (passed by reference for potential modifications)
+     * @return string HTML for row action buttons
+     * @internal
+     */
     protected function _render_list_buttons(&$row)
     {
         $out = '';
@@ -9769,6 +11340,13 @@ class Xcrud
         $out .= $this->close_tag($group);
         return $out;
     }
+    /**
+     * Renders sum/total value for a field in grid footer
+     * 
+     * @param string $field Field name to render sum for
+     * @return string Formatted sum value or empty space if no sum available
+     * @internal
+     */
     protected function render_sum_item($field)
     {
         if (isset($this->sum_row[$field]))
@@ -9786,6 +11364,13 @@ class Xcrud
             return '&nbsp;';
     }
 
+    /**
+     * Validates field uniqueness by checking database for duplicate values
+     * Used for AJAX unique validation during form editing
+     * 
+     * @return string JSON response indicating validation success or error with field selectors
+     * @internal
+     */
     protected function _check_unique_value()
     {
         $db = Xcrud_db::get_instance($this->connection);
@@ -9950,6 +11535,17 @@ class Xcrud
 
         return $url;
     }
+    /**
+     * Generates internal URL for file access through XCRUD's file handler
+     * 
+     * @param string $field Field name for file
+     * @param mixed $primary_val Primary key value
+     * @param mixed $thumb Thumbnail configuration (false if not a thumbnail)
+     * @param bool $crop Whether this is for crop preview
+     * @param string|false $filename Optional filename override
+     * @return string URL for file access
+     * @internal
+     */
     protected function file_link($field, $primary_val, $thumb = false, $crop = false, $filename = false)
     {
 
@@ -9974,6 +11570,15 @@ class Xcrud
         }
         return Xcrud_config::$scripts_url . '/' . Xcrud_config::$ajax_uri . '?' . http_build_query($params);
     }
+    /**
+     * Generates direct URL for file access when using external URL configuration
+     * 
+     * @param string $filename Name of the file
+     * @param array $params Upload configuration parameters
+     * @param bool $is_details Whether this is for detail view (affects thumbnail selection)
+     * @return string Direct URL to file
+     * @internal
+     */
     protected function real_file_link($filename, $params, $is_details = false)
     {
         $url = rtrim($params['url'], '/');
@@ -10015,10 +11620,25 @@ class Xcrud
         }
         return $url;
     }
+    /**
+     * Escapes text for safe HTML output by encoding special characters
+     * 
+     * @param string $text Text to escape
+     * @return string HTML-safe escaped text
+     * @internal
+     */
     protected function html_safe($text)
     {
         return htmlspecialchars((string )$text, ENT_QUOTES, Xcrud_config::$mbencoding);
     }
+    /**
+     * Duplicates/clones an existing database row for the duplicate feature
+     * Checks permissions and handles joined tables if configured
+     * 
+     * @return string JSON response or error message
+     * @throws Exception If cloning is forbidden or fails
+     * @internal
+     */
     protected function _clone_row()
     {
         if (is_array($this->table_info) && count($this->table_info) && !$this->table_ro)
@@ -10448,6 +12068,14 @@ class Xcrud
         return $out;
     }
 
+    /**
+     * Generates HTML for limit/pagination size selector
+     * 
+     * @param int $limit Default limit value
+     * @param bool $buttons Whether to render as buttons or dropdown
+     * @return string HTML for limit selector
+     * @internal
+     */
     protected function get_limit_list($limit = 20, $buttons = false)
     {
         $out = '';
@@ -10499,6 +12127,15 @@ class Xcrud
         return $out;
     }
 
+    /**
+     * Validates file path existence for callback functions
+     * 
+     * @param string $path File path to check
+     * @param string $func_name Function name for error context
+     * @return string Validated file path
+     * @throws Exception If file doesn't exist
+     * @internal
+     */
     protected function check_file($path, $func_name)
     {
         $path = str_replace('\\', '/', $path);
@@ -10511,6 +12148,15 @@ class Xcrud
                 '</small>');
         return $path;
     }
+    /**
+     * Validates folder path existence and creates it if needed
+     * 
+     * @param string $path Folder path to check
+     * @param string $func_name Function name for error context
+     * @return string Validated folder path
+     * @throws Exception If folder doesn't exist and can't be created
+     * @internal
+     */
     protected function check_folder($path, $func_name)
     {
         $path = str_replace('\\', '/', $path);
@@ -10528,6 +12174,13 @@ class Xcrud
     }
 
 
+    /**
+     * Adds additional columns to the display without database fields
+     * 
+     * @param string $fields Comma-separated field names
+     * @return void Modifies internal column configuration
+     * @internal
+     */
     protected function additional_columns($fields = '')
     {
         if ($fields)
@@ -10546,6 +12199,13 @@ class Xcrud
             }
         }
     }
+    /**
+     * Adds additional fields to forms without database columns
+     * 
+     * @param string $fields Comma-separated field names
+     * @return void Modifies internal field configuration
+     * @internal
+     */
     protected function additional_fields($fields = '')
     {
         if ($fields)
@@ -10567,6 +12227,12 @@ class Xcrud
     }
 
     /** Unlocks additional postdata fields (locked with security reason). This can be used only with callbacks */
+    /**
+     * Unlocks fields that were previously locked/disabled
+     * 
+     * @param string $fields Comma-separated field names to unlock
+     * @return Xcrud Current instance for method chaining
+     */
     public function unlock_field($fields = '')
     {
         if ($fields)
@@ -10586,6 +12252,14 @@ class Xcrud
         }
     }
 
+    /**
+     * Extracts field references from text templates using {field} syntax
+     * 
+     * @param string $text Text containing field references
+     * @param string $mode Context mode ('columns' or other)
+     * @return array Array of field names found in text
+     * @internal
+     */
     protected function extract_fields_from_text($text, $mode = 'columns')
     {
         $found = preg_match_all('/\{([^\}]+)\}/u', $text, $matches);
@@ -10602,6 +12276,13 @@ class Xcrud
             }
         }
     }
+    /**
+     * Analyzes grid configuration to find all text variables that need field data
+     * Processes button links, tooltips, and other template strings
+     * 
+     * @return void Updates internal field tracking arrays
+     * @internal
+     */
     protected function find_grid_text_variables()
     {
         if (!Xcrud_config::$performance_mode)
@@ -10675,6 +12356,13 @@ class Xcrud
             }
         }
     }
+    /**
+     * Analyzes detail view configuration to find all text variables that need field data
+     * Processes form templates, callbacks, and other detail-specific strings
+     * 
+     * @return void Updates internal field tracking arrays
+     * @internal
+     */
     protected function find_details_text_variables()
     {
         if ($this->send_external_create)
@@ -10769,6 +12457,17 @@ class Xcrud
             }
         }
     }
+    /**
+     * Replaces template variables in text with actual data values
+     * Supports {field_name} syntax and special variables like {primary_key}
+     * 
+     * @param string $value Template text containing variables
+     * @param array $data Row data for variable replacement
+     * @param bool $safety Whether to apply HTML safety encoding
+     * @param bool $null_if_empty Whether to return null for empty results
+     * @return string|null Text with variables replaced or null if empty and $null_if_empty is true
+     * @internal
+     */
     protected function replace_text_variables($value, array $data, $safety = false, $null_if_empty = false)
     {
         if (!is_array($value) && !Xcrud_config::$performance_mode && $value)
@@ -10802,6 +12501,13 @@ class Xcrud
     }
 
 
+    /**
+     * Extracts browser information from curl handle for HTTP requests
+     * 
+     * @param resource $ch Curl handle
+     * @return array Browser information array
+     * @internal
+     */
     protected function get_browser_info($ch)
     {
         if ($_COOKIE)
@@ -10813,6 +12519,16 @@ class Xcrud
         curl_setopt($ch, CURLOPT_REFERER, $_SERVER['HTTP_REFERER']);
         curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
     }
+    /**
+     * Sends HTTP request using curl with configurable method and data
+     * 
+     * @param string $url Target URL for request
+     * @param array $data Data to send with request
+     * @param string $method HTTP method (GET, POST, etc.)
+     * @param bool $return_result Whether to return response or just execute
+     * @return mixed Response data if $return_result is true, otherwise void
+     * @internal
+     */
     protected function send_http_request($url, $data, $method, $return_result = false)
     {
         //$path = self::check_url($url);
@@ -10857,6 +12573,16 @@ class Xcrud
     }
 
 
+    /**
+     * Generates opening HTML tag with class and attributes
+     * 
+     * @param string|array $tag Tag name or tag configuration array
+     * @param string $class CSS class names
+     * @param array $attr Additional HTML attributes
+     * @param bool $enc_name Whether to encode attribute names
+     * @return string Opening HTML tag
+     * @internal
+     */
     protected function open_tag($tag = '', $class = '', $attr = array(), $enc_name = false)
     {
         if ($tag)
@@ -10922,6 +12648,13 @@ class Xcrud
         else
             return '';
     }
+    /**
+     * Generates closing HTML tag
+     * 
+     * @param string|array $tag Tag name or tag configuration array
+     * @return string Closing HTML tag
+     * @internal
+     */
     protected function close_tag($tag = '')
     {
         if ($tag)
@@ -10938,6 +12671,16 @@ class Xcrud
         else
             return '';
     }
+    /**
+     * Generates self-closing HTML tag with class and attributes
+     * 
+     * @param string|array $tag Tag name or tag configuration array
+     * @param string $class CSS class names
+     * @param array $attr Additional HTML attributes
+     * @param bool $enc_name Whether to encode attribute names
+     * @return string Self-closing HTML tag
+     * @internal
+     */
     protected function single_tag($tag = '', $class = '', $attr = array(), $enc_name = false)
     {
         if ($tag)
@@ -11004,7 +12747,23 @@ class Xcrud
             return '';
     }
 
-    /** autorender of details fields and tabs */
+    /**
+     * Renders form fields in list layout with configurable HTML structure and tab support
+     * 
+     * @param string $mode Form mode ('create', 'edit', 'view')
+     * @param string $container Container HTML tag
+     * @param string $row Row HTML tag
+     * @param string $label Label HTML tag
+     * @param string $field Field HTML tag
+     * @param string $tabs_block Tab block HTML tag
+     * @param string $tabs_head Tab header HTML tag
+     * @param string $tabs_row Tab row HTML tag
+     * @param string $tabs_link Tab link HTML tag
+     * @param string $tabs_content Tab content HTML tag
+     * @param string $tabs_pane Tab pane HTML tag
+     * @return string Rendered form fields HTML with tab support
+     * @internal
+     */
     protected function render_fields_list($mode, $container = 'table', $row = 'tr', $label = 'td', $field = 'td', $tabs_block =
         'div', $tabs_head = 'ul', $tabs_row = 'li', $tabs_link = 'a', $tabs_content = 'div', $tabs_pane = 'div')
     {
@@ -11100,6 +12859,12 @@ class Xcrud
         return $out;
     }
     /** table tooltip render */
+    /**
+     * Gets tooltip configuration for table display
+     * 
+     * @return string|false Tooltip text or false if none configured
+     * @internal
+     */
     protected function get_table_tooltip()
     {
         $out = '';
@@ -11119,6 +12884,14 @@ class Xcrud
         return $out;
     }
     /** field tooltip render */
+    /**
+     * Gets tooltip configuration for specific field in given mode
+     * 
+     * @param string $field Field name
+     * @param string $mode Form mode ('create', 'edit', 'view')
+     * @return string|false Tooltip HTML or false if none configured
+     * @internal
+     */
     protected function get_field_tooltip($field, $mode)
     {
         $out = '';
@@ -11138,6 +12911,13 @@ class Xcrud
         return $out;
     }
     /** column tooltip render */
+    /**
+     * Gets tooltip configuration for column display
+     * 
+     * @param string $field Field name
+     * @return string|false Tooltip HTML or false if none configured
+     * @internal
+     */
     protected function get_column_tooltip($field)
     {
         $out = '';
@@ -11157,6 +12937,12 @@ class Xcrud
         return $out;
     }
     /** search constructor and renderer */
+    /**
+     * Renders search form interface with field-specific search controls
+     * 
+     * @return string HTML for search form
+     * @internal
+     */
     protected function render_search()
     {
         $out = '';
@@ -11722,6 +13508,12 @@ class Xcrud
 
         return $out;
     }
+    /**
+     * Renders system messages (success, error, info) for user feedback
+     * 
+     * @return string HTML for message display
+     * @internal
+     */
     protected function render_message()
     {
         $out = '';
@@ -11738,6 +13530,19 @@ class Xcrud
         return $out;
     }
     /** renders action button for details view */
+    /**
+     * Renders individual action button with configurable styling and behavior
+     * 
+     * @param string $name Button display name
+     * @param string $task Task/action for button
+     * @param string $after Content to display after button
+     * @param string $class CSS classes for button
+     * @param string $icon Icon classes for button
+     * @param string $mode Display mode context
+     * @param string $primary Primary key value if applicable
+     * @return string HTML for rendered button
+     * @internal
+     */
     protected function render_button($name = '', $task = '', $after = '', $class = '', $icon = '', $mode = '', $primary = '')
     {
         $out = '';
@@ -11793,6 +13598,14 @@ class Xcrud
         }
         return $out;
     }
+    /**
+     * Renders the 'Add New' button for creating records
+     * 
+     * @param string $class Additional CSS classes
+     * @param string $icon Icon classes for button
+     * @return string HTML for add button
+     * @internal
+     */
     protected function add_button($class = '', $icon = '')
     {
         if ($this->is_create && !isset($this->hide_button['add']) && !$this->table_ro)
@@ -11800,6 +13613,14 @@ class Xcrud
             return $this->render_button('add', 'create', '', $class, $icon);
         }
     }
+    /**
+     * Renders the CSV export button
+     * 
+     * @param string $class Additional CSS classes
+     * @param string $icon Icon classes for button
+     * @return string HTML for CSV export button
+     * @internal
+     */
     protected function csv_button($class = '', $icon = '')
     {
         if ($this->is_csv && !isset($this->hide_button['csv']))
@@ -11807,6 +13628,14 @@ class Xcrud
             return $this->render_button('export_csv', 'csv', '', $class . ' xcrud-in-new-window', $icon);
         }
     }
+    /**
+     * Renders the print button for print-friendly view
+     * 
+     * @param string $class Additional CSS classes
+     * @param string $icon Icon classes for button
+     * @return string HTML for print button
+     * @internal
+     */
     protected function print_button($class = '', $icon = '')
     {
         if ($this->is_print && !isset($this->hide_button['print']))
@@ -11815,6 +13644,13 @@ class Xcrud
         }
     }
 
+    /**
+     * Gets the filesystem path for image/file storage for a specific field
+     * 
+     * @param string $field Field name
+     * @return string Full filesystem path to field's storage directory
+     * @internal
+     */
     protected function get_image_folder($field)
     {
         if (isset($this->upload_folder[$field]))
@@ -11831,6 +13667,15 @@ class Xcrud
         $this->upload_folder[$field] = $path;
         return $path;
     }
+    /**
+     * Verifies that all required directories exist for file field
+     * Creates missing directories and thumbnail folders as needed
+     * 
+     * @param string $field Field name
+     * @return void Creates directories if they don't exist
+     * @throws Exception If directories cannot be created
+     * @internal
+     */
     protected function check_file_folders($field)
     {
         $settings = $this->upload_config[$field];
@@ -11850,6 +13695,14 @@ class Xcrud
             }
         }
     }
+    /**
+     * Creates directory structure recursively with proper permissions
+     * 
+     * @param string $path Directory path to create
+     * @return bool Success status
+     * @throws Exception If directory creation fails
+     * @internal
+     */
     protected function create_file_folders($path)
     {
         $path_array = explode('/', $path);
@@ -11864,6 +13717,15 @@ class Xcrud
             self::error('File path is incorrect!');
         }
     }
+    /**
+     * Generates full filesystem path for thumbnail image
+     * 
+     * @param string $imgname Original image filename
+     * @param string $field Field name
+     * @param array $thumb_array Thumbnail configuration array
+     * @return string Full path to thumbnail file
+     * @internal
+     */
     protected function get_thumb_path($imgname, $field, $thumb_array)
     {
         $path = $this->get_image_folder($field);
@@ -11874,6 +13736,16 @@ class Xcrud
         $marker = isset($thumb_array['marker']) ? $thumb_array['marker'] : '';
         return $path . '/' . $this->_thumb_name($imgname, $marker);
     }
+    /**
+     * Generates safe filename from uploaded file information
+     * Handles cleaning, extension validation, and conflicts
+     * 
+     * @param array $file PHP $_FILES array element
+     * @param string $field Field name for validation rules
+     * @return string Safe filename for storage
+     * @throws Exception If file validation fails
+     * @internal
+     */
     protected function safe_file_name($file, $field)
     {
         $ext = strtolower(strrchr($file['name'], '.'));
@@ -11932,6 +13804,14 @@ class Xcrud
         }
         return $file_path;
     }
+    /**
+     * Generates unique filename to avoid conflicts with existing files
+     * 
+     * @param string $filename Desired filename
+     * @param string $field Field name for storage context
+     * @return string Unique filename with numeric suffix if needed
+     * @internal
+     */
     protected function get_filename_noconfict($filename, $field)
     {
         $file_path = $this->get_image_folder($field) . '/' . $filename;
@@ -11941,6 +13821,13 @@ class Xcrud
         }
         return $filename;
     }
+    /**
+     * Checks if field is configured for automatic image resizing
+     * 
+     * @param string $field Field name
+     * @return bool True if resizing is enabled for this field
+     * @internal
+     */
     protected function is_resize($field)
     {
         if (isset($this->upload_config[$field]['width']) or isset($this->upload_config[$field]['height'])
@@ -11951,6 +13838,13 @@ class Xcrud
         else
             return false;
     }
+    /**
+     * Checks if field is configured for manual image cropping
+     * 
+     * @param string $field Field name
+     * @return bool True if manual cropping is enabled for this field
+     * @internal
+     */
     protected function is_manual_crop($field)
     {
         if (isset($this->upload_config[$field]['manual_crop']) && $this->upload_config[$field]['manual_crop'] == true)
@@ -11958,6 +13852,14 @@ class Xcrud
         else
             return false;
     }
+    /**
+     * Removes temporary image file after processing is complete
+     * 
+     * @param string $filename Temporary filename to remove
+     * @param string $field Field name for path context
+     * @return void Deletes file from filesystem
+     * @internal
+     */
     protected function remove_tmp_image($filename, $field)
     {
         $tmp_filename = substr($filename, 0, strrpos($filename, '.')) . '.tmp';
@@ -11996,6 +13898,14 @@ class Xcrud
             }
         }
     }
+    /**
+     * Removes uploaded file and all associated thumbnails
+     * 
+     * @param string $filename File to remove
+     * @param string $field Field name for configuration context
+     * @return void Deletes files from filesystem
+     * @internal
+     */
     protected function remove_file($filename, $field)
     {
         $settings = $this->upload_config[$field];
@@ -12028,6 +13938,13 @@ class Xcrud
 
 
     /** date ranges in unix timestamp */
+    /**
+     * Gets value range configuration for range-type form fields
+     * 
+     * @param string $name Field name
+     * @return array Range configuration with min/max values
+     * @internal
+     */
     protected function get_range($name)
     {
         $range = array();
@@ -12127,6 +14044,14 @@ class Xcrud
         return $range;
     }
 
+    /**
+     * Converts Unix timestamp to date string format
+     * 
+     * @param int $time Unix timestamp
+     * @param bool $utc Whether to use UTC timezone
+     * @return string Formatted date string
+     * @internal
+     */
     protected function unix2date($time, $utc = false)
     {
         if ($time)
@@ -12134,6 +14059,14 @@ class Xcrud
         else
             return '';
     }
+    /**
+     * Converts Unix timestamp to datetime string format
+     * 
+     * @param int $time Unix timestamp
+     * @param bool $utc Whether to use UTC timezone
+     * @return string Formatted datetime string
+     * @internal
+     */
     protected function unix2datetime($time, $utc = false)
     {
         if ($time)
@@ -12142,6 +14075,14 @@ class Xcrud
         else
             return '';
     }
+    /**
+     * Converts Unix timestamp to time string format
+     * 
+     * @param int $time Unix timestamp
+     * @param bool $utc Whether to use UTC timezone
+     * @return string Formatted time string
+     * @internal
+     */
     protected function unix2time($time, $utc = false)
     {
         if ($time)
@@ -12154,6 +14095,13 @@ class Xcrud
      * 
      * @param string $date Date from database
      * @return string Formatted date
+     */
+    /**
+     * Converts database date format to display format
+     * 
+     * @param string $date Database date string
+     * @return string Formatted date for display
+     * @internal
      */
     protected function db2date($date)
     {
