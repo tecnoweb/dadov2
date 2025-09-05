@@ -28,4 +28,6 @@ extract($pagedata[$page]);
 
 $file = dirname(__file__) . '/pages/' . $filename;
 $code = file_get_contents($file);
-include ('html/template.php');
+
+// Use the new revolutionary template
+include ('html/template_revolution.php');
