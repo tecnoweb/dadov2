@@ -392,11 +392,17 @@ class Logger
         
         // Add session data for important events
         if (in_array($level, [self::WARNING, self::ERROR, self::CRITICAL, self::ALERT, self::EMERGENCY])) {
-            $entry['session'] = array_merge(self::$sessionData, [
+            $sessionMerge = [
                 'current_memory' => self::formatBytes(memory_get_usage(true)),
-                'peak_memory' => self::formatBytes(memory_get_peak_usage(true)),
-                'execution_time' => number_format(microtime(true) - self::$sessionData['start_time'], 4) . 's'
-            ]);
+                'peak_memory' => self::formatBytes(memory_get_peak_usage(true))
+            ];
+            
+            // Only add execution_time if start_time exists
+            if (isset(self::$sessionData['start_time'])) {
+                $sessionMerge['execution_time'] = number_format(microtime(true) - self::$sessionData['start_time'], 4) . 's';
+            }
+            
+            $entry['session'] = array_merge(self::$sessionData, $sessionMerge);
         }
         
         return json_encode($entry, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n";

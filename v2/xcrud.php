@@ -781,6 +781,20 @@ class Xcrud
 
         if ($fields && $where_val !== false)
         {
+            // Special handling for EXISTS and NOT EXISTS operators
+            $field_upper = strtoupper(trim($fields));
+            if ($field_upper == 'EXISTS' || $field_upper == 'NOT EXISTS') {
+                // EXISTS is handled as custom SQL, not a field
+                $custom_sql = $field_upper . ' (' . $where_val . ')';
+                if ($index) {
+                    $this->where[$index] = array('custom' => $custom_sql, 'glue' => $glue);
+                } else {
+                    $this->where[] = array('custom' => $custom_sql, 'glue' => $glue);
+                }
+                unset($fields);
+                return $this;
+            }
+            
             $fdata = $this->_parse_field_names($fields, 'where');
             foreach ($fdata as $fitem)
             {
@@ -843,7 +857,7 @@ class Xcrud
      */
     public function or_where($fields = '', $where_val = false)
     {
-        return $this->where($fields = '', $where_val = '', 'OR');
+        return $this->where($fields, $where_val, 'OR');
     }
     /**
      * Set the default ORDER BY clause
@@ -10935,7 +10949,16 @@ class Xcrud
      */
     protected function _field_from_where($field)
     {
-        return preg_replace('/\s*[<>!=]+\s*$/u', '', $field);
+        // Remove SQL keyword operators
+        $field = preg_replace('/\s+(BETWEEN|NOT\s+BETWEEN|IN|NOT\s+IN|IS\s+NULL|IS\s+NOT\s+NULL|LIKE|NOT\s+LIKE|ILIKE|NOT\s+ILIKE|REGEXP|RLIKE|NOT\s+REGEXP|NOT\s+RLIKE|EXISTS|NOT\s+EXISTS|SIMILAR\s+TO|NOT\s+SIMILAR\s+TO)\s*$/ui', '', $field);
+        
+        // Remove PostgreSQL regex operators: ~, !~, ~*, !~*
+        $field = preg_replace('/\s*(!?~\*?)\s*$/u', '', $field);
+        
+        // Remove simple comparison operators
+        $field = preg_replace('/\s*[<>!=\^\$]+\s*$/u', '', $field);
+        
+        return $field;
     }
     /**
      * Extracts comparison operator from field specification
@@ -12188,6 +12211,9 @@ class Xcrud
             {
                 $prefix = '';
             }
+            
+            // For WHERE clauses, we need to preserve the operator but separate it from the field name
+            $clean_operators = ($location == 'where' || $location == 'or_where');
 
             if (is_array($fields))
             {
@@ -12195,12 +12221,15 @@ class Xcrud
                 {
                     if (is_int($key))
                     {
-                        if (!strpos($val, '.'))
-                            $field_names[$this->make_field_alias($table, $val)] = array('table' => $table, 'field' => $val);
+                        // Clean operators from field name if needed
+                        $clean_val = $clean_operators ? $this->_field_from_where($val) : $val;
+                        
+                        if (!strpos($clean_val, '.'))
+                            $field_names[$this->make_field_alias($table, $clean_val)] = array('table' => $table, 'field' => $val); // Keep original with operator
                         else
                         {
-                            $tmp = explode('.', $val, 2);
-                            $field_names[$this->make_field_alias($tmp[0], $tmp[1], $prefix)] = array('table' => $prefix . $tmp[0], 'field' => $tmp[1]);
+                            $tmp = explode('.', $clean_val, 2);
+                            $field_names[$this->make_field_alias($tmp[0], $tmp[1], $prefix)] = array('table' => $prefix . $tmp[0], 'field' => $val); // Keep original with operator
                             unset($tmp);
                         }
                     }
@@ -12229,12 +12258,15 @@ class Xcrud
                 foreach ($fields as $key => $val)
                 {
                     $val = trim($val);
-                    if (!strpos($val, '.'))
-                        $field_names[$this->make_field_alias($table, $val)] = array('table' => $table, 'field' => $val);
+                    // Clean operators from field name if needed
+                    $clean_val = $clean_operators ? $this->_field_from_where($val) : $val;
+                    
+                    if (!strpos($clean_val, '.'))
+                        $field_names[$this->make_field_alias($table, $clean_val)] = array('table' => $table, 'field' => $val); // Keep original with operator
                     else
                     {
-                        $tmp = explode('.', $val, 2);
-                        $field_names[$this->make_field_alias($tmp[0], $tmp[1], $prefix)] = array('table' => $prefix . $tmp[0], 'field' => $tmp[1]);
+                        $tmp = explode('.', $clean_val, 2);
+                        $field_names[$this->make_field_alias($tmp[0], $tmp[1], $prefix)] = array('table' => $prefix . $tmp[0], 'field' => $val); // Keep original with operator
                         unset($tmp);
                     }
                 }
