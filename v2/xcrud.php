@@ -5415,10 +5415,14 @@ class Xcrud
                         $field_sql = $this->_where_field($params);
                     }
                     
-                    // Handle different operators
+                    // Get database type for operator compatibility
+                    $dbType = $db->get_database_type();
+                    
+                    // Handle different operators based on database compatibility
                     switch($operator_upper) {
                         case 'IN':
                         case 'NOT IN':
+                            // Supported by all databases
                             if (!is_array($params['value'])) {
                                 $params['value'] = array($params['value']);
                             }
@@ -5431,36 +5435,51 @@ class Xcrud
                             
                         case 'BETWEEN':
                         case 'NOT BETWEEN':
+                            // Supported by all databases
                             if (is_array($params['value']) && count($params['value']) == 2) {
                                 $val1 = $db->escape($params['value'][0], isset($this->no_quotes[$fieldkey]));
                                 $val2 = $db->escape($params['value'][1], isset($this->no_quotes[$fieldkey]));
                                 $where_arr[] = $field_sql . ' ' . $operator_upper . ' ' . $val1 . ' AND ' . $val2;
                             } else {
                                 // Invalid BETWEEN value, skip
+                                self::error('BETWEEN operator requires array with exactly 2 values');
                                 continue 2;
                             }
                             break;
                             
                         case 'IS NULL':
                         case 'IS NOT NULL':
+                            // Supported by all databases
                             $where_arr[] = $field_sql . ' ' . $operator_upper;
                             break;
                             
                         case 'LIKE':
                         case 'NOT LIKE':
+                            // Supported by all databases
                             $where_arr[] = $field_sql . ' ' . $operator_upper . ' ' . $db->escape($params['value'], false);
                             break;
                             
                         case 'ILIKE':
                         case 'NOT ILIKE':
-                            // Handle case-insensitive LIKE based on database type
-                            $dbType = $db->get_database_type();
+                            // ILIKE is PostgreSQL-specific for case-insensitive pattern matching
                             if ($dbType == 'postgresql') {
+                                // Native ILIKE support in PostgreSQL
                                 $where_arr[] = $field_sql . ' ' . $operator_upper . ' ' . $db->escape($params['value'], false);
-                            } else {
-                                // For MySQL/SQLite, use LOWER() for case-insensitive
+                            } elseif ($dbType == 'mysql') {
+                                // MySQL: LIKE is case-insensitive by default for non-binary strings
+                                // For explicit case-insensitive, use LOWER()
                                 $like_op = str_replace('ILIKE', 'LIKE', $operator_upper);
                                 $where_arr[] = 'LOWER(' . $field_sql . ') ' . $like_op . ' LOWER(' . $db->escape($params['value'], false) . ')';
+                            } elseif ($dbType == 'sqlite') {
+                                // SQLite: LIKE is case-insensitive by default
+                                // But we'll use LOWER() for consistency
+                                $like_op = str_replace('ILIKE', 'LIKE', $operator_upper);
+                                $where_arr[] = 'LOWER(' . $field_sql . ') ' . $like_op . ' LOWER(' . $db->escape($params['value'], false) . ')';
+                            } else {
+                                // Fallback for unknown databases
+                                $like_op = str_replace('ILIKE', 'LIKE', $operator_upper);
+                                $where_arr[] = $field_sql . ' ' . $like_op . ' ' . $db->escape($params['value'], false);
+                                self::error('ILIKE operator may not work correctly with this database type');
                             }
                             break;
                             
@@ -5468,28 +5487,81 @@ class Xcrud
                         case 'RLIKE':
                         case 'NOT REGEXP':
                         case 'NOT RLIKE':
-                            // Handle regex based on database type
-                            $dbType = $db->get_database_type();
-                            if ($dbType == 'postgresql') {
-                                $pg_op = str_replace(array('REGEXP', 'RLIKE'), '~', $operator_upper);
-                                $pg_op = str_replace('NOT ~', '!~', $pg_op);
+                            // Regular expression support varies by database
+                            if ($dbType == 'mysql') {
+                                // MySQL: Native REGEXP/RLIKE support
+                                $where_arr[] = $field_sql . ' ' . $operator_upper . ' ' . $db->escape($params['value'], false);
+                            } elseif ($dbType == 'postgresql') {
+                                // PostgreSQL: Use ~ operator for regex
+                                $pg_op = '~';  // Case-sensitive regex
+                                if (strpos($operator_upper, 'NOT') !== false) {
+                                    $pg_op = '!~';  // Negated regex
+                                }
                                 $where_arr[] = $field_sql . ' ' . $pg_op . ' ' . $db->escape($params['value'], false);
                             } elseif ($dbType == 'sqlite') {
-                                // SQLite doesn't have built-in REGEXP, would need extension
-                                // Fallback to LIKE for basic pattern matching
-                                $like_val = '%' . $params['value'] . '%';
-                                $like_op = strpos($operator_upper, 'NOT') !== false ? 'NOT LIKE' : 'LIKE';
-                                $where_arr[] = $field_sql . ' ' . $like_op . ' ' . $db->escape($like_val, false);
+                                // SQLite: REGEXP requires loadable extension
+                                // Check if REGEXP is available
+                                $test_regexp = $db->query("SELECT 'test' REGEXP 'test'");
+                                if ($test_regexp !== false) {
+                                    // REGEXP is available
+                                    $where_arr[] = $field_sql . ' ' . $operator_upper . ' ' . $db->escape($params['value'], false);
+                                } else {
+                                    // Fallback to LIKE with warning
+                                    self::error('REGEXP not available in SQLite, falling back to LIKE. Consider loading regexp extension.');
+                                    $like_val = '%' . $params['value'] . '%';
+                                    $like_op = strpos($operator_upper, 'NOT') !== false ? 'NOT LIKE' : 'LIKE';
+                                    $where_arr[] = $field_sql . ' ' . $like_op . ' ' . $db->escape($like_val, false);
+                                }
                             } else {
-                                // MySQL supports REGEXP/RLIKE
-                                $where_arr[] = $field_sql . ' ' . $operator_upper . ' ' . $db->escape($params['value'], false);
+                                self::error('REGEXP operator not supported for this database type');
+                                continue 2;
                             }
                             break;
                             
                         case 'EXISTS':
                         case 'NOT EXISTS':
+                            // Supported by all major databases
                             // EXISTS requires a subquery as value
+                            if (empty($params['value'])) {
+                                self::error('EXISTS operator requires a subquery');
+                                continue 2;
+                            }
                             $where_arr[] = $operator_upper . ' (' . $params['value'] . ')';
+                            break;
+                            
+                        case '~':  // PostgreSQL regex operator
+                        case '!~': // PostgreSQL negative regex
+                        case '~*': // PostgreSQL case-insensitive regex
+                        case '!~*': // PostgreSQL negative case-insensitive regex
+                            if ($dbType == 'postgresql') {
+                                $where_arr[] = $field_sql . ' ' . $operator . ' ' . $db->escape($params['value'], false);
+                            } else {
+                                // Convert to database-appropriate regex
+                                if ($dbType == 'mysql') {
+                                    $mysql_op = (strpos($operator, '!') !== false) ? 'NOT REGEXP' : 'REGEXP';
+                                    if (strpos($operator, '*') !== false) {
+                                        // Case-insensitive: wrap in LOWER()
+                                        $where_arr[] = 'LOWER(' . $field_sql . ') ' . $mysql_op . ' LOWER(' . $db->escape($params['value'], false) . ')';
+                                    } else {
+                                        $where_arr[] = $field_sql . ' ' . $mysql_op . ' ' . $db->escape($params['value'], false);
+                                    }
+                                } else {
+                                    self::error('PostgreSQL regex operator ' . $operator . ' not supported in ' . $dbType);
+                                    continue 2;
+                                }
+                            }
+                            break;
+                            
+                        case 'SIMILAR TO': // PostgreSQL-specific
+                        case 'NOT SIMILAR TO':
+                            if ($dbType == 'postgresql') {
+                                $where_arr[] = $field_sql . ' ' . $operator_upper . ' ' . $db->escape($params['value'], false);
+                            } else {
+                                // Convert to LIKE for other databases
+                                self::error('SIMILAR TO is PostgreSQL-specific, converting to LIKE');
+                                $like_op = strpos($operator_upper, 'NOT') !== false ? 'NOT LIKE' : 'LIKE';
+                                $where_arr[] = $field_sql . ' ' . $like_op . ' ' . $db->escape($params['value'], false);
+                            }
                             break;
                             
                         default:
@@ -10888,13 +10960,19 @@ class Xcrud
      */
     protected function _cond_from_where($field)
     {
-        // Check for special operators first (must be before simple operators)
-        if (preg_match('/\s+(BETWEEN|NOT\s+BETWEEN|IN|NOT\s+IN|IS\s+NULL|IS\s+NOT\s+NULL|LIKE|NOT\s+LIKE|ILIKE|NOT\s+ILIKE|REGEXP|RLIKE|EXISTS|NOT\s+EXISTS)\s*$/ui', $field, $matches))
+        // Check for SQL keyword operators first (must be before simple operators)
+        // Include PostgreSQL-specific: ILIKE, SIMILAR TO
+        if (preg_match('/\s+(BETWEEN|NOT\s+BETWEEN|IN|NOT\s+IN|IS\s+NULL|IS\s+NOT\s+NULL|LIKE|NOT\s+LIKE|ILIKE|NOT\s+ILIKE|REGEXP|RLIKE|NOT\s+REGEXP|NOT\s+RLIKE|EXISTS|NOT\s+EXISTS|SIMILAR\s+TO|NOT\s+SIMILAR\s+TO)\s*$/ui', $field, $matches))
         {
             return ' ' . strtoupper(trim($matches[1]));
         }
+        // Check for PostgreSQL regex operators: ~, !~, ~*, !~*
+        elseif (preg_match('/\s*(!?~\*?)\s*$/u', $field, $matches))
+        {
+            return $matches[1];
+        }
         // Check for simple comparison operators
-        elseif (preg_match('/\s*([<>!=~\^\$]+)\s*$/u', $field, $matches))
+        elseif (preg_match('/\s*([<>!=\^\$]+)\s*$/u', $field, $matches))
         {
             return $matches[1];
         }

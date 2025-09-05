@@ -111,22 +111,35 @@ $xcrud->where('email IS NOT NULL', '');
 
 ### Pattern Matching Examples
 ```php
-// LIKE patterns
+// LIKE patterns (universal)
 $xcrud->where('name LIKE', 'John%');      // Starts with John
 $xcrud->where('email LIKE', '%@gmail.com'); // Ends with @gmail.com
 $xcrud->where('description LIKE', '%important%'); // Contains 'important'
 
-// Case-insensitive (PostgreSQL native, emulated for MySQL/SQLite)
-$xcrud->where('title ILIKE', '%NEWS%');
+// ILIKE - PostgreSQL native case-insensitive
+// (automatically emulated with LOWER() for MySQL/SQLite)
+$xcrud->where('title ILIKE', '%NEWS%');     // PostgreSQL: native ILIKE
+                                            // MySQL/SQLite: LOWER(title) LIKE LOWER('%NEWS%')
+
+// NOT LIKE
+$xcrud->where('email NOT LIKE', '%@temp%');
+$xcrud->where('name NOT ILIKE', 'admin%');  // Case-insensitive NOT LIKE
 ```
 
 ### Regular Expression Examples
 ```php
-// Phone number validation
+// MySQL style (works on MySQL, converted for PostgreSQL)
 $xcrud->where('phone REGEXP', '^\\+?[0-9]{10,}$');
+$xcrud->where('email RLIKE', '@(gmail|yahoo|outlook)\\.com$');
 
-// Email domain check
-$xcrud->where('email REGEXP', '@(gmail|yahoo|outlook)\\.com$');
+// PostgreSQL native operators (PostgreSQL only)
+$xcrud->where('phone ~', '^\\+?[0-9]{10,}$');        // Case-sensitive regex
+$xcrud->where('name ~*', 'john');                    // Case-insensitive regex
+$xcrud->where('code !~', '[^A-Z0-9]');              // Negative regex
+$xcrud->where('email !~*', '@tempmail');            // Negative case-insensitive
+
+// PostgreSQL SIMILAR TO (SQL standard)
+$xcrud->where('code SIMILAR TO', '[A-Z]{3}-[0-9]{4}');
 
 // NOT REGEXP
 $xcrud->where('username NOT REGEXP', '[^a-zA-Z0-9_]');
@@ -145,24 +158,49 @@ $xcrud->where('status', 'active')
       ->or_where('role IN', array('admin', 'moderator'));
 ```
 
-## Database Compatibility
+## Database Compatibility Matrix
 
-### MySQL
-- Full support for all operators
-- Native REGEXP/RLIKE support
-- Case-sensitive LIKE by default
+| Operator | MySQL | PostgreSQL | SQLite | Notes |
+|----------|-------|------------|--------|-------|
+| **Basic Comparisons** |||||
+| `=`, `!=`, `<>`, `>`, `<`, `>=`, `<=` | ✅ | ✅ | ✅ | Universal support |
+| **Set Operations** |||||
+| `IN`, `NOT IN` | ✅ | ✅ | ✅ | Universal support |
+| **Range** |||||
+| `BETWEEN`, `NOT BETWEEN` | ✅ | ✅ | ✅ | Universal support |
+| **NULL Handling** |||||
+| `IS NULL`, `IS NOT NULL` | ✅ | ✅ | ✅ | Universal support |
+| **Pattern Matching** |||||
+| `LIKE`, `NOT LIKE` | ✅ | ✅ | ✅ | Case sensitivity varies |
+| `ILIKE`, `NOT ILIKE` | ❌ | ✅ | ❌ | PostgreSQL-only, emulated elsewhere with LOWER() |
+| **Regular Expressions** |||||
+| `REGEXP`, `RLIKE` | ✅ | ❌ | ⚠️ | MySQL native, SQLite needs extension |
+| `~`, `!~` (regex) | ❌ | ✅ | ❌ | PostgreSQL-only operators |
+| `~*`, `!~*` (case-insensitive) | ❌ | ✅ | ❌ | PostgreSQL-only operators |
+| **PostgreSQL-Specific** |||||
+| `SIMILAR TO` | ❌ | ✅ | ❌ | SQL standard regex, PostgreSQL only |
+| **Subqueries** |||||
+| `EXISTS`, `NOT EXISTS` | ✅ | ✅ | ✅ | Universal support |
 
-### PostgreSQL
-- Full support with adaptations:
-  - ILIKE for case-insensitive patterns
-  - ~ operator for regex (automatically converted from REGEXP)
-  - STRING_AGG instead of GROUP_CONCAT
+### Database-Specific Notes
 
-### SQLite
-- Most operators supported
-- REGEXP requires extension (falls back to LIKE)
-- ILIKE emulated using LOWER() function
-- Limited regex support
+#### MySQL
+- `LIKE` is case-insensitive by default for non-binary strings
+- Native `REGEXP`/`RLIKE` support
+- No native case-insensitive regex (use LOWER() workaround)
+
+#### PostgreSQL
+- `LIKE` is case-sensitive
+- `ILIKE` for case-insensitive pattern matching (native)
+- Rich regex support with `~`, `!~`, `~*`, `!~*` operators
+- `SIMILAR TO` for SQL standard pattern matching
+- Automatic conversion: `REGEXP` → `~`, `RLIKE` → `~`
+
+#### SQLite
+- `LIKE` is case-insensitive by default
+- `REGEXP` requires loading extension (not available by default)
+- Falls back to `LIKE` when `REGEXP` unavailable
+- No native `ILIKE` (emulated with LOWER())
 
 ## Migration Guide
 
