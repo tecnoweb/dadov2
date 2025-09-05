@@ -1,4 +1,36 @@
 <?php
+/**
+ * xCrudRevolution - Advanced PHP CRUD Framework
+ * 
+ * @package    xCrudRevolution
+ * @version    2.0.0
+ * @author     Davide Di Vietro 
+ * @copyright  2020-2024 xCrudRevolution
+ * @license    Commercial License
+ * @link       https://xcrudrevolution.com
+ * 
+ * This software is the proprietary information of xCrudRevolution.
+ * Use is subject to license terms.
+ * 
+ * Major Features:
+ * - Multi-database support (MySQL, PostgreSQL, SQLite)
+ * - Advanced CRUD operations with nested tables
+ * - File and image upload management
+ * - Extensive callback system
+ * - Multi-language support
+ * - Theme system
+ * - Export to CSV/Print functionality
+ * 
+ * Transformation from xCrud to xCrudRevolution includes:
+ * - Complete PHP 8+ compatibility
+ * - Database abstraction layer
+ * - Enhanced security features
+ * - Improved performance and memory management
+ * - Comprehensive PHPDoc documentation
+ * 
+ * @internal
+ */
+
 /** Rocket Web -- V 2.0 - 2020 */
 
 error_reporting(E_ALL); // error reporting (debug)
@@ -2970,27 +3002,52 @@ class Xcrud
                 break;
         }
     }
+    /**
+     * Render custom datagrid from user-defined SQL query
+     * 
+     * Processes custom SQL queries and renders them as data grids.
+     * Handles multi-database compatibility for count queries and result sets.
+     * Automatically detects column types and applies formatting.
+     * 
+     * @return string Rendered HTML for the custom datagrid
+     * @throws Exception If query execution fails
+     * @internal
+     */
     protected function render_custom_datagrid()
     {
         $query = $this->parse_query_params();
         $db = Xcrud_db::get_instance($this->connection);
-        $db->query('SELECT COUNT(*) as `count` FROM (SELECT NULL' . $this->total_query . ') counts');
+        $dbType = $db->get_database_type();
+        
+        // Use database-specific quote character
+        $quote = ($dbType === 'mysql') ? '`' : '"';
+        
+        // Build count query with proper quoting for each database
+        $count_query = "SELECT COUNT(*) as {$quote}count{$quote} FROM (SELECT NULL" . $this->total_query . ") counts";
+        $db->query($count_query);
         $this->sum_row = $db->row();
         $this->result_total = $this->sum_row['count'];
+        
         $order_by = $this->_build_order_by();
         $limit = $this->_build_limit($this->result_total);
         $db->query($query . ' ' . $order_by . ' ' . $limit);
         $this->result_list = $db->result();
-        $this->columns = reset($this->result_list);
-        unset($this->columns['primary_key']);
-        foreach ($this->columns as $key => $tmp)
-        {
-            $this->columns[$key] = array('table' => '', 'field' => $key);
-            if (!isset($this->field_type[$key]))
+        
+        if ($this->result_list) {
+            $this->columns = reset($this->result_list);
+            unset($this->columns['primary_key']);
+            foreach ($this->columns as $key => $tmp)
             {
-                $this->field_type[$key] = 'text';
+                $this->columns[$key] = array('table' => '', 'field' => $key);
+                if (!isset($this->field_type[$key]))
+                {
+                    $this->field_type[$key] = 'text';
+                }
             }
+        } else {
+            $this->columns = array();
         }
+        
         $this->fields_list = $this->columns;
         $this->_set_column_names();
         if (!$this->table_name)
@@ -3034,6 +3091,15 @@ class Xcrud
             fputcsv($output, $out, Xcrud_config::$csv_delimiter, Xcrud_config::$csv_enclosure);
         }
     }
+    /**
+     * Parse custom query parameters for database compatibility
+     * 
+     * Extracts and processes LIMIT and ORDER BY clauses from custom queries.
+     * Handles multi-database syntax differences for pagination and sorting.
+     * 
+     * @return string Modified query with extracted parameters
+     * @internal
+     */
     protected function parse_query_params()
     {
         $query = preg_replace('/\s+/u', ' ', $this->query);
